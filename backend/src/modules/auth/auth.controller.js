@@ -1,9 +1,10 @@
+
 import {
   registerUser,
   loginUser,
   getCurrentUser,
+  becomeCreator,
 } from "./auth.service.js";
-
 
 export async function register(req, res, next) {
   try {
@@ -53,3 +54,18 @@ export async function getMe(req, res, next) {
     next(error);
   }
 }
+
+export async function becomeCreatorHandler(req, res, next) {
+  try {
+    const result = await becomeCreator(req.user.id);
+
+    return res.status(200).json({
+      success: true,
+      message: "You are now a creator",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+

@@ -1,12 +1,13 @@
+
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
 
 import {
   findUserByEmail,
   findUserByEmailOrUsername,
   createUser,
   findUserById,
+  updateUserAccountType,
 } from "./auth.repository.js";
 
 const SALT_ROUNDS = 12;
@@ -20,13 +21,8 @@ export async function registerUser(data) {
     accountType = "NORMAL",
   } = data;
 
-  // Normalize values
   const normalizedEmail = email.trim().toLowerCase();
   const normalizedUsername = username.trim().toLowerCase();
-
-  // -----------------------------------------
-  // CHECK EXISTING USER
-  // -----------------------------------------
 
   const existingUser = await findUserByEmailOrUsername(
     normalizedEmail,
@@ -47,18 +43,10 @@ export async function registerUser(data) {
     }
   }
 
-  // -----------------------------------------
-  // HASH PASSWORD
-  // -----------------------------------------
-
   const passwordHash = await bcrypt.hash(
     password,
     SALT_ROUNDS
   );
-
-  // -----------------------------------------
-  // CREATE USER
-  // -----------------------------------------
 
   const user = await createUser({
     name: name.trim(),
@@ -72,29 +60,15 @@ export async function registerUser(data) {
 }
 
 export async function loginUser(email, password) {
-  // -----------------------------------------
-  // NORMALIZE EMAIL
-  // -----------------------------------------
-
   const normalizedEmail = email.trim().toLowerCase();
-
-  // -----------------------------------------
-  // FIND USER
-  // -----------------------------------------
 
   const user = await findUserByEmail(normalizedEmail);
 
-  // Use the same error for both cases.
-  // This prevents revealing whether an email exists.
   if (!user) {
     const error = new Error("Invalid email or password");
     error.statusCode = 401;
     throw error;
   }
-
-  // -----------------------------------------
-  // VERIFY PASSWORD
-  // -----------------------------------------
 
   const passwordMatch = await bcrypt.compare(
     password,
@@ -107,17 +81,9 @@ export async function loginUser(email, password) {
     throw error;
   }
 
-  // -----------------------------------------
-  // JWT CONFIGURATION
-  // -----------------------------------------
-
   if (!process.env.JWT_SECRET) {
     throw new Error("JWT_SECRET is not configured");
   }
-
-  // -----------------------------------------
-  // CREATE JWT
-  // -----------------------------------------
 
   const token = jwt.sign(
     {
@@ -129,10 +95,6 @@ export async function loginUser(email, password) {
       expiresIn: process.env.JWT_EXPIRES_IN || "7d",
     }
   );
-
-  // -----------------------------------------
-  // SAFE USER RESPONSE
-  // -----------------------------------------
 
   const safeUser = {
     id: user.id,
@@ -165,3 +127,51 @@ export async function getCurrentUser(userId) {
 
   return user;
 }
+
+export async function becomeCreator(userId) {
+  const user = await findUserById(userId);
+
+  if (!user) {
+    const error = new Error("User not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (user.accountType === "CREATOR") {
+    const error = new Error("User is already a creator");
+    error.statusCode = 409;
+    throw error;
+  }
+
+  if (user.accountType === "ADMIN") {
+    const error = new Error("Admin accounts cannot be converted to creator accounts");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const updatedUser = await updateUserAccountType(
+    userId,
+    "CREATOR"
+  );
+
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not configured");
+  }
+
+  const token = jwt.sign(
+    {
+      userId: updatedUser.id,
+      accountType: updatedUser.accountType,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+    }
+  );
+
+  return {
+    user: updatedUser,
+    token,
+  };
+}
+
