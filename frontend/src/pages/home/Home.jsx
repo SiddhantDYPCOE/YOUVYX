@@ -1,48 +1,29 @@
 
 import { useEffect, useState } from "react";
 import {
+  ArrowDown,
+  ArrowUp,
   Bookmark,
   ChevronRight,
   Clock3,
+  Crown,
   Heart,
   Loader2,
+  Maximize2,
+  Minimize2,
+  RefreshCw,
   Share2,
   Sparkles,
+  UserRound,
+  Compass,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { getFeed } from "../../services/content.api";
 import { useAuth } from "../../hooks/useAuth";
+import ContentCard from "../../components/content/ContentCard";
 
-const formatDate = (date) => {
-  if (!date) return "";
 
-  const parsedDate = new Date(date);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return "";
-  }
-
-  return parsedDate.toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-};
-
-const getReadingTime = (body = "") => {
-  if (typeof body !== "string") {
-    return "1 min read";
-  }
-
-  const words = body.trim().split(/\s+/).filter(Boolean).length;
-
-  if (!words) {
-    return "1 min read";
-  }
-
-  return `${Math.max(1, Math.ceil(words / 200))} min read`;
-};
 
 const getInitials = (name) => {
   if (!name || typeof name !== "string") {
@@ -59,209 +40,235 @@ const getInitials = (name) => {
     .toUpperCase();
 };
 
-const ContentCard = ({ content, onOpen }) => {
-  // Prevent the component from crashing if the API ever
-  // returns a null/undefined item.
-  if (!content) {
-    return null;
-  }
 
-  const creator = content.creator || {};
-  const genre = content.genre || {};
-
-  const [liked, setLiked] = useState(
-    Boolean(content.likedByMe)
-  );
-
-  const [likeCount, setLikeCount] = useState(
-    Number(content.likeCount) || 0
-  );
-
-  const handleLike = (event) => {
-    event.stopPropagation();
-
-    // Temporary UI interaction.
-    // Real like API will be connected when we build engagement.
-    setLiked((previous) => {
-      setLikeCount((count) =>
-        Math.max(0, count + (previous ? -1 : 1))
-      );
-
-      return !previous;
-    });
-  };
-
-  const handleOpen = () => {
-    if (!content.id) {
-      return;
-    }
-
-    onOpen(content.id);
-  };
-
-  return (
-    <article
-      onClick={handleOpen}
-      className="group cursor-pointer rounded-3xl border border-black/[0.07] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-    >
-      {/* Top row */}
-      <div className="mb-5 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="rounded-full bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-600">
-            {genre.name || "General"}
-          </span>
-
-          {content.type && (
-            <span className="text-xs font-medium text-gray-400">
-              {content.type}
-            </span>
-          )}
-        </div>
-
-        <button
-          type="button"
-          onClick={(event) => event.stopPropagation()}
-          className="rounded-full p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-900"
-          aria-label="Bookmark"
-        >
-          <Bookmark size={18} />
-        </button>
-      </div>
-
-      {/* Title */}
-      <h2 className="text-xl font-bold leading-tight tracking-tight text-gray-950 transition-colors group-hover:text-indigo-600 sm:text-2xl">
-        {content.title || "Untitled content"}
-      </h2>
-
-      {/* Description */}
-      {content.description && (
-        <p className="mt-3 line-clamp-3 text-sm leading-6 text-gray-500">
-          {content.description}
-        </p>
-      )}
-
-      {/* Creator */}
-      <div className="mt-6 flex items-center justify-between gap-4">
-        <div className="flex min-w-0 items-center gap-3">
-          {creator.profileImage ? (
-            <img
-              src={creator.profileImage}
-              alt={creator.name || "Creator"}
-              className="h-9 w-9 shrink-0 rounded-full object-cover"
-              onError={(event) => {
-                event.currentTarget.style.display = "none";
-              }}
-            />
-          ) : (
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-100 text-xs font-bold text-gray-700">
-              {getInitials(creator.name)}
-            </div>
-          )}
-
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-gray-900">
-              {creator.name || "YOUVYX Creator"}
-            </p>
-
-            <p className="truncate text-xs text-gray-400">
-              @{creator.username || "creator"}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-1.5 text-xs text-gray-400">
-          <Clock3 size={14} />
-          {getReadingTime(content.body)}
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
-        <div className="flex items-center gap-5">
-          <button
-            type="button"
-            onClick={handleLike}
-            className={`flex items-center gap-1.5 text-sm transition ${
-              liked
-                ? "text-red-500"
-                : "text-gray-400 hover:text-gray-900"
-            }`}
-          >
-            <Heart
-              size={17}
-              fill={liked ? "currentColor" : "none"}
-            />
-
-            {likeCount}
-          </button>
-
-          <button
-            type="button"
-            onClick={(event) => event.stopPropagation()}
-            className="flex items-center gap-1.5 text-sm text-gray-400 transition hover:text-gray-900"
-          >
-            <Share2 size={17} />
-
-            {Number(content.shareCount) || 0}
-          </button>
-        </div>
-
-        <div className="flex items-center gap-1 text-sm font-semibold text-gray-900 transition group-hover:text-indigo-600">
-          Read
-
-          <ChevronRight
-            size={16}
-            className="transition-transform group-hover:translate-x-1"
-          />
-        </div>
-      </div>
-    </article>
-  );
-};
 
 const Home = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const loadFeed = async () => {
-      try {
+  const [activeTab, setActiveTab] = useState("productive");
+
+  const [isFullScreen, setIsFullScreen] = useState(false);
+
+  const [currentContentIndex, setCurrentContentIndex] =
+    useState(0);
+
+  const loadFeed = async (isRefresh = false) => {
+    try {
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
         setLoading(true);
-        setError("");
+      }
 
-        const response = await getFeed();
+      setError("");
 
-        console.log("FEED:", response);
-        console.log(
-          "CONTENTS:",
-          response?.data?.contents
-        );
+      const response = await getFeed();
 
-        const feedContents = Array.isArray(
-          response?.data?.contents
-        )
-          ? response.data.contents
-          : [];
+      console.log("FEED:", response);
+      console.log(
+        "CONTENTS:",
+        response?.data?.contents
+      );
 
-        setContents(feedContents);
-      } catch (error) {
-        console.error("FEED ERROR:", error);
+      const feedContents = Array.isArray(
+        response?.data?.contents
+      )
+        ? response.data.contents
+        : [];
 
-        setError(
-          error?.response?.data?.message ||
-            "Unable to load your feed."
-        );
-      } finally {
+      setContents(feedContents);
+
+      if (isRefresh) {
+        setCurrentContentIndex(0);
+      }
+    } catch (error) {
+      console.error("FEED ERROR:", error);
+
+      setError(
+        error?.response?.data?.message ||
+          "Unable to load your feed."
+      );
+    } finally {
+      if (isRefresh) {
+        setRefreshing(false);
+      } else {
         setLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    loadFeed();
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (!isFullScreen) {
+        return;
+      }
+
+      if (event.key === "Escape") {
+        setIsFullScreen(false);
+        return;
+      }
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+
+        setCurrentContentIndex((previous) =>
+          Math.min(
+            previous + 1,
+            contents.length - 1
+          )
+        );
+      }
+
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+
+        setCurrentContentIndex((previous) =>
+          Math.max(previous - 1, 0)
+        );
       }
     };
 
-    loadFeed();
-  }, []);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+    };
+  }, [isFullScreen, contents.length]);
+
+  const handleCreatorSwitch = () => {
+    navigate("/creator/register");
+  };
+
+  const handleFullScreen = () => {
+    setIsFullScreen(true);
+    setCurrentContentIndex(0);
+  };
+
+  const handleExitFullScreen = () => {
+    setIsFullScreen(false);
+  };
+
+  const handleNextContent = () => {
+    setCurrentContentIndex((previous) =>
+      Math.min(
+        previous + 1,
+        contents.length - 1
+      )
+    );
+  };
+
+  const handlePreviousContent = () => {
+    setCurrentContentIndex((previous) =>
+      Math.max(previous - 1, 0)
+    );
+  };
+
+  /*
+  |--------------------------------------------------------------------------
+  | FULL SCREEN READING MODE
+  |--------------------------------------------------------------------------
+  */
+
+  if (
+    isFullScreen &&
+    !loading &&
+    !error &&
+    contents.length > 0
+  ) {
+    const currentContent =
+      contents[currentContentIndex];
+
+    return (
+      <div className="fixed inset-0 z-[100] flex h-screen w-screen flex-col bg-[#f7f7f8]">
+        {/* Full screen header */}
+        <header className="flex h-16 shrink-0 items-center justify-between border-b border-black/[0.06] bg-white/90 px-5 backdrop-blur-xl sm:px-8">
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            className="text-xl font-black tracking-tight text-gray-950"
+          >
+            YOUVYX
+          </button>
+
+          <div className="flex items-center gap-3">
+            <span className="hidden text-xs font-medium text-gray-400 sm:block">
+              {currentContentIndex + 1} /{" "}
+              {contents.length}
+            </span>
+
+            <button
+              type="button"
+              onClick={handleExitFullScreen}
+              className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-600 transition hover:border-gray-300 hover:text-gray-950"
+            >
+              <Minimize2 size={16} />
+
+              <span className="hidden sm:inline">
+                Exit Full Screen
+              </span>
+            </button>
+          </div>
+        </header>
+
+        {/* Full screen content */}
+        <main className="relative flex-1 overflow-y-auto">
+          <div className="mx-auto flex min-h-full max-w-4xl items-start justify-center px-5 py-10 sm:px-8 sm:py-16">
+            <div className="w-full">
+              <ContentCard
+                content={currentContent}
+                onOpen={(id) =>
+                  navigate(`/content/${id}`)
+                }
+              />
+            </div>
+          </div>
+        </main>
+
+        {/* Up / Down controls */}
+        <div className="pointer-events-none absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2">
+          <button
+            type="button"
+            onClick={handlePreviousContent}
+            disabled={currentContentIndex === 0}
+            className="pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white shadow-lg transition hover:border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30"
+            aria-label="Previous content"
+          >
+            <ArrowUp size={18} />
+          </button>
+
+          <button
+            type="button"
+            onClick={handleNextContent}
+            disabled={
+              currentContentIndex ===
+              contents.length - 1
+            }
+            className="pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white shadow-lg transition hover:border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30"
+            aria-label="Next content"
+          >
+            <ArrowDown size={18} />
+          </button>
+        </div>
+
+        <div className="pointer-events-none absolute bottom-8 right-6 hidden text-xs text-gray-400 lg:block">
+          ↑ ↓ to navigate · Esc to exit
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#f7f7f8]">
@@ -279,6 +286,30 @@ const Home = () => {
 
           {/* User */}
           <div className="flex items-center gap-3">
+            {user?.accountType !== "CREATOR" && (
+              <button
+                type="button"
+                onClick={handleCreatorSwitch}
+                className="hidden items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 sm:flex"
+              >
+                <Crown size={16} />
+                Become a Creator
+              </button>
+            )}
+
+            {user?.accountType === "CREATOR" && (
+              <button
+                type="button"
+                onClick={() =>
+                  navigate("/creator/create")
+                }
+                className="hidden items-center gap-2 rounded-xl bg-gray-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 sm:flex"
+              >
+                <Sparkles size={16} />
+                Creator Studio
+              </button>
+            )}
+
             <div className="hidden text-right sm:block">
               <p className="text-sm font-semibold text-gray-900">
                 {user?.name || "User"}
@@ -292,13 +323,21 @@ const Home = () => {
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-950 text-xs font-bold text-white">
               {getInitials(user?.name)}
             </div>
+
+            <button
+              type="button"
+              onClick={logout}
+              className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-600 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
         {/* Hero */}
-        <section className="mb-10">
+        <section className="mb-8">
           <div className="mb-3 flex items-center gap-2 text-indigo-600">
             <Sparkles size={17} />
 
@@ -312,9 +351,100 @@ const Home = () => {
           </h1>
 
           <p className="mt-4 max-w-xl text-base leading-7 text-gray-500">
-            Content selected around the interests you chose.
-            No endless noise — just things worth your attention.
+            Content selected around the interests you
+            chose. No endless noise — just things worth
+            your attention.
           </p>
+        </section>
+
+        {/* Navigation */}
+        <section className="mb-8">
+          <div className="flex flex-col gap-3 rounded-2xl border border-black/[0.07] bg-white p-2 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+            {/* Tabs */}
+            <div className="flex flex-wrap items-center gap-1">
+              <button
+                type="button"
+                onClick={() =>
+                  setActiveTab("foryou")
+                }
+                className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
+                  activeTab === "foryou"
+                    ? "bg-gray-950 text-white"
+                    : "text-gray-500 hover:bg-gray-100 hover:text-gray-950"
+                }`}
+              >
+                <Compass size={16} />
+                For You
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setActiveTab("productive")
+                }
+                className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
+                  activeTab === "productive"
+                    ? "bg-gray-950 text-white"
+                    : "text-gray-500 hover:bg-gray-100 hover:text-gray-950"
+                }`}
+              >
+                <Sparkles size={16} />
+                Productive Feed
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  navigate("/profile")
+                }
+                className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
+                  activeTab === "profile"
+                    ? "bg-gray-950 text-white"
+                    : "text-gray-500 hover:bg-gray-100 hover:text-gray-950"
+                }`}
+              >
+                <UserRound size={16} />
+                Profile
+              </button>
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => loadFeed(true)}
+                disabled={loading || refreshing}
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-gray-300 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none"
+              >
+                <RefreshCw
+                  size={16}
+                  className={
+                    refreshing
+                      ? "animate-spin"
+                      : ""
+                  }
+                />
+
+                {refreshing
+                  ? "Refreshing..."
+                  : "Refresh"}
+              </button>
+
+              <button
+                type="button"
+                onClick={handleFullScreen}
+                disabled={
+                  contents.length === 0 ||
+                  loading ||
+                  refreshing
+                }
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-gray-300 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40 sm:flex-none"
+              >
+                <Maximize2 size={16} />
+                Full Screen
+              </button>
+            </div>
+          </div>
         </section>
 
         {/* Loading */}
@@ -340,58 +470,140 @@ const Home = () => {
 
             <button
               type="button"
-              onClick={() => window.location.reload()}
-              className="mt-4 rounded-xl bg-gray-950 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800"
+              onClick={() => loadFeed(true)}
+              disabled={refreshing}
+              className="mt-4 flex mx-auto items-center gap-2 rounded-xl bg-gray-950 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:opacity-50"
             >
+              <RefreshCw
+                size={15}
+                className={
+                  refreshing
+                    ? "animate-spin"
+                    : ""
+                }
+              />
+
               Try again
             </button>
           </div>
         )}
 
         {/* Empty */}
-        {!loading && !error && contents.length === 0 && (
-          <div className="rounded-3xl border border-black/[0.07] bg-white px-6 py-16 text-center shadow-sm">
-            <Sparkles
-              size={28}
-              className="mx-auto text-indigo-500"
-            />
-
-            <h2 className="mt-5 text-xl font-bold text-gray-950">
-              Your feed is waiting
-            </h2>
-
-            <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-gray-500">
-              There isn't any content for your selected interests
-              yet. Try selecting different genres or check back
-              later.
-            </p>
-
-            <button
-              type="button"
-              onClick={() => navigate("/genres")}
-              className="mt-6 rounded-xl bg-gray-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800"
-            >
-              Change interests
-            </button>
-          </div>
-        )}
-
-        {/* Feed */}
-        {!loading && !error && contents.length > 0 && (
-          <div className="grid gap-6 lg:grid-cols-2">
-            {contents.map((content) => (
-              <ContentCard
-                key={content?.id || Math.random()}
-                content={content}
-                onOpen={(id) => navigate(`/content/${id}`)}
+        {!loading &&
+          !error &&
+          contents.length === 0 && (
+            <div className="rounded-3xl border border-black/[0.07] bg-white px-6 py-16 text-center shadow-sm">
+              <Sparkles
+                size={28}
+                className="mx-auto text-indigo-500"
               />
-            ))}
-          </div>
-        )}
+
+              <h2 className="mt-5 text-xl font-bold text-gray-950">
+                Your feed is waiting
+              </h2>
+
+              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-gray-500">
+                There isn't any content for your
+                selected interests yet. Try selecting
+                different genres or check back later.
+              </p>
+
+              <div className="mt-6 flex items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={() =>
+                    navigate("/genres")
+                  }
+                  className="rounded-xl bg-gray-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800"
+                >
+                  Change interests
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    loadFeed(true)
+                  }
+                  disabled={refreshing}
+                  className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 disabled:opacity-50"
+                >
+                  <RefreshCw
+                    size={15}
+                    className={
+                      refreshing
+                        ? "animate-spin"
+                        : ""
+                    }
+                  />
+
+                  Refresh
+                </button>
+              </div>
+            </div>
+          )}
+
+        {/* Productive Feed */}
+        {!loading &&
+          !error &&
+          contents.length > 0 && (
+            <section>
+              <div className="mb-5 flex items-center justify-between">
+                <div>
+                  <h2 className="text-lg font-bold text-gray-950">
+                    Productive Feed
+                  </h2>
+
+                  <p className="mt-1 text-sm text-gray-400">
+                    {contents.length}{" "}
+                    {contents.length === 1
+                      ? "piece"
+                      : "pieces"}{" "}
+                    of content
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    loadFeed(true)
+                  }
+                  disabled={refreshing}
+                  className="hidden items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-gray-500 transition hover:bg-white hover:text-gray-950 sm:flex"
+                >
+                  <RefreshCw
+                    size={15}
+                    className={
+                      refreshing
+                        ? "animate-spin"
+                        : ""
+                    }
+                  />
+
+                  Refresh feed
+                </button>
+              </div>
+
+              {/* Scrollable feed */}
+              <div className="max-h-[calc(100vh-390px)] min-h-[400px] overflow-y-auto overscroll-contain pr-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300">
+                <div className="grid gap-6 pb-8 lg:grid-cols-2">
+                  {contents.map((content) => (
+                    <ContentCard
+                      key={content.id}
+                      content={content}
+                      onOpen={(id) =>
+                        navigate(
+                          `/content/${id}`
+                        )
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
       </main>
     </div>
   );
 };
 
 export default Home;
-

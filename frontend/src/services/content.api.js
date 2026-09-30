@@ -29,3 +29,9 @@ export const deleteContent = async (contentId) => {
   const response = await api.delete(`/content/${contentId}`);
   return response.data;
 };
+
+export const toggleLike = async (contentId) => {
+  const response = await api.post(`/content/${contentId}/like`);
+  return response.data;
+};
+

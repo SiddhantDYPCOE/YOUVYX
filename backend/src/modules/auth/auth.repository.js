@@ -1,3 +1,4 @@
+
 import prisma from "../../db.js";
 
 export async function findUserByEmail(email) {
@@ -78,3 +79,28 @@ export async function findUserById(userId) {
     },
   });
 }
+
+export async function updateUserAccountType(userId, accountType) {
+  return prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      accountType,
+    },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      email: true,
+      accountType: true,
+      bio: true,
+      profileImage: true,
+      streak: true,
+      lastActiveAt: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+}
+

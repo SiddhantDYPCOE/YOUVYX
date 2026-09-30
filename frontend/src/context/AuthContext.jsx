@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 
 import {
+    becomeCreatorApi,
   getMe,
   loginUser,
   registerUser,
@@ -71,6 +72,12 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const becomeCreator = async () => { 
+    const response = await becomeCreatorApi(); 
+    const { user: updatedUser, token } = response.data; 
+    setAuthData(token, updatedUser); 
+    setUser(updatedUser); return response; };
+
   return (
     <AuthContext.Provider
       value={{
@@ -78,6 +85,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         login,
         register,
+        becomeCreator,
         logout,
         isAuthenticated: !!user,
       }}

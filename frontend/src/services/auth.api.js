@@ -17,3 +17,9 @@ export const getMe = async () => {
 
   return response.data;
 };
+
+export const becomeCreatorApi = async () => {
+  const response = await api.patch("/auth/become-creator");
+  return response.data;
+};
+
