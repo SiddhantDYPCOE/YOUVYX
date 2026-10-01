@@ -1,10 +1,11 @@
-
 import {
   registerUser,
   loginUser,
   getCurrentUser,
-  becomeCreator,
+  getPublicUserProfileService,
 } from "./auth.service.js";
+
+import { setAuthCookie } from "../../utils/authCookie.js";
 
 export async function register(req, res, next) {
   try {
@@ -29,10 +30,14 @@ export async function login(req, res, next) {
       req.body.password
     );
 
+    setAuthCookie(res, result.token);
+
     return res.status(200).json({
       success: true,
       message: "Login successful",
-      data: result,
+      data: {
+        user: result.user,
+      },
     });
   } catch (error) {
     next(error);
@@ -55,17 +60,21 @@ export async function getMe(req, res, next) {
   }
 }
 
-export async function becomeCreatorHandler(req, res, next) {
+
+export const getPublicUserProfile = async (req, res, next) => {
   try {
-    const result = await becomeCreator(req.user.id);
+    const user = await getPublicUserProfileService(
+      req.params.userId
+    );
 
     return res.status(200).json({
       success: true,
-      message: "You are now a creator",
-      data: result,
+      message: "User profile retrieved successfully",
+      data: {
+        user,
+      },
     });
   } catch (error) {
     next(error);
   }
-}
-
+};

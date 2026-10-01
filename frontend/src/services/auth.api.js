@@ -18,8 +18,9 @@ export const getMe = async () => {
   return response.data;
 };
 
-export const becomeCreatorApi = async () => {
-  const response = await api.patch("/auth/become-creator");
+
+export const getPublicUserProfile = async (userId) => {
+  const response = await api.get(`/auth/${userId}`);
   return response.data;
 };
 

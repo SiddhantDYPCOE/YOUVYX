@@ -80,27 +80,24 @@ export async function findUserById(userId) {
   });
 }
 
-export async function updateUserAccountType(userId, accountType) {
-  return prisma.user.update({
+export const getPublicUserProfile = async (userId) => {
+  return prisma.user.findUnique({
     where: {
       id: userId,
-    },
-    data: {
-      accountType,
     },
     select: {
       id: true,
       name: true,
       username: true,
-      email: true,
       accountType: true,
       bio: true,
       profileImage: true,
-      streak: true,
-      lastActiveAt: true,
       createdAt: true,
-      updatedAt: true,
+      creator: {
+        select: {
+          id: true,
+        },
+      },
     },
   });
-}
-
+};

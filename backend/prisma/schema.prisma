@@ -28,6 +28,7 @@ enum FollowStatus {
   PENDING
   ACCEPTED
   REJECTED
+  BLOCKED
 }
 
 enum ChallengeStatus {
@@ -37,47 +38,65 @@ enum ChallengeStatus {
   REJECTED
 }
 
+enum RelationshipType {
+  FOLLOW
+  MUTUAL
+} 
 model User {
   id           String      @id @default(cuid())
   name         String
   username     String      @unique
   email        String      @unique
   passwordHash String
+
   accountType  AccountType @default(NORMAL)
 
   bio          String?
   profileImage String?
 
-  // Productivity streak — kept denormalized on User so login/feed loads
-  // don't need to scan ProductivityCount to compute it.
   streak       Int       @default(0)
   lastActiveAt DateTime?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  creator      Creator?
 
   selectedGenres UserGenre[]
-
-  contents Content[]
-
+  contents      Content[]
   posts         Post[] @relation("PostAuthor")
   taggedInPosts Post[] @relation("PostTaggedCreator")
-
-  likes  Like[]
-  shares Share[]
+  likes         Like[]
+  shares        Share[]
 
   sentRelationships     Relationship[] @relation("RelationshipSender")
   receivedRelationships Relationship[] @relation("RelationshipReceiver")
 
-  createdChallenges Challenge[]
-  userChallenges    UserChallenge[]
+  createdChallenges    Challenge[]
+  userChallenges       UserChallenge[]
+  productivityCounts   ProductivityCount[]
 
-  productivityCounts ProductivityCount[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([accountType])
   @@index([username])
 }
+model Creator {
+  id String @id @default(cuid())
 
+  userId String @unique
+  user   User @relation(fields: [userId],references: [id],onDelete: Cascade)
+
+  displayName String?
+  description String?
+  category String?
+
+  coverImage String?
+  website    String?
+
+  isVerified Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 model Genre {
   id        String   @id @default(cuid())
   name      String   @unique
@@ -103,23 +122,23 @@ model UserGenre {
   @@index([userId])
   @@index([genreId])
 }
-
 model Content {
   id          String      @id @default(cuid())
+
   title       String
   description String?
-  body        String?
+
   type        ContentType
 
-  externalUrl String?
-  mediaUrl    String?
-
-  // Single genre per post, matching the "creator picks one category" rule.
   genreId String
-  genre   Genre  @relation(fields: [genreId], references: [id])
+  genre   Genre @relation(fields: [genreId], references: [id])
 
   creatorId String
-  creator   User   @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  creator   User @relation(fields: [creatorId],references: [id],onDelete: Cascade)
+
+  article Article?
+  image   Image?
+  video   Video?
 
   likes  Like[]
   shares Share[]
@@ -194,6 +213,7 @@ model Share {
   @@index([contentId])
 }
 
+
 model Relationship {
   id String @id @default(cuid())
 
@@ -201,9 +221,11 @@ model Relationship {
   receiverId String
 
   status FollowStatus @default(PENDING)
+  type   RelationshipType @default(FOLLOW)
 
-  sender   User @relation("RelationshipSender", fields: [senderId], references: [id], onDelete: Cascade)
-  receiver User @relation("RelationshipReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  sender User @relation("RelationshipSender",fields: [senderId],references: [id],onDelete: Cascade)
+
+  receiver User @relation("RelationshipReceiver",fields: [receiverId],references: [id],onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -212,6 +234,7 @@ model Relationship {
   @@index([senderId])
   @@index([receiverId])
   @@index([status])
+  @@index([type])
 }
 
 model Challenge {
@@ -265,4 +288,50 @@ model ProductivityCount {
 
   @@unique([userId, date])
   @@index([date])
+}
+
+model Article {
+  id String @id @default(cuid())
+
+  contentId String @unique
+  content   Content @relation(fields: [contentId],references: [id],onDelete: Cascade)
+
+  // Article-specific
+  subject String
+  body    String?
+
+  // PDF support
+  pdfUrl      String?
+  pdfFileName String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id String @id @default(cuid())
+
+  contentId String @unique
+  content   Content @relation(fields: [contentId],references: [id],onDelete: Cascade)
+  imageUrl String
+  altText  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Video {
+  id String @id @default(cuid())
+
+  contentId String @unique
+  content   Content @relation(fields: [contentId],references: [id],onDelete: Cascade)
+
+  videoUrl    String?
+  externalUrl String?
+
+  thumbnailUrl String?
+
+  duration Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

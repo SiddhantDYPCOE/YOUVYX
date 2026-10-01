@@ -7,6 +7,7 @@ import {
   softDeleteContent,
   findContentsWithEngagement,
   findContentWithEngagement,
+  createArticle,
 } from "./content.repository.js";
 
 import {
@@ -226,3 +227,36 @@ export async function getContents(userId) {
     updatedAt: content.updatedAt,
   }));
 }
+
+
+export const createArticleService = async ({
+  creatorId,
+  title,
+  description,
+  genreId,
+  subject,
+  body,
+  pdfUrl,
+  pdfFileName,
+}) => {
+  const cleanBody = body?.trim() || null;
+
+  if (!cleanBody && !pdfUrl) {
+    throw new Error(
+      "Article must contain either body content or a PDF"
+    );
+  }
+
+  const article = await createArticle({
+    creatorId,
+    title: title.trim(),
+    description: description.trim(),
+    genreId: genreId.trim(),
+    subject: subject.trim(),
+    body: cleanBody,
+    pdfUrl,
+    pdfFileName,
+  });
+
+  return article;
+};

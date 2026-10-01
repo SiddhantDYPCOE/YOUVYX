@@ -123,3 +123,34 @@ export {
   updateContentSchema,
   contentIdSchema,
 };
+
+
+export const createArticleSchema = z.object({
+  title: z
+    .string()
+    .trim()
+    .min(1, "Title is required")
+    .max(200, "Title must be less than 200 characters"),
+
+  subject: z
+    .string()
+    .trim()
+    .min(1, "Subject is required")
+    .max(200, "Subject must be less than 200 characters"),
+
+  description: z
+    .string()
+    .trim()
+    .min(1, "Description is required")
+    .max(1000, "Description must be less than 1000 characters"),
+
+  genreId: z
+    .string()
+    .trim()
+    .min(1, "Genre is required"),
+
+  body: z
+    .string()
+    .trim()
+    .optional(),
+});

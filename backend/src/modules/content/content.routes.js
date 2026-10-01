@@ -7,16 +7,19 @@ import {
   getContentsForMyGenres,
   updateContent,
   deleteContent,
+  createArticle,
 } from "./content.controller.js";
 
 import {
   createContentSchema,
   updateContentSchema,
   contentIdSchema,
+  createArticleSchema,
 } from "./content.validator.js";
 
 import { validate } from "../../middlewares/validate.middleware.js";
 import { authenticate } from "../../middlewares/auth.middleware.js";
+import { upload } from "../../middlewares/upload.middleware.js";
 
 const router = Router();
 
@@ -42,6 +45,13 @@ router.post(
   authenticate,
   validate(createContentSchema),
   createContent
+);
+router.post(
+  "/article",
+  authenticate,
+  upload.single("pdf"),
+  validate(createArticleSchema),
+  createArticle
 );
 
 // Single content

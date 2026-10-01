@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model Creator
+ * 
+ */
+export type Creator = $Result.DefaultSelection<Prisma.$CreatorPayload>
+/**
  * Model Genre
  * 
  */
@@ -68,6 +73,21 @@ export type UserChallenge = $Result.DefaultSelection<Prisma.$UserChallengePayloa
  * 
  */
 export type ProductivityCount = $Result.DefaultSelection<Prisma.$ProductivityCountPayload>
+/**
+ * Model Article
+ * 
+ */
+export type Article = $Result.DefaultSelection<Prisma.$ArticlePayload>
+/**
+ * Model Image
+ * 
+ */
+export type Image = $Result.DefaultSelection<Prisma.$ImagePayload>
+/**
+ * Model Video
+ * 
+ */
+export type Video = $Result.DefaultSelection<Prisma.$VideoPayload>
 
 /**
  * Enums
@@ -94,7 +114,8 @@ export type ContentType = (typeof ContentType)[keyof typeof ContentType]
 export const FollowStatus: {
   PENDING: 'PENDING',
   ACCEPTED: 'ACCEPTED',
-  REJECTED: 'REJECTED'
+  REJECTED: 'REJECTED',
+  BLOCKED: 'BLOCKED'
 };
 
 export type FollowStatus = (typeof FollowStatus)[keyof typeof FollowStatus]
@@ -108,6 +129,14 @@ export const ChallengeStatus: {
 };
 
 export type ChallengeStatus = (typeof ChallengeStatus)[keyof typeof ChallengeStatus]
+
+
+export const RelationshipType: {
+  FOLLOW: 'FOLLOW',
+  MUTUAL: 'MUTUAL'
+};
+
+export type RelationshipType = (typeof RelationshipType)[keyof typeof RelationshipType]
 
 }
 
@@ -126,6 +155,10 @@ export const FollowStatus: typeof $Enums.FollowStatus
 export type ChallengeStatus = $Enums.ChallengeStatus
 
 export const ChallengeStatus: typeof $Enums.ChallengeStatus
+
+export type RelationshipType = $Enums.RelationshipType
+
+export const RelationshipType: typeof $Enums.RelationshipType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -259,6 +292,16 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.creator`: Exposes CRUD operations for the **Creator** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Creators
+    * const creators = await prisma.creator.findMany()
+    * ```
+    */
+  get creator(): Prisma.CreatorDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.genre`: Exposes CRUD operations for the **Genre** model.
     * Example usage:
     * ```ts
@@ -357,6 +400,36 @@ export class PrismaClient<
     * ```
     */
   get productivityCount(): Prisma.ProductivityCountDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.article`: Exposes CRUD operations for the **Article** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Articles
+    * const articles = await prisma.article.findMany()
+    * ```
+    */
+  get article(): Prisma.ArticleDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.image`: Exposes CRUD operations for the **Image** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Images
+    * const images = await prisma.image.findMany()
+    * ```
+    */
+  get image(): Prisma.ImageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.video`: Exposes CRUD operations for the **Video** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Videos
+    * const videos = await prisma.video.findMany()
+    * ```
+    */
+  get video(): Prisma.VideoDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -805,6 +878,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    Creator: 'Creator',
     Genre: 'Genre',
     UserGenre: 'UserGenre',
     Content: 'Content',
@@ -814,7 +888,10 @@ export namespace Prisma {
     Relationship: 'Relationship',
     Challenge: 'Challenge',
     UserChallenge: 'UserChallenge',
-    ProductivityCount: 'ProductivityCount'
+    ProductivityCount: 'ProductivityCount',
+    Article: 'Article',
+    Image: 'Image',
+    Video: 'Video'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -830,7 +907,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "genre" | "userGenre" | "content" | "post" | "like" | "share" | "relationship" | "challenge" | "userChallenge" | "productivityCount"
+      modelProps: "user" | "creator" | "genre" | "userGenre" | "content" | "post" | "like" | "share" | "relationship" | "challenge" | "userChallenge" | "productivityCount" | "article" | "image" | "video"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -905,6 +982,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Creator: {
+        payload: Prisma.$CreatorPayload<ExtArgs>
+        fields: Prisma.CreatorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CreatorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreatorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CreatorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreatorPayload>
+          }
+          findFirst: {
+            args: Prisma.CreatorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreatorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CreatorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreatorPayload>
+          }
+          findMany: {
+            args: Prisma.CreatorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreatorPayload>[]
+          }
+          create: {
+            args: Prisma.CreatorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreatorPayload>
+          }
+          createMany: {
+            args: Prisma.CreatorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CreatorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreatorPayload>[]
+          }
+          delete: {
+            args: Prisma.CreatorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreatorPayload>
+          }
+          update: {
+            args: Prisma.CreatorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreatorPayload>
+          }
+          deleteMany: {
+            args: Prisma.CreatorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CreatorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CreatorUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreatorPayload>[]
+          }
+          upsert: {
+            args: Prisma.CreatorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreatorPayload>
+          }
+          aggregate: {
+            args: Prisma.CreatorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCreator>
+          }
+          groupBy: {
+            args: Prisma.CreatorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CreatorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CreatorCountArgs<ExtArgs>
+            result: $Utils.Optional<CreatorCountAggregateOutputType> | number
           }
         }
       }
@@ -1648,6 +1799,228 @@ export namespace Prisma {
           }
         }
       }
+      Article: {
+        payload: Prisma.$ArticlePayload<ExtArgs>
+        fields: Prisma.ArticleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ArticleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArticlePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ArticleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArticlePayload>
+          }
+          findFirst: {
+            args: Prisma.ArticleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArticlePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ArticleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArticlePayload>
+          }
+          findMany: {
+            args: Prisma.ArticleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArticlePayload>[]
+          }
+          create: {
+            args: Prisma.ArticleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArticlePayload>
+          }
+          createMany: {
+            args: Prisma.ArticleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ArticleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArticlePayload>[]
+          }
+          delete: {
+            args: Prisma.ArticleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArticlePayload>
+          }
+          update: {
+            args: Prisma.ArticleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArticlePayload>
+          }
+          deleteMany: {
+            args: Prisma.ArticleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ArticleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ArticleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArticlePayload>[]
+          }
+          upsert: {
+            args: Prisma.ArticleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArticlePayload>
+          }
+          aggregate: {
+            args: Prisma.ArticleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateArticle>
+          }
+          groupBy: {
+            args: Prisma.ArticleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ArticleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ArticleCountArgs<ExtArgs>
+            result: $Utils.Optional<ArticleCountAggregateOutputType> | number
+          }
+        }
+      }
+      Image: {
+        payload: Prisma.$ImagePayload<ExtArgs>
+        fields: Prisma.ImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagePayload>
+          }
+          findFirst: {
+            args: Prisma.ImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagePayload>
+          }
+          findMany: {
+            args: Prisma.ImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagePayload>[]
+          }
+          create: {
+            args: Prisma.ImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagePayload>
+          }
+          createMany: {
+            args: Prisma.ImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagePayload>[]
+          }
+          delete: {
+            args: Prisma.ImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagePayload>
+          }
+          update: {
+            args: Prisma.ImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.ImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.ImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagePayload>
+          }
+          aggregate: {
+            args: Prisma.ImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateImage>
+          }
+          groupBy: {
+            args: Prisma.ImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ImageCountArgs<ExtArgs>
+            result: $Utils.Optional<ImageCountAggregateOutputType> | number
+          }
+        }
+      }
+      Video: {
+        payload: Prisma.$VideoPayload<ExtArgs>
+        fields: Prisma.VideoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VideoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VideoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          findFirst: {
+            args: Prisma.VideoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VideoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          findMany: {
+            args: Prisma.VideoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>[]
+          }
+          create: {
+            args: Prisma.VideoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          createMany: {
+            args: Prisma.VideoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VideoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>[]
+          }
+          delete: {
+            args: Prisma.VideoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          update: {
+            args: Prisma.VideoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          deleteMany: {
+            args: Prisma.VideoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VideoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VideoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>[]
+          }
+          upsert: {
+            args: Prisma.VideoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          aggregate: {
+            args: Prisma.VideoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVideo>
+          }
+          groupBy: {
+            args: Prisma.VideoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VideoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VideoCountArgs<ExtArgs>
+            result: $Utils.Optional<VideoCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1772,6 +2145,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    creator?: CreatorOmit
     genre?: GenreOmit
     userGenre?: UserGenreOmit
     content?: ContentOmit
@@ -1782,6 +2156,9 @@ export namespace Prisma {
     challenge?: ChallengeOmit
     userChallenge?: UserChallengeOmit
     productivityCount?: ProductivityCountOmit
+    article?: ArticleOmit
+    image?: ImageOmit
+    video?: VideoOmit
   }
 
   /* Types for Logging */
@@ -2347,6 +2724,7 @@ export namespace Prisma {
     lastActiveAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    creator?: boolean | User$creatorArgs<ExtArgs>
     selectedGenres?: boolean | User$selectedGenresArgs<ExtArgs>
     contents?: boolean | User$contentsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
@@ -2408,6 +2786,7 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "email" | "passwordHash" | "accountType" | "bio" | "profileImage" | "streak" | "lastActiveAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | User$creatorArgs<ExtArgs>
     selectedGenres?: boolean | User$selectedGenresArgs<ExtArgs>
     contents?: boolean | User$contentsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
@@ -2427,6 +2806,7 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      creator: Prisma.$CreatorPayload<ExtArgs> | null
       selectedGenres: Prisma.$UserGenrePayload<ExtArgs>[]
       contents: Prisma.$ContentPayload<ExtArgs>[]
       posts: Prisma.$PostPayload<ExtArgs>[]
@@ -2846,6 +3226,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    creator<T extends User$creatorArgs<ExtArgs> = {}>(args?: Subset<T, User$creatorArgs<ExtArgs>>): Prisma__CreatorClient<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     selectedGenres<T extends User$selectedGenresArgs<ExtArgs> = {}>(args?: Subset<T, User$selectedGenresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGenrePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contents<T extends User$contentsArgs<ExtArgs> = {}>(args?: Subset<T, User$contentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3291,6 +3672,25 @@ export namespace Prisma {
   }
 
   /**
+   * User.creator
+   */
+  export type User$creatorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
+    where?: CreatorWhereInput
+  }
+
+  /**
    * User.selectedGenres
    */
   export type User$selectedGenresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3570,6 +3970,1134 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Creator
+   */
+
+  export type AggregateCreator = {
+    _count: CreatorCountAggregateOutputType | null
+    _min: CreatorMinAggregateOutputType | null
+    _max: CreatorMaxAggregateOutputType | null
+  }
+
+  export type CreatorMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    displayName: string | null
+    description: string | null
+    category: string | null
+    coverImage: string | null
+    website: string | null
+    isVerified: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CreatorMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    displayName: string | null
+    description: string | null
+    category: string | null
+    coverImage: string | null
+    website: string | null
+    isVerified: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CreatorCountAggregateOutputType = {
+    id: number
+    userId: number
+    displayName: number
+    description: number
+    category: number
+    coverImage: number
+    website: number
+    isVerified: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CreatorMinAggregateInputType = {
+    id?: true
+    userId?: true
+    displayName?: true
+    description?: true
+    category?: true
+    coverImage?: true
+    website?: true
+    isVerified?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CreatorMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    displayName?: true
+    description?: true
+    category?: true
+    coverImage?: true
+    website?: true
+    isVerified?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CreatorCountAggregateInputType = {
+    id?: true
+    userId?: true
+    displayName?: true
+    description?: true
+    category?: true
+    coverImage?: true
+    website?: true
+    isVerified?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CreatorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Creator to aggregate.
+     */
+    where?: CreatorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Creators to fetch.
+     */
+    orderBy?: CreatorOrderByWithRelationInput | CreatorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CreatorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Creators from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Creators.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Creators
+    **/
+    _count?: true | CreatorCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CreatorMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CreatorMaxAggregateInputType
+  }
+
+  export type GetCreatorAggregateType<T extends CreatorAggregateArgs> = {
+        [P in keyof T & keyof AggregateCreator]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCreator[P]>
+      : GetScalarType<T[P], AggregateCreator[P]>
+  }
+
+
+
+
+  export type CreatorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CreatorWhereInput
+    orderBy?: CreatorOrderByWithAggregationInput | CreatorOrderByWithAggregationInput[]
+    by: CreatorScalarFieldEnum[] | CreatorScalarFieldEnum
+    having?: CreatorScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CreatorCountAggregateInputType | true
+    _min?: CreatorMinAggregateInputType
+    _max?: CreatorMaxAggregateInputType
+  }
+
+  export type CreatorGroupByOutputType = {
+    id: string
+    userId: string
+    displayName: string | null
+    description: string | null
+    category: string | null
+    coverImage: string | null
+    website: string | null
+    isVerified: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: CreatorCountAggregateOutputType | null
+    _min: CreatorMinAggregateOutputType | null
+    _max: CreatorMaxAggregateOutputType | null
+  }
+
+  type GetCreatorGroupByPayload<T extends CreatorGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CreatorGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CreatorGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CreatorGroupByOutputType[P]>
+            : GetScalarType<T[P], CreatorGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CreatorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    displayName?: boolean
+    description?: boolean
+    category?: boolean
+    coverImage?: boolean
+    website?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["creator"]>
+
+  export type CreatorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    displayName?: boolean
+    description?: boolean
+    category?: boolean
+    coverImage?: boolean
+    website?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["creator"]>
+
+  export type CreatorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    displayName?: boolean
+    description?: boolean
+    category?: boolean
+    coverImage?: boolean
+    website?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["creator"]>
+
+  export type CreatorSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    displayName?: boolean
+    description?: boolean
+    category?: boolean
+    coverImage?: boolean
+    website?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CreatorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "displayName" | "description" | "category" | "coverImage" | "website" | "isVerified" | "createdAt" | "updatedAt", ExtArgs["result"]["creator"]>
+  export type CreatorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type CreatorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type CreatorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $CreatorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Creator"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      displayName: string | null
+      description: string | null
+      category: string | null
+      coverImage: string | null
+      website: string | null
+      isVerified: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["creator"]>
+    composites: {}
+  }
+
+  type CreatorGetPayload<S extends boolean | null | undefined | CreatorDefaultArgs> = $Result.GetResult<Prisma.$CreatorPayload, S>
+
+  type CreatorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CreatorFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CreatorCountAggregateInputType | true
+    }
+
+  export interface CreatorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Creator'], meta: { name: 'Creator' } }
+    /**
+     * Find zero or one Creator that matches the filter.
+     * @param {CreatorFindUniqueArgs} args - Arguments to find a Creator
+     * @example
+     * // Get one Creator
+     * const creator = await prisma.creator.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CreatorFindUniqueArgs>(args: SelectSubset<T, CreatorFindUniqueArgs<ExtArgs>>): Prisma__CreatorClient<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Creator that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CreatorFindUniqueOrThrowArgs} args - Arguments to find a Creator
+     * @example
+     * // Get one Creator
+     * const creator = await prisma.creator.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CreatorFindUniqueOrThrowArgs>(args: SelectSubset<T, CreatorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CreatorClient<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Creator that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreatorFindFirstArgs} args - Arguments to find a Creator
+     * @example
+     * // Get one Creator
+     * const creator = await prisma.creator.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CreatorFindFirstArgs>(args?: SelectSubset<T, CreatorFindFirstArgs<ExtArgs>>): Prisma__CreatorClient<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Creator that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreatorFindFirstOrThrowArgs} args - Arguments to find a Creator
+     * @example
+     * // Get one Creator
+     * const creator = await prisma.creator.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CreatorFindFirstOrThrowArgs>(args?: SelectSubset<T, CreatorFindFirstOrThrowArgs<ExtArgs>>): Prisma__CreatorClient<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Creators that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreatorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Creators
+     * const creators = await prisma.creator.findMany()
+     * 
+     * // Get first 10 Creators
+     * const creators = await prisma.creator.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const creatorWithIdOnly = await prisma.creator.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CreatorFindManyArgs>(args?: SelectSubset<T, CreatorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Creator.
+     * @param {CreatorCreateArgs} args - Arguments to create a Creator.
+     * @example
+     * // Create one Creator
+     * const Creator = await prisma.creator.create({
+     *   data: {
+     *     // ... data to create a Creator
+     *   }
+     * })
+     * 
+     */
+    create<T extends CreatorCreateArgs>(args: SelectSubset<T, CreatorCreateArgs<ExtArgs>>): Prisma__CreatorClient<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Creators.
+     * @param {CreatorCreateManyArgs} args - Arguments to create many Creators.
+     * @example
+     * // Create many Creators
+     * const creator = await prisma.creator.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CreatorCreateManyArgs>(args?: SelectSubset<T, CreatorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Creators and returns the data saved in the database.
+     * @param {CreatorCreateManyAndReturnArgs} args - Arguments to create many Creators.
+     * @example
+     * // Create many Creators
+     * const creator = await prisma.creator.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Creators and only return the `id`
+     * const creatorWithIdOnly = await prisma.creator.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CreatorCreateManyAndReturnArgs>(args?: SelectSubset<T, CreatorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Creator.
+     * @param {CreatorDeleteArgs} args - Arguments to delete one Creator.
+     * @example
+     * // Delete one Creator
+     * const Creator = await prisma.creator.delete({
+     *   where: {
+     *     // ... filter to delete one Creator
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CreatorDeleteArgs>(args: SelectSubset<T, CreatorDeleteArgs<ExtArgs>>): Prisma__CreatorClient<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Creator.
+     * @param {CreatorUpdateArgs} args - Arguments to update one Creator.
+     * @example
+     * // Update one Creator
+     * const creator = await prisma.creator.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CreatorUpdateArgs>(args: SelectSubset<T, CreatorUpdateArgs<ExtArgs>>): Prisma__CreatorClient<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Creators.
+     * @param {CreatorDeleteManyArgs} args - Arguments to filter Creators to delete.
+     * @example
+     * // Delete a few Creators
+     * const { count } = await prisma.creator.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CreatorDeleteManyArgs>(args?: SelectSubset<T, CreatorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Creators.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreatorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Creators
+     * const creator = await prisma.creator.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CreatorUpdateManyArgs>(args: SelectSubset<T, CreatorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Creators and returns the data updated in the database.
+     * @param {CreatorUpdateManyAndReturnArgs} args - Arguments to update many Creators.
+     * @example
+     * // Update many Creators
+     * const creator = await prisma.creator.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Creators and only return the `id`
+     * const creatorWithIdOnly = await prisma.creator.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CreatorUpdateManyAndReturnArgs>(args: SelectSubset<T, CreatorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Creator.
+     * @param {CreatorUpsertArgs} args - Arguments to update or create a Creator.
+     * @example
+     * // Update or create a Creator
+     * const creator = await prisma.creator.upsert({
+     *   create: {
+     *     // ... data to create a Creator
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Creator we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CreatorUpsertArgs>(args: SelectSubset<T, CreatorUpsertArgs<ExtArgs>>): Prisma__CreatorClient<$Result.GetResult<Prisma.$CreatorPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Creators.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreatorCountArgs} args - Arguments to filter Creators to count.
+     * @example
+     * // Count the number of Creators
+     * const count = await prisma.creator.count({
+     *   where: {
+     *     // ... the filter for the Creators we want to count
+     *   }
+     * })
+    **/
+    count<T extends CreatorCountArgs>(
+      args?: Subset<T, CreatorCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CreatorCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Creator.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreatorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CreatorAggregateArgs>(args: Subset<T, CreatorAggregateArgs>): Prisma.PrismaPromise<GetCreatorAggregateType<T>>
+
+    /**
+     * Group by Creator.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreatorGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CreatorGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CreatorGroupByArgs['orderBy'] }
+        : { orderBy?: CreatorGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CreatorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCreatorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Creator model
+   */
+  readonly fields: CreatorFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Creator.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CreatorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Creator model
+   */
+  interface CreatorFieldRefs {
+    readonly id: FieldRef<"Creator", 'String'>
+    readonly userId: FieldRef<"Creator", 'String'>
+    readonly displayName: FieldRef<"Creator", 'String'>
+    readonly description: FieldRef<"Creator", 'String'>
+    readonly category: FieldRef<"Creator", 'String'>
+    readonly coverImage: FieldRef<"Creator", 'String'>
+    readonly website: FieldRef<"Creator", 'String'>
+    readonly isVerified: FieldRef<"Creator", 'Boolean'>
+    readonly createdAt: FieldRef<"Creator", 'DateTime'>
+    readonly updatedAt: FieldRef<"Creator", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Creator findUnique
+   */
+  export type CreatorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
+    /**
+     * Filter, which Creator to fetch.
+     */
+    where: CreatorWhereUniqueInput
+  }
+
+  /**
+   * Creator findUniqueOrThrow
+   */
+  export type CreatorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
+    /**
+     * Filter, which Creator to fetch.
+     */
+    where: CreatorWhereUniqueInput
+  }
+
+  /**
+   * Creator findFirst
+   */
+  export type CreatorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
+    /**
+     * Filter, which Creator to fetch.
+     */
+    where?: CreatorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Creators to fetch.
+     */
+    orderBy?: CreatorOrderByWithRelationInput | CreatorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Creators.
+     */
+    cursor?: CreatorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Creators from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Creators.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Creators.
+     */
+    distinct?: CreatorScalarFieldEnum | CreatorScalarFieldEnum[]
+  }
+
+  /**
+   * Creator findFirstOrThrow
+   */
+  export type CreatorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
+    /**
+     * Filter, which Creator to fetch.
+     */
+    where?: CreatorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Creators to fetch.
+     */
+    orderBy?: CreatorOrderByWithRelationInput | CreatorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Creators.
+     */
+    cursor?: CreatorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Creators from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Creators.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Creators.
+     */
+    distinct?: CreatorScalarFieldEnum | CreatorScalarFieldEnum[]
+  }
+
+  /**
+   * Creator findMany
+   */
+  export type CreatorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
+    /**
+     * Filter, which Creators to fetch.
+     */
+    where?: CreatorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Creators to fetch.
+     */
+    orderBy?: CreatorOrderByWithRelationInput | CreatorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Creators.
+     */
+    cursor?: CreatorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Creators from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Creators.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Creators.
+     */
+    distinct?: CreatorScalarFieldEnum | CreatorScalarFieldEnum[]
+  }
+
+  /**
+   * Creator create
+   */
+  export type CreatorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Creator.
+     */
+    data: XOR<CreatorCreateInput, CreatorUncheckedCreateInput>
+  }
+
+  /**
+   * Creator createMany
+   */
+  export type CreatorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Creators.
+     */
+    data: CreatorCreateManyInput | CreatorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Creator createManyAndReturn
+   */
+  export type CreatorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * The data used to create many Creators.
+     */
+    data: CreatorCreateManyInput | CreatorCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Creator update
+   */
+  export type CreatorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Creator.
+     */
+    data: XOR<CreatorUpdateInput, CreatorUncheckedUpdateInput>
+    /**
+     * Choose, which Creator to update.
+     */
+    where: CreatorWhereUniqueInput
+  }
+
+  /**
+   * Creator updateMany
+   */
+  export type CreatorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Creators.
+     */
+    data: XOR<CreatorUpdateManyMutationInput, CreatorUncheckedUpdateManyInput>
+    /**
+     * Filter which Creators to update
+     */
+    where?: CreatorWhereInput
+    /**
+     * Limit how many Creators to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Creator updateManyAndReturn
+   */
+  export type CreatorUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * The data used to update Creators.
+     */
+    data: XOR<CreatorUpdateManyMutationInput, CreatorUncheckedUpdateManyInput>
+    /**
+     * Filter which Creators to update
+     */
+    where?: CreatorWhereInput
+    /**
+     * Limit how many Creators to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Creator upsert
+   */
+  export type CreatorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Creator to update in case it exists.
+     */
+    where: CreatorWhereUniqueInput
+    /**
+     * In case the Creator found by the `where` argument doesn't exist, create a new Creator with this data.
+     */
+    create: XOR<CreatorCreateInput, CreatorUncheckedCreateInput>
+    /**
+     * In case the Creator was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CreatorUpdateInput, CreatorUncheckedUpdateInput>
+  }
+
+  /**
+   * Creator delete
+   */
+  export type CreatorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
+    /**
+     * Filter which Creator to delete.
+     */
+    where: CreatorWhereUniqueInput
+  }
+
+  /**
+   * Creator deleteMany
+   */
+  export type CreatorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Creators to delete
+     */
+    where?: CreatorWhereInput
+    /**
+     * Limit how many Creators to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Creator without action
+   */
+  export type CreatorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Creator
+     */
+    select?: CreatorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Creator
+     */
+    omit?: CreatorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreatorInclude<ExtArgs> | null
   }
 
 
@@ -5735,10 +7263,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
-    body: string | null
     type: $Enums.ContentType | null
-    externalUrl: string | null
-    mediaUrl: string | null
     genreId: string | null
     creatorId: string | null
     deletedAt: Date | null
@@ -5750,10 +7275,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
-    body: string | null
     type: $Enums.ContentType | null
-    externalUrl: string | null
-    mediaUrl: string | null
     genreId: string | null
     creatorId: string | null
     deletedAt: Date | null
@@ -5765,10 +7287,7 @@ export namespace Prisma {
     id: number
     title: number
     description: number
-    body: number
     type: number
-    externalUrl: number
-    mediaUrl: number
     genreId: number
     creatorId: number
     deletedAt: number
@@ -5782,10 +7301,7 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
-    body?: true
     type?: true
-    externalUrl?: true
-    mediaUrl?: true
     genreId?: true
     creatorId?: true
     deletedAt?: true
@@ -5797,10 +7313,7 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
-    body?: true
     type?: true
-    externalUrl?: true
-    mediaUrl?: true
     genreId?: true
     creatorId?: true
     deletedAt?: true
@@ -5812,10 +7325,7 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
-    body?: true
     type?: true
-    externalUrl?: true
-    mediaUrl?: true
     genreId?: true
     creatorId?: true
     deletedAt?: true
@@ -5900,10 +7410,7 @@ export namespace Prisma {
     id: string
     title: string
     description: string | null
-    body: string | null
     type: $Enums.ContentType
-    externalUrl: string | null
-    mediaUrl: string | null
     genreId: string
     creatorId: string
     deletedAt: Date | null
@@ -5932,10 +7439,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    body?: boolean
     type?: boolean
-    externalUrl?: boolean
-    mediaUrl?: boolean
     genreId?: boolean
     creatorId?: boolean
     deletedAt?: boolean
@@ -5943,6 +7447,9 @@ export namespace Prisma {
     updatedAt?: boolean
     genre?: boolean | GenreDefaultArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
+    article?: boolean | Content$articleArgs<ExtArgs>
+    image?: boolean | Content$imageArgs<ExtArgs>
+    video?: boolean | Content$videoArgs<ExtArgs>
     likes?: boolean | Content$likesArgs<ExtArgs>
     shares?: boolean | Content$sharesArgs<ExtArgs>
     challenge?: boolean | Content$challengeArgs<ExtArgs>
@@ -5953,10 +7460,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    body?: boolean
     type?: boolean
-    externalUrl?: boolean
-    mediaUrl?: boolean
     genreId?: boolean
     creatorId?: boolean
     deletedAt?: boolean
@@ -5970,10 +7474,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    body?: boolean
     type?: boolean
-    externalUrl?: boolean
-    mediaUrl?: boolean
     genreId?: boolean
     creatorId?: boolean
     deletedAt?: boolean
@@ -5987,10 +7488,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    body?: boolean
     type?: boolean
-    externalUrl?: boolean
-    mediaUrl?: boolean
     genreId?: boolean
     creatorId?: boolean
     deletedAt?: boolean
@@ -5998,10 +7496,13 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "body" | "type" | "externalUrl" | "mediaUrl" | "genreId" | "creatorId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["content"]>
+  export type ContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "type" | "genreId" | "creatorId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["content"]>
   export type ContentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     genre?: boolean | GenreDefaultArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
+    article?: boolean | Content$articleArgs<ExtArgs>
+    image?: boolean | Content$imageArgs<ExtArgs>
+    video?: boolean | Content$videoArgs<ExtArgs>
     likes?: boolean | Content$likesArgs<ExtArgs>
     shares?: boolean | Content$sharesArgs<ExtArgs>
     challenge?: boolean | Content$challengeArgs<ExtArgs>
@@ -6021,6 +7522,9 @@ export namespace Prisma {
     objects: {
       genre: Prisma.$GenrePayload<ExtArgs>
       creator: Prisma.$UserPayload<ExtArgs>
+      article: Prisma.$ArticlePayload<ExtArgs> | null
+      image: Prisma.$ImagePayload<ExtArgs> | null
+      video: Prisma.$VideoPayload<ExtArgs> | null
       likes: Prisma.$LikePayload<ExtArgs>[]
       shares: Prisma.$SharePayload<ExtArgs>[]
       challenge: Prisma.$ChallengePayload<ExtArgs> | null
@@ -6029,10 +7533,7 @@ export namespace Prisma {
       id: string
       title: string
       description: string | null
-      body: string | null
       type: $Enums.ContentType
-      externalUrl: string | null
-      mediaUrl: string | null
       genreId: string
       creatorId: string
       deletedAt: Date | null
@@ -6434,6 +7935,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     genre<T extends GenreDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GenreDefaultArgs<ExtArgs>>): Prisma__GenreClient<$Result.GetResult<Prisma.$GenrePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    article<T extends Content$articleArgs<ExtArgs> = {}>(args?: Subset<T, Content$articleArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    image<T extends Content$imageArgs<ExtArgs> = {}>(args?: Subset<T, Content$imageArgs<ExtArgs>>): Prisma__ImageClient<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    video<T extends Content$videoArgs<ExtArgs> = {}>(args?: Subset<T, Content$videoArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     likes<T extends Content$likesArgs<ExtArgs> = {}>(args?: Subset<T, Content$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shares<T extends Content$sharesArgs<ExtArgs> = {}>(args?: Subset<T, Content$sharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     challenge<T extends Content$challengeArgs<ExtArgs> = {}>(args?: Subset<T, Content$challengeArgs<ExtArgs>>): Prisma__ChallengeClient<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -6469,10 +7973,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Content", 'String'>
     readonly title: FieldRef<"Content", 'String'>
     readonly description: FieldRef<"Content", 'String'>
-    readonly body: FieldRef<"Content", 'String'>
     readonly type: FieldRef<"Content", 'ContentType'>
-    readonly externalUrl: FieldRef<"Content", 'String'>
-    readonly mediaUrl: FieldRef<"Content", 'String'>
     readonly genreId: FieldRef<"Content", 'String'>
     readonly creatorId: FieldRef<"Content", 'String'>
     readonly deletedAt: FieldRef<"Content", 'DateTime'>
@@ -6876,6 +8377,63 @@ export namespace Prisma {
      * Limit how many Contents to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Content.article
+   */
+  export type Content$articleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    where?: ArticleWhereInput
+  }
+
+  /**
+   * Content.image
+   */
+  export type Content$imageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageInclude<ExtArgs> | null
+    where?: ImageWhereInput
+  }
+
+  /**
+   * Content.video
+   */
+  export type Content$videoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    where?: VideoWhereInput
   }
 
   /**
@@ -10264,6 +11822,7 @@ export namespace Prisma {
     senderId: string | null
     receiverId: string | null
     status: $Enums.FollowStatus | null
+    type: $Enums.RelationshipType | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10273,6 +11832,7 @@ export namespace Prisma {
     senderId: string | null
     receiverId: string | null
     status: $Enums.FollowStatus | null
+    type: $Enums.RelationshipType | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10282,6 +11842,7 @@ export namespace Prisma {
     senderId: number
     receiverId: number
     status: number
+    type: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -10293,6 +11854,7 @@ export namespace Prisma {
     senderId?: true
     receiverId?: true
     status?: true
+    type?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10302,6 +11864,7 @@ export namespace Prisma {
     senderId?: true
     receiverId?: true
     status?: true
+    type?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10311,6 +11874,7 @@ export namespace Prisma {
     senderId?: true
     receiverId?: true
     status?: true
+    type?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -10393,6 +11957,7 @@ export namespace Prisma {
     senderId: string
     receiverId: string
     status: $Enums.FollowStatus
+    type: $Enums.RelationshipType
     createdAt: Date
     updatedAt: Date
     _count: RelationshipCountAggregateOutputType | null
@@ -10419,6 +11984,7 @@ export namespace Prisma {
     senderId?: boolean
     receiverId?: boolean
     status?: boolean
+    type?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     sender?: boolean | UserDefaultArgs<ExtArgs>
@@ -10430,6 +11996,7 @@ export namespace Prisma {
     senderId?: boolean
     receiverId?: boolean
     status?: boolean
+    type?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     sender?: boolean | UserDefaultArgs<ExtArgs>
@@ -10441,6 +12008,7 @@ export namespace Prisma {
     senderId?: boolean
     receiverId?: boolean
     status?: boolean
+    type?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     sender?: boolean | UserDefaultArgs<ExtArgs>
@@ -10452,11 +12020,12 @@ export namespace Prisma {
     senderId?: boolean
     receiverId?: boolean
     status?: boolean
+    type?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type RelationshipOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderId" | "receiverId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["relationship"]>
+  export type RelationshipOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderId" | "receiverId" | "status" | "type" | "createdAt" | "updatedAt", ExtArgs["result"]["relationship"]>
   export type RelationshipInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
@@ -10481,6 +12050,7 @@ export namespace Prisma {
       senderId: string
       receiverId: string
       status: $Enums.FollowStatus
+      type: $Enums.RelationshipType
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["relationship"]>
@@ -10912,6 +12482,7 @@ export namespace Prisma {
     readonly senderId: FieldRef<"Relationship", 'String'>
     readonly receiverId: FieldRef<"Relationship", 'String'>
     readonly status: FieldRef<"Relationship", 'FollowStatus'>
+    readonly type: FieldRef<"Relationship", 'RelationshipType'>
     readonly createdAt: FieldRef<"Relationship", 'DateTime'>
     readonly updatedAt: FieldRef<"Relationship", 'DateTime'>
   }
@@ -14652,6 +16223,3320 @@ export namespace Prisma {
 
 
   /**
+   * Model Article
+   */
+
+  export type AggregateArticle = {
+    _count: ArticleCountAggregateOutputType | null
+    _min: ArticleMinAggregateOutputType | null
+    _max: ArticleMaxAggregateOutputType | null
+  }
+
+  export type ArticleMinAggregateOutputType = {
+    id: string | null
+    contentId: string | null
+    subject: string | null
+    body: string | null
+    pdfUrl: string | null
+    pdfFileName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ArticleMaxAggregateOutputType = {
+    id: string | null
+    contentId: string | null
+    subject: string | null
+    body: string | null
+    pdfUrl: string | null
+    pdfFileName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ArticleCountAggregateOutputType = {
+    id: number
+    contentId: number
+    subject: number
+    body: number
+    pdfUrl: number
+    pdfFileName: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ArticleMinAggregateInputType = {
+    id?: true
+    contentId?: true
+    subject?: true
+    body?: true
+    pdfUrl?: true
+    pdfFileName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ArticleMaxAggregateInputType = {
+    id?: true
+    contentId?: true
+    subject?: true
+    body?: true
+    pdfUrl?: true
+    pdfFileName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ArticleCountAggregateInputType = {
+    id?: true
+    contentId?: true
+    subject?: true
+    body?: true
+    pdfUrl?: true
+    pdfFileName?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ArticleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Article to aggregate.
+     */
+    where?: ArticleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Articles to fetch.
+     */
+    orderBy?: ArticleOrderByWithRelationInput | ArticleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ArticleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Articles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Articles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Articles
+    **/
+    _count?: true | ArticleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ArticleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ArticleMaxAggregateInputType
+  }
+
+  export type GetArticleAggregateType<T extends ArticleAggregateArgs> = {
+        [P in keyof T & keyof AggregateArticle]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateArticle[P]>
+      : GetScalarType<T[P], AggregateArticle[P]>
+  }
+
+
+
+
+  export type ArticleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ArticleWhereInput
+    orderBy?: ArticleOrderByWithAggregationInput | ArticleOrderByWithAggregationInput[]
+    by: ArticleScalarFieldEnum[] | ArticleScalarFieldEnum
+    having?: ArticleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ArticleCountAggregateInputType | true
+    _min?: ArticleMinAggregateInputType
+    _max?: ArticleMaxAggregateInputType
+  }
+
+  export type ArticleGroupByOutputType = {
+    id: string
+    contentId: string
+    subject: string
+    body: string | null
+    pdfUrl: string | null
+    pdfFileName: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ArticleCountAggregateOutputType | null
+    _min: ArticleMinAggregateOutputType | null
+    _max: ArticleMaxAggregateOutputType | null
+  }
+
+  type GetArticleGroupByPayload<T extends ArticleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ArticleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ArticleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ArticleGroupByOutputType[P]>
+            : GetScalarType<T[P], ArticleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ArticleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentId?: boolean
+    subject?: boolean
+    body?: boolean
+    pdfUrl?: boolean
+    pdfFileName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["article"]>
+
+  export type ArticleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentId?: boolean
+    subject?: boolean
+    body?: boolean
+    pdfUrl?: boolean
+    pdfFileName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["article"]>
+
+  export type ArticleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentId?: boolean
+    subject?: boolean
+    body?: boolean
+    pdfUrl?: boolean
+    pdfFileName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["article"]>
+
+  export type ArticleSelectScalar = {
+    id?: boolean
+    contentId?: boolean
+    subject?: boolean
+    body?: boolean
+    pdfUrl?: boolean
+    pdfFileName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentId" | "subject" | "body" | "pdfUrl" | "pdfFileName" | "createdAt" | "updatedAt", ExtArgs["result"]["article"]>
+  export type ArticleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }
+  export type ArticleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }
+  export type ArticleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }
+
+  export type $ArticlePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Article"
+    objects: {
+      content: Prisma.$ContentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentId: string
+      subject: string
+      body: string | null
+      pdfUrl: string | null
+      pdfFileName: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["article"]>
+    composites: {}
+  }
+
+  type ArticleGetPayload<S extends boolean | null | undefined | ArticleDefaultArgs> = $Result.GetResult<Prisma.$ArticlePayload, S>
+
+  type ArticleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ArticleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ArticleCountAggregateInputType | true
+    }
+
+  export interface ArticleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Article'], meta: { name: 'Article' } }
+    /**
+     * Find zero or one Article that matches the filter.
+     * @param {ArticleFindUniqueArgs} args - Arguments to find a Article
+     * @example
+     * // Get one Article
+     * const article = await prisma.article.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ArticleFindUniqueArgs>(args: SelectSubset<T, ArticleFindUniqueArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Article that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ArticleFindUniqueOrThrowArgs} args - Arguments to find a Article
+     * @example
+     * // Get one Article
+     * const article = await prisma.article.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ArticleFindUniqueOrThrowArgs>(args: SelectSubset<T, ArticleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Article that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArticleFindFirstArgs} args - Arguments to find a Article
+     * @example
+     * // Get one Article
+     * const article = await prisma.article.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ArticleFindFirstArgs>(args?: SelectSubset<T, ArticleFindFirstArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Article that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArticleFindFirstOrThrowArgs} args - Arguments to find a Article
+     * @example
+     * // Get one Article
+     * const article = await prisma.article.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ArticleFindFirstOrThrowArgs>(args?: SelectSubset<T, ArticleFindFirstOrThrowArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Articles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArticleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Articles
+     * const articles = await prisma.article.findMany()
+     * 
+     * // Get first 10 Articles
+     * const articles = await prisma.article.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const articleWithIdOnly = await prisma.article.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ArticleFindManyArgs>(args?: SelectSubset<T, ArticleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Article.
+     * @param {ArticleCreateArgs} args - Arguments to create a Article.
+     * @example
+     * // Create one Article
+     * const Article = await prisma.article.create({
+     *   data: {
+     *     // ... data to create a Article
+     *   }
+     * })
+     * 
+     */
+    create<T extends ArticleCreateArgs>(args: SelectSubset<T, ArticleCreateArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Articles.
+     * @param {ArticleCreateManyArgs} args - Arguments to create many Articles.
+     * @example
+     * // Create many Articles
+     * const article = await prisma.article.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ArticleCreateManyArgs>(args?: SelectSubset<T, ArticleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Articles and returns the data saved in the database.
+     * @param {ArticleCreateManyAndReturnArgs} args - Arguments to create many Articles.
+     * @example
+     * // Create many Articles
+     * const article = await prisma.article.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Articles and only return the `id`
+     * const articleWithIdOnly = await prisma.article.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ArticleCreateManyAndReturnArgs>(args?: SelectSubset<T, ArticleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Article.
+     * @param {ArticleDeleteArgs} args - Arguments to delete one Article.
+     * @example
+     * // Delete one Article
+     * const Article = await prisma.article.delete({
+     *   where: {
+     *     // ... filter to delete one Article
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ArticleDeleteArgs>(args: SelectSubset<T, ArticleDeleteArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Article.
+     * @param {ArticleUpdateArgs} args - Arguments to update one Article.
+     * @example
+     * // Update one Article
+     * const article = await prisma.article.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ArticleUpdateArgs>(args: SelectSubset<T, ArticleUpdateArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Articles.
+     * @param {ArticleDeleteManyArgs} args - Arguments to filter Articles to delete.
+     * @example
+     * // Delete a few Articles
+     * const { count } = await prisma.article.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ArticleDeleteManyArgs>(args?: SelectSubset<T, ArticleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Articles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArticleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Articles
+     * const article = await prisma.article.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ArticleUpdateManyArgs>(args: SelectSubset<T, ArticleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Articles and returns the data updated in the database.
+     * @param {ArticleUpdateManyAndReturnArgs} args - Arguments to update many Articles.
+     * @example
+     * // Update many Articles
+     * const article = await prisma.article.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Articles and only return the `id`
+     * const articleWithIdOnly = await prisma.article.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ArticleUpdateManyAndReturnArgs>(args: SelectSubset<T, ArticleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Article.
+     * @param {ArticleUpsertArgs} args - Arguments to update or create a Article.
+     * @example
+     * // Update or create a Article
+     * const article = await prisma.article.upsert({
+     *   create: {
+     *     // ... data to create a Article
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Article we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ArticleUpsertArgs>(args: SelectSubset<T, ArticleUpsertArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Articles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArticleCountArgs} args - Arguments to filter Articles to count.
+     * @example
+     * // Count the number of Articles
+     * const count = await prisma.article.count({
+     *   where: {
+     *     // ... the filter for the Articles we want to count
+     *   }
+     * })
+    **/
+    count<T extends ArticleCountArgs>(
+      args?: Subset<T, ArticleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ArticleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Article.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArticleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ArticleAggregateArgs>(args: Subset<T, ArticleAggregateArgs>): Prisma.PrismaPromise<GetArticleAggregateType<T>>
+
+    /**
+     * Group by Article.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArticleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ArticleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ArticleGroupByArgs['orderBy'] }
+        : { orderBy?: ArticleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ArticleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetArticleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Article model
+   */
+  readonly fields: ArticleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Article.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ArticleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    content<T extends ContentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentDefaultArgs<ExtArgs>>): Prisma__ContentClient<$Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Article model
+   */
+  interface ArticleFieldRefs {
+    readonly id: FieldRef<"Article", 'String'>
+    readonly contentId: FieldRef<"Article", 'String'>
+    readonly subject: FieldRef<"Article", 'String'>
+    readonly body: FieldRef<"Article", 'String'>
+    readonly pdfUrl: FieldRef<"Article", 'String'>
+    readonly pdfFileName: FieldRef<"Article", 'String'>
+    readonly createdAt: FieldRef<"Article", 'DateTime'>
+    readonly updatedAt: FieldRef<"Article", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Article findUnique
+   */
+  export type ArticleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    /**
+     * Filter, which Article to fetch.
+     */
+    where: ArticleWhereUniqueInput
+  }
+
+  /**
+   * Article findUniqueOrThrow
+   */
+  export type ArticleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    /**
+     * Filter, which Article to fetch.
+     */
+    where: ArticleWhereUniqueInput
+  }
+
+  /**
+   * Article findFirst
+   */
+  export type ArticleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    /**
+     * Filter, which Article to fetch.
+     */
+    where?: ArticleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Articles to fetch.
+     */
+    orderBy?: ArticleOrderByWithRelationInput | ArticleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Articles.
+     */
+    cursor?: ArticleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Articles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Articles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Articles.
+     */
+    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
+  }
+
+  /**
+   * Article findFirstOrThrow
+   */
+  export type ArticleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    /**
+     * Filter, which Article to fetch.
+     */
+    where?: ArticleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Articles to fetch.
+     */
+    orderBy?: ArticleOrderByWithRelationInput | ArticleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Articles.
+     */
+    cursor?: ArticleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Articles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Articles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Articles.
+     */
+    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
+  }
+
+  /**
+   * Article findMany
+   */
+  export type ArticleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    /**
+     * Filter, which Articles to fetch.
+     */
+    where?: ArticleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Articles to fetch.
+     */
+    orderBy?: ArticleOrderByWithRelationInput | ArticleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Articles.
+     */
+    cursor?: ArticleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Articles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Articles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Articles.
+     */
+    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
+  }
+
+  /**
+   * Article create
+   */
+  export type ArticleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Article.
+     */
+    data: XOR<ArticleCreateInput, ArticleUncheckedCreateInput>
+  }
+
+  /**
+   * Article createMany
+   */
+  export type ArticleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Articles.
+     */
+    data: ArticleCreateManyInput | ArticleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Article createManyAndReturn
+   */
+  export type ArticleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * The data used to create many Articles.
+     */
+    data: ArticleCreateManyInput | ArticleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Article update
+   */
+  export type ArticleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Article.
+     */
+    data: XOR<ArticleUpdateInput, ArticleUncheckedUpdateInput>
+    /**
+     * Choose, which Article to update.
+     */
+    where: ArticleWhereUniqueInput
+  }
+
+  /**
+   * Article updateMany
+   */
+  export type ArticleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Articles.
+     */
+    data: XOR<ArticleUpdateManyMutationInput, ArticleUncheckedUpdateManyInput>
+    /**
+     * Filter which Articles to update
+     */
+    where?: ArticleWhereInput
+    /**
+     * Limit how many Articles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Article updateManyAndReturn
+   */
+  export type ArticleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * The data used to update Articles.
+     */
+    data: XOR<ArticleUpdateManyMutationInput, ArticleUncheckedUpdateManyInput>
+    /**
+     * Filter which Articles to update
+     */
+    where?: ArticleWhereInput
+    /**
+     * Limit how many Articles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Article upsert
+   */
+  export type ArticleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Article to update in case it exists.
+     */
+    where: ArticleWhereUniqueInput
+    /**
+     * In case the Article found by the `where` argument doesn't exist, create a new Article with this data.
+     */
+    create: XOR<ArticleCreateInput, ArticleUncheckedCreateInput>
+    /**
+     * In case the Article was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ArticleUpdateInput, ArticleUncheckedUpdateInput>
+  }
+
+  /**
+   * Article delete
+   */
+  export type ArticleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    /**
+     * Filter which Article to delete.
+     */
+    where: ArticleWhereUniqueInput
+  }
+
+  /**
+   * Article deleteMany
+   */
+  export type ArticleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Articles to delete
+     */
+    where?: ArticleWhereInput
+    /**
+     * Limit how many Articles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Article without action
+   */
+  export type ArticleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Image
+   */
+
+  export type AggregateImage = {
+    _count: ImageCountAggregateOutputType | null
+    _min: ImageMinAggregateOutputType | null
+    _max: ImageMaxAggregateOutputType | null
+  }
+
+  export type ImageMinAggregateOutputType = {
+    id: string | null
+    contentId: string | null
+    imageUrl: string | null
+    altText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ImageMaxAggregateOutputType = {
+    id: string | null
+    contentId: string | null
+    imageUrl: string | null
+    altText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ImageCountAggregateOutputType = {
+    id: number
+    contentId: number
+    imageUrl: number
+    altText: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ImageMinAggregateInputType = {
+    id?: true
+    contentId?: true
+    imageUrl?: true
+    altText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ImageMaxAggregateInputType = {
+    id?: true
+    contentId?: true
+    imageUrl?: true
+    altText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ImageCountAggregateInputType = {
+    id?: true
+    contentId?: true
+    imageUrl?: true
+    altText?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Image to aggregate.
+     */
+    where?: ImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Images to fetch.
+     */
+    orderBy?: ImageOrderByWithRelationInput | ImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Images from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Images.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Images
+    **/
+    _count?: true | ImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ImageMaxAggregateInputType
+  }
+
+  export type GetImageAggregateType<T extends ImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateImage[P]>
+      : GetScalarType<T[P], AggregateImage[P]>
+  }
+
+
+
+
+  export type ImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ImageWhereInput
+    orderBy?: ImageOrderByWithAggregationInput | ImageOrderByWithAggregationInput[]
+    by: ImageScalarFieldEnum[] | ImageScalarFieldEnum
+    having?: ImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ImageCountAggregateInputType | true
+    _min?: ImageMinAggregateInputType
+    _max?: ImageMaxAggregateInputType
+  }
+
+  export type ImageGroupByOutputType = {
+    id: string
+    contentId: string
+    imageUrl: string
+    altText: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ImageCountAggregateOutputType | null
+    _min: ImageMinAggregateOutputType | null
+    _max: ImageMaxAggregateOutputType | null
+  }
+
+  type GetImageGroupByPayload<T extends ImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ImageGroupByOutputType[P]>
+            : GetScalarType<T[P], ImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentId?: boolean
+    imageUrl?: boolean
+    altText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["image"]>
+
+  export type ImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentId?: boolean
+    imageUrl?: boolean
+    altText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["image"]>
+
+  export type ImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentId?: boolean
+    imageUrl?: boolean
+    altText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["image"]>
+
+  export type ImageSelectScalar = {
+    id?: boolean
+    contentId?: boolean
+    imageUrl?: boolean
+    altText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentId" | "imageUrl" | "altText" | "createdAt" | "updatedAt", ExtArgs["result"]["image"]>
+  export type ImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }
+  export type ImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }
+  export type ImageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }
+
+  export type $ImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Image"
+    objects: {
+      content: Prisma.$ContentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentId: string
+      imageUrl: string
+      altText: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["image"]>
+    composites: {}
+  }
+
+  type ImageGetPayload<S extends boolean | null | undefined | ImageDefaultArgs> = $Result.GetResult<Prisma.$ImagePayload, S>
+
+  type ImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ImageCountAggregateInputType | true
+    }
+
+  export interface ImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Image'], meta: { name: 'Image' } }
+    /**
+     * Find zero or one Image that matches the filter.
+     * @param {ImageFindUniqueArgs} args - Arguments to find a Image
+     * @example
+     * // Get one Image
+     * const image = await prisma.image.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ImageFindUniqueArgs>(args: SelectSubset<T, ImageFindUniqueArgs<ExtArgs>>): Prisma__ImageClient<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Image that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ImageFindUniqueOrThrowArgs} args - Arguments to find a Image
+     * @example
+     * // Get one Image
+     * const image = await prisma.image.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ImageFindUniqueOrThrowArgs>(args: SelectSubset<T, ImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ImageClient<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Image that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImageFindFirstArgs} args - Arguments to find a Image
+     * @example
+     * // Get one Image
+     * const image = await prisma.image.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ImageFindFirstArgs>(args?: SelectSubset<T, ImageFindFirstArgs<ExtArgs>>): Prisma__ImageClient<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Image that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImageFindFirstOrThrowArgs} args - Arguments to find a Image
+     * @example
+     * // Get one Image
+     * const image = await prisma.image.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ImageFindFirstOrThrowArgs>(args?: SelectSubset<T, ImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__ImageClient<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Images that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Images
+     * const images = await prisma.image.findMany()
+     * 
+     * // Get first 10 Images
+     * const images = await prisma.image.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const imageWithIdOnly = await prisma.image.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ImageFindManyArgs>(args?: SelectSubset<T, ImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Image.
+     * @param {ImageCreateArgs} args - Arguments to create a Image.
+     * @example
+     * // Create one Image
+     * const Image = await prisma.image.create({
+     *   data: {
+     *     // ... data to create a Image
+     *   }
+     * })
+     * 
+     */
+    create<T extends ImageCreateArgs>(args: SelectSubset<T, ImageCreateArgs<ExtArgs>>): Prisma__ImageClient<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Images.
+     * @param {ImageCreateManyArgs} args - Arguments to create many Images.
+     * @example
+     * // Create many Images
+     * const image = await prisma.image.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ImageCreateManyArgs>(args?: SelectSubset<T, ImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Images and returns the data saved in the database.
+     * @param {ImageCreateManyAndReturnArgs} args - Arguments to create many Images.
+     * @example
+     * // Create many Images
+     * const image = await prisma.image.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Images and only return the `id`
+     * const imageWithIdOnly = await prisma.image.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ImageCreateManyAndReturnArgs>(args?: SelectSubset<T, ImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Image.
+     * @param {ImageDeleteArgs} args - Arguments to delete one Image.
+     * @example
+     * // Delete one Image
+     * const Image = await prisma.image.delete({
+     *   where: {
+     *     // ... filter to delete one Image
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ImageDeleteArgs>(args: SelectSubset<T, ImageDeleteArgs<ExtArgs>>): Prisma__ImageClient<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Image.
+     * @param {ImageUpdateArgs} args - Arguments to update one Image.
+     * @example
+     * // Update one Image
+     * const image = await prisma.image.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ImageUpdateArgs>(args: SelectSubset<T, ImageUpdateArgs<ExtArgs>>): Prisma__ImageClient<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Images.
+     * @param {ImageDeleteManyArgs} args - Arguments to filter Images to delete.
+     * @example
+     * // Delete a few Images
+     * const { count } = await prisma.image.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ImageDeleteManyArgs>(args?: SelectSubset<T, ImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Images.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Images
+     * const image = await prisma.image.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ImageUpdateManyArgs>(args: SelectSubset<T, ImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Images and returns the data updated in the database.
+     * @param {ImageUpdateManyAndReturnArgs} args - Arguments to update many Images.
+     * @example
+     * // Update many Images
+     * const image = await prisma.image.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Images and only return the `id`
+     * const imageWithIdOnly = await prisma.image.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ImageUpdateManyAndReturnArgs>(args: SelectSubset<T, ImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Image.
+     * @param {ImageUpsertArgs} args - Arguments to update or create a Image.
+     * @example
+     * // Update or create a Image
+     * const image = await prisma.image.upsert({
+     *   create: {
+     *     // ... data to create a Image
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Image we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ImageUpsertArgs>(args: SelectSubset<T, ImageUpsertArgs<ExtArgs>>): Prisma__ImageClient<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Images.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImageCountArgs} args - Arguments to filter Images to count.
+     * @example
+     * // Count the number of Images
+     * const count = await prisma.image.count({
+     *   where: {
+     *     // ... the filter for the Images we want to count
+     *   }
+     * })
+    **/
+    count<T extends ImageCountArgs>(
+      args?: Subset<T, ImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Image.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ImageAggregateArgs>(args: Subset<T, ImageAggregateArgs>): Prisma.PrismaPromise<GetImageAggregateType<T>>
+
+    /**
+     * Group by Image.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ImageGroupByArgs['orderBy'] }
+        : { orderBy?: ImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Image model
+   */
+  readonly fields: ImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Image.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    content<T extends ContentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentDefaultArgs<ExtArgs>>): Prisma__ContentClient<$Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Image model
+   */
+  interface ImageFieldRefs {
+    readonly id: FieldRef<"Image", 'String'>
+    readonly contentId: FieldRef<"Image", 'String'>
+    readonly imageUrl: FieldRef<"Image", 'String'>
+    readonly altText: FieldRef<"Image", 'String'>
+    readonly createdAt: FieldRef<"Image", 'DateTime'>
+    readonly updatedAt: FieldRef<"Image", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Image findUnique
+   */
+  export type ImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageInclude<ExtArgs> | null
+    /**
+     * Filter, which Image to fetch.
+     */
+    where: ImageWhereUniqueInput
+  }
+
+  /**
+   * Image findUniqueOrThrow
+   */
+  export type ImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageInclude<ExtArgs> | null
+    /**
+     * Filter, which Image to fetch.
+     */
+    where: ImageWhereUniqueInput
+  }
+
+  /**
+   * Image findFirst
+   */
+  export type ImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageInclude<ExtArgs> | null
+    /**
+     * Filter, which Image to fetch.
+     */
+    where?: ImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Images to fetch.
+     */
+    orderBy?: ImageOrderByWithRelationInput | ImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Images.
+     */
+    cursor?: ImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Images from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Images.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Images.
+     */
+    distinct?: ImageScalarFieldEnum | ImageScalarFieldEnum[]
+  }
+
+  /**
+   * Image findFirstOrThrow
+   */
+  export type ImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageInclude<ExtArgs> | null
+    /**
+     * Filter, which Image to fetch.
+     */
+    where?: ImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Images to fetch.
+     */
+    orderBy?: ImageOrderByWithRelationInput | ImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Images.
+     */
+    cursor?: ImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Images from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Images.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Images.
+     */
+    distinct?: ImageScalarFieldEnum | ImageScalarFieldEnum[]
+  }
+
+  /**
+   * Image findMany
+   */
+  export type ImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageInclude<ExtArgs> | null
+    /**
+     * Filter, which Images to fetch.
+     */
+    where?: ImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Images to fetch.
+     */
+    orderBy?: ImageOrderByWithRelationInput | ImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Images.
+     */
+    cursor?: ImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Images from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Images.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Images.
+     */
+    distinct?: ImageScalarFieldEnum | ImageScalarFieldEnum[]
+  }
+
+  /**
+   * Image create
+   */
+  export type ImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Image.
+     */
+    data: XOR<ImageCreateInput, ImageUncheckedCreateInput>
+  }
+
+  /**
+   * Image createMany
+   */
+  export type ImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Images.
+     */
+    data: ImageCreateManyInput | ImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Image createManyAndReturn
+   */
+  export type ImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many Images.
+     */
+    data: ImageCreateManyInput | ImageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Image update
+   */
+  export type ImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Image.
+     */
+    data: XOR<ImageUpdateInput, ImageUncheckedUpdateInput>
+    /**
+     * Choose, which Image to update.
+     */
+    where: ImageWhereUniqueInput
+  }
+
+  /**
+   * Image updateMany
+   */
+  export type ImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Images.
+     */
+    data: XOR<ImageUpdateManyMutationInput, ImageUncheckedUpdateManyInput>
+    /**
+     * Filter which Images to update
+     */
+    where?: ImageWhereInput
+    /**
+     * Limit how many Images to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Image updateManyAndReturn
+   */
+  export type ImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * The data used to update Images.
+     */
+    data: XOR<ImageUpdateManyMutationInput, ImageUncheckedUpdateManyInput>
+    /**
+     * Filter which Images to update
+     */
+    where?: ImageWhereInput
+    /**
+     * Limit how many Images to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Image upsert
+   */
+  export type ImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Image to update in case it exists.
+     */
+    where: ImageWhereUniqueInput
+    /**
+     * In case the Image found by the `where` argument doesn't exist, create a new Image with this data.
+     */
+    create: XOR<ImageCreateInput, ImageUncheckedCreateInput>
+    /**
+     * In case the Image was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ImageUpdateInput, ImageUncheckedUpdateInput>
+  }
+
+  /**
+   * Image delete
+   */
+  export type ImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageInclude<ExtArgs> | null
+    /**
+     * Filter which Image to delete.
+     */
+    where: ImageWhereUniqueInput
+  }
+
+  /**
+   * Image deleteMany
+   */
+  export type ImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Images to delete
+     */
+    where?: ImageWhereInput
+    /**
+     * Limit how many Images to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Image without action
+   */
+  export type ImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Image
+     */
+    select?: ImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Image
+     */
+    omit?: ImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Video
+   */
+
+  export type AggregateVideo = {
+    _count: VideoCountAggregateOutputType | null
+    _avg: VideoAvgAggregateOutputType | null
+    _sum: VideoSumAggregateOutputType | null
+    _min: VideoMinAggregateOutputType | null
+    _max: VideoMaxAggregateOutputType | null
+  }
+
+  export type VideoAvgAggregateOutputType = {
+    duration: number | null
+  }
+
+  export type VideoSumAggregateOutputType = {
+    duration: number | null
+  }
+
+  export type VideoMinAggregateOutputType = {
+    id: string | null
+    contentId: string | null
+    videoUrl: string | null
+    externalUrl: string | null
+    thumbnailUrl: string | null
+    duration: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VideoMaxAggregateOutputType = {
+    id: string | null
+    contentId: string | null
+    videoUrl: string | null
+    externalUrl: string | null
+    thumbnailUrl: string | null
+    duration: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VideoCountAggregateOutputType = {
+    id: number
+    contentId: number
+    videoUrl: number
+    externalUrl: number
+    thumbnailUrl: number
+    duration: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type VideoAvgAggregateInputType = {
+    duration?: true
+  }
+
+  export type VideoSumAggregateInputType = {
+    duration?: true
+  }
+
+  export type VideoMinAggregateInputType = {
+    id?: true
+    contentId?: true
+    videoUrl?: true
+    externalUrl?: true
+    thumbnailUrl?: true
+    duration?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VideoMaxAggregateInputType = {
+    id?: true
+    contentId?: true
+    videoUrl?: true
+    externalUrl?: true
+    thumbnailUrl?: true
+    duration?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VideoCountAggregateInputType = {
+    id?: true
+    contentId?: true
+    videoUrl?: true
+    externalUrl?: true
+    thumbnailUrl?: true
+    duration?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type VideoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Video to aggregate.
+     */
+    where?: VideoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Videos to fetch.
+     */
+    orderBy?: VideoOrderByWithRelationInput | VideoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VideoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Videos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Videos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Videos
+    **/
+    _count?: true | VideoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VideoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VideoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VideoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VideoMaxAggregateInputType
+  }
+
+  export type GetVideoAggregateType<T extends VideoAggregateArgs> = {
+        [P in keyof T & keyof AggregateVideo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVideo[P]>
+      : GetScalarType<T[P], AggregateVideo[P]>
+  }
+
+
+
+
+  export type VideoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoWhereInput
+    orderBy?: VideoOrderByWithAggregationInput | VideoOrderByWithAggregationInput[]
+    by: VideoScalarFieldEnum[] | VideoScalarFieldEnum
+    having?: VideoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VideoCountAggregateInputType | true
+    _avg?: VideoAvgAggregateInputType
+    _sum?: VideoSumAggregateInputType
+    _min?: VideoMinAggregateInputType
+    _max?: VideoMaxAggregateInputType
+  }
+
+  export type VideoGroupByOutputType = {
+    id: string
+    contentId: string
+    videoUrl: string | null
+    externalUrl: string | null
+    thumbnailUrl: string | null
+    duration: number | null
+    createdAt: Date
+    updatedAt: Date
+    _count: VideoCountAggregateOutputType | null
+    _avg: VideoAvgAggregateOutputType | null
+    _sum: VideoSumAggregateOutputType | null
+    _min: VideoMinAggregateOutputType | null
+    _max: VideoMaxAggregateOutputType | null
+  }
+
+  type GetVideoGroupByPayload<T extends VideoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VideoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VideoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VideoGroupByOutputType[P]>
+            : GetScalarType<T[P], VideoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VideoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentId?: boolean
+    videoUrl?: boolean
+    externalUrl?: boolean
+    thumbnailUrl?: boolean
+    duration?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["video"]>
+
+  export type VideoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentId?: boolean
+    videoUrl?: boolean
+    externalUrl?: boolean
+    thumbnailUrl?: boolean
+    duration?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["video"]>
+
+  export type VideoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentId?: boolean
+    videoUrl?: boolean
+    externalUrl?: boolean
+    thumbnailUrl?: boolean
+    duration?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["video"]>
+
+  export type VideoSelectScalar = {
+    id?: boolean
+    contentId?: boolean
+    videoUrl?: boolean
+    externalUrl?: boolean
+    thumbnailUrl?: boolean
+    duration?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type VideoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentId" | "videoUrl" | "externalUrl" | "thumbnailUrl" | "duration" | "createdAt" | "updatedAt", ExtArgs["result"]["video"]>
+  export type VideoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }
+  export type VideoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }
+  export type VideoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    content?: boolean | ContentDefaultArgs<ExtArgs>
+  }
+
+  export type $VideoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Video"
+    objects: {
+      content: Prisma.$ContentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentId: string
+      videoUrl: string | null
+      externalUrl: string | null
+      thumbnailUrl: string | null
+      duration: number | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["video"]>
+    composites: {}
+  }
+
+  type VideoGetPayload<S extends boolean | null | undefined | VideoDefaultArgs> = $Result.GetResult<Prisma.$VideoPayload, S>
+
+  type VideoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VideoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VideoCountAggregateInputType | true
+    }
+
+  export interface VideoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Video'], meta: { name: 'Video' } }
+    /**
+     * Find zero or one Video that matches the filter.
+     * @param {VideoFindUniqueArgs} args - Arguments to find a Video
+     * @example
+     * // Get one Video
+     * const video = await prisma.video.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VideoFindUniqueArgs>(args: SelectSubset<T, VideoFindUniqueArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Video that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VideoFindUniqueOrThrowArgs} args - Arguments to find a Video
+     * @example
+     * // Get one Video
+     * const video = await prisma.video.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VideoFindUniqueOrThrowArgs>(args: SelectSubset<T, VideoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Video that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoFindFirstArgs} args - Arguments to find a Video
+     * @example
+     * // Get one Video
+     * const video = await prisma.video.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VideoFindFirstArgs>(args?: SelectSubset<T, VideoFindFirstArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Video that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoFindFirstOrThrowArgs} args - Arguments to find a Video
+     * @example
+     * // Get one Video
+     * const video = await prisma.video.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VideoFindFirstOrThrowArgs>(args?: SelectSubset<T, VideoFindFirstOrThrowArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Videos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Videos
+     * const videos = await prisma.video.findMany()
+     * 
+     * // Get first 10 Videos
+     * const videos = await prisma.video.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const videoWithIdOnly = await prisma.video.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VideoFindManyArgs>(args?: SelectSubset<T, VideoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Video.
+     * @param {VideoCreateArgs} args - Arguments to create a Video.
+     * @example
+     * // Create one Video
+     * const Video = await prisma.video.create({
+     *   data: {
+     *     // ... data to create a Video
+     *   }
+     * })
+     * 
+     */
+    create<T extends VideoCreateArgs>(args: SelectSubset<T, VideoCreateArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Videos.
+     * @param {VideoCreateManyArgs} args - Arguments to create many Videos.
+     * @example
+     * // Create many Videos
+     * const video = await prisma.video.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VideoCreateManyArgs>(args?: SelectSubset<T, VideoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Videos and returns the data saved in the database.
+     * @param {VideoCreateManyAndReturnArgs} args - Arguments to create many Videos.
+     * @example
+     * // Create many Videos
+     * const video = await prisma.video.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Videos and only return the `id`
+     * const videoWithIdOnly = await prisma.video.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VideoCreateManyAndReturnArgs>(args?: SelectSubset<T, VideoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Video.
+     * @param {VideoDeleteArgs} args - Arguments to delete one Video.
+     * @example
+     * // Delete one Video
+     * const Video = await prisma.video.delete({
+     *   where: {
+     *     // ... filter to delete one Video
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VideoDeleteArgs>(args: SelectSubset<T, VideoDeleteArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Video.
+     * @param {VideoUpdateArgs} args - Arguments to update one Video.
+     * @example
+     * // Update one Video
+     * const video = await prisma.video.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VideoUpdateArgs>(args: SelectSubset<T, VideoUpdateArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Videos.
+     * @param {VideoDeleteManyArgs} args - Arguments to filter Videos to delete.
+     * @example
+     * // Delete a few Videos
+     * const { count } = await prisma.video.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VideoDeleteManyArgs>(args?: SelectSubset<T, VideoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Videos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Videos
+     * const video = await prisma.video.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VideoUpdateManyArgs>(args: SelectSubset<T, VideoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Videos and returns the data updated in the database.
+     * @param {VideoUpdateManyAndReturnArgs} args - Arguments to update many Videos.
+     * @example
+     * // Update many Videos
+     * const video = await prisma.video.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Videos and only return the `id`
+     * const videoWithIdOnly = await prisma.video.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VideoUpdateManyAndReturnArgs>(args: SelectSubset<T, VideoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Video.
+     * @param {VideoUpsertArgs} args - Arguments to update or create a Video.
+     * @example
+     * // Update or create a Video
+     * const video = await prisma.video.upsert({
+     *   create: {
+     *     // ... data to create a Video
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Video we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VideoUpsertArgs>(args: SelectSubset<T, VideoUpsertArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Videos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCountArgs} args - Arguments to filter Videos to count.
+     * @example
+     * // Count the number of Videos
+     * const count = await prisma.video.count({
+     *   where: {
+     *     // ... the filter for the Videos we want to count
+     *   }
+     * })
+    **/
+    count<T extends VideoCountArgs>(
+      args?: Subset<T, VideoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VideoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Video.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VideoAggregateArgs>(args: Subset<T, VideoAggregateArgs>): Prisma.PrismaPromise<GetVideoAggregateType<T>>
+
+    /**
+     * Group by Video.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VideoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VideoGroupByArgs['orderBy'] }
+        : { orderBy?: VideoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VideoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVideoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Video model
+   */
+  readonly fields: VideoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Video.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VideoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    content<T extends ContentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentDefaultArgs<ExtArgs>>): Prisma__ContentClient<$Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Video model
+   */
+  interface VideoFieldRefs {
+    readonly id: FieldRef<"Video", 'String'>
+    readonly contentId: FieldRef<"Video", 'String'>
+    readonly videoUrl: FieldRef<"Video", 'String'>
+    readonly externalUrl: FieldRef<"Video", 'String'>
+    readonly thumbnailUrl: FieldRef<"Video", 'String'>
+    readonly duration: FieldRef<"Video", 'Int'>
+    readonly createdAt: FieldRef<"Video", 'DateTime'>
+    readonly updatedAt: FieldRef<"Video", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Video findUnique
+   */
+  export type VideoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter, which Video to fetch.
+     */
+    where: VideoWhereUniqueInput
+  }
+
+  /**
+   * Video findUniqueOrThrow
+   */
+  export type VideoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter, which Video to fetch.
+     */
+    where: VideoWhereUniqueInput
+  }
+
+  /**
+   * Video findFirst
+   */
+  export type VideoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter, which Video to fetch.
+     */
+    where?: VideoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Videos to fetch.
+     */
+    orderBy?: VideoOrderByWithRelationInput | VideoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Videos.
+     */
+    cursor?: VideoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Videos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Videos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Videos.
+     */
+    distinct?: VideoScalarFieldEnum | VideoScalarFieldEnum[]
+  }
+
+  /**
+   * Video findFirstOrThrow
+   */
+  export type VideoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter, which Video to fetch.
+     */
+    where?: VideoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Videos to fetch.
+     */
+    orderBy?: VideoOrderByWithRelationInput | VideoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Videos.
+     */
+    cursor?: VideoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Videos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Videos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Videos.
+     */
+    distinct?: VideoScalarFieldEnum | VideoScalarFieldEnum[]
+  }
+
+  /**
+   * Video findMany
+   */
+  export type VideoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter, which Videos to fetch.
+     */
+    where?: VideoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Videos to fetch.
+     */
+    orderBy?: VideoOrderByWithRelationInput | VideoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Videos.
+     */
+    cursor?: VideoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Videos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Videos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Videos.
+     */
+    distinct?: VideoScalarFieldEnum | VideoScalarFieldEnum[]
+  }
+
+  /**
+   * Video create
+   */
+  export type VideoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Video.
+     */
+    data: XOR<VideoCreateInput, VideoUncheckedCreateInput>
+  }
+
+  /**
+   * Video createMany
+   */
+  export type VideoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Videos.
+     */
+    data: VideoCreateManyInput | VideoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Video createManyAndReturn
+   */
+  export type VideoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * The data used to create many Videos.
+     */
+    data: VideoCreateManyInput | VideoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Video update
+   */
+  export type VideoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Video.
+     */
+    data: XOR<VideoUpdateInput, VideoUncheckedUpdateInput>
+    /**
+     * Choose, which Video to update.
+     */
+    where: VideoWhereUniqueInput
+  }
+
+  /**
+   * Video updateMany
+   */
+  export type VideoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Videos.
+     */
+    data: XOR<VideoUpdateManyMutationInput, VideoUncheckedUpdateManyInput>
+    /**
+     * Filter which Videos to update
+     */
+    where?: VideoWhereInput
+    /**
+     * Limit how many Videos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Video updateManyAndReturn
+   */
+  export type VideoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * The data used to update Videos.
+     */
+    data: XOR<VideoUpdateManyMutationInput, VideoUncheckedUpdateManyInput>
+    /**
+     * Filter which Videos to update
+     */
+    where?: VideoWhereInput
+    /**
+     * Limit how many Videos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Video upsert
+   */
+  export type VideoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Video to update in case it exists.
+     */
+    where: VideoWhereUniqueInput
+    /**
+     * In case the Video found by the `where` argument doesn't exist, create a new Video with this data.
+     */
+    create: XOR<VideoCreateInput, VideoUncheckedCreateInput>
+    /**
+     * In case the Video was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VideoUpdateInput, VideoUncheckedUpdateInput>
+  }
+
+  /**
+   * Video delete
+   */
+  export type VideoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter which Video to delete.
+     */
+    where: VideoWhereUniqueInput
+  }
+
+  /**
+   * Video deleteMany
+   */
+  export type VideoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Videos to delete
+     */
+    where?: VideoWhereInput
+    /**
+     * Limit how many Videos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Video without action
+   */
+  export type VideoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Video
+     */
+    omit?: VideoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -14683,6 +19568,22 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const CreatorScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    displayName: 'displayName',
+    description: 'description',
+    category: 'category',
+    coverImage: 'coverImage',
+    website: 'website',
+    isVerified: 'isVerified',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CreatorScalarFieldEnum = (typeof CreatorScalarFieldEnum)[keyof typeof CreatorScalarFieldEnum]
+
+
   export const GenreScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -14707,10 +19608,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
-    body: 'body',
     type: 'type',
-    externalUrl: 'externalUrl',
-    mediaUrl: 'mediaUrl',
     genreId: 'genreId',
     creatorId: 'creatorId',
     deletedAt: 'deletedAt',
@@ -14761,6 +19659,7 @@ export namespace Prisma {
     senderId: 'senderId',
     receiverId: 'receiverId',
     status: 'status',
+    type: 'type',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -14801,6 +19700,46 @@ export namespace Prisma {
   };
 
   export type ProductivityCountScalarFieldEnum = (typeof ProductivityCountScalarFieldEnum)[keyof typeof ProductivityCountScalarFieldEnum]
+
+
+  export const ArticleScalarFieldEnum: {
+    id: 'id',
+    contentId: 'contentId',
+    subject: 'subject',
+    body: 'body',
+    pdfUrl: 'pdfUrl',
+    pdfFileName: 'pdfFileName',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
+
+
+  export const ImageScalarFieldEnum: {
+    id: 'id',
+    contentId: 'contentId',
+    imageUrl: 'imageUrl',
+    altText: 'altText',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ImageScalarFieldEnum = (typeof ImageScalarFieldEnum)[keyof typeof ImageScalarFieldEnum]
+
+
+  export const VideoScalarFieldEnum: {
+    id: 'id',
+    contentId: 'contentId',
+    videoUrl: 'videoUrl',
+    externalUrl: 'externalUrl',
+    thumbnailUrl: 'thumbnailUrl',
+    duration: 'duration',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type VideoScalarFieldEnum = (typeof VideoScalarFieldEnum)[keyof typeof VideoScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -14889,6 +19828,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'ContentType'
    */
   export type EnumContentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContentType'>
@@ -14913,6 +19859,20 @@ export namespace Prisma {
    * Reference to a field of type 'FollowStatus[]'
    */
   export type ListEnumFollowStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FollowStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'RelationshipType'
+   */
+  export type EnumRelationshipTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RelationshipType'>
+    
+
+
+  /**
+   * Reference to a field of type 'RelationshipType[]'
+   */
+  export type ListEnumRelationshipTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RelationshipType[]'>
     
 
 
@@ -14963,6 +19923,7 @@ export namespace Prisma {
     lastActiveAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    creator?: XOR<CreatorNullableScalarRelationFilter, CreatorWhereInput> | null
     selectedGenres?: UserGenreListRelationFilter
     contents?: ContentListRelationFilter
     posts?: PostListRelationFilter
@@ -14989,6 +19950,7 @@ export namespace Prisma {
     lastActiveAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    creator?: CreatorOrderByWithRelationInput
     selectedGenres?: UserGenreOrderByRelationAggregateInput
     contents?: ContentOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
@@ -15018,6 +19980,7 @@ export namespace Prisma {
     lastActiveAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    creator?: XOR<CreatorNullableScalarRelationFilter, CreatorWhereInput> | null
     selectedGenres?: UserGenreListRelationFilter
     contents?: ContentListRelationFilter
     posts?: PostListRelationFilter
@@ -15067,6 +20030,86 @@ export namespace Prisma {
     lastActiveAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  }
+
+  export type CreatorWhereInput = {
+    AND?: CreatorWhereInput | CreatorWhereInput[]
+    OR?: CreatorWhereInput[]
+    NOT?: CreatorWhereInput | CreatorWhereInput[]
+    id?: StringFilter<"Creator"> | string
+    userId?: StringFilter<"Creator"> | string
+    displayName?: StringNullableFilter<"Creator"> | string | null
+    description?: StringNullableFilter<"Creator"> | string | null
+    category?: StringNullableFilter<"Creator"> | string | null
+    coverImage?: StringNullableFilter<"Creator"> | string | null
+    website?: StringNullableFilter<"Creator"> | string | null
+    isVerified?: BoolFilter<"Creator"> | boolean
+    createdAt?: DateTimeFilter<"Creator"> | Date | string
+    updatedAt?: DateTimeFilter<"Creator"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type CreatorOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    displayName?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    coverImage?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type CreatorWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: CreatorWhereInput | CreatorWhereInput[]
+    OR?: CreatorWhereInput[]
+    NOT?: CreatorWhereInput | CreatorWhereInput[]
+    displayName?: StringNullableFilter<"Creator"> | string | null
+    description?: StringNullableFilter<"Creator"> | string | null
+    category?: StringNullableFilter<"Creator"> | string | null
+    coverImage?: StringNullableFilter<"Creator"> | string | null
+    website?: StringNullableFilter<"Creator"> | string | null
+    isVerified?: BoolFilter<"Creator"> | boolean
+    createdAt?: DateTimeFilter<"Creator"> | Date | string
+    updatedAt?: DateTimeFilter<"Creator"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type CreatorOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    displayName?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    coverImage?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CreatorCountOrderByAggregateInput
+    _max?: CreatorMaxOrderByAggregateInput
+    _min?: CreatorMinOrderByAggregateInput
+  }
+
+  export type CreatorScalarWhereWithAggregatesInput = {
+    AND?: CreatorScalarWhereWithAggregatesInput | CreatorScalarWhereWithAggregatesInput[]
+    OR?: CreatorScalarWhereWithAggregatesInput[]
+    NOT?: CreatorScalarWhereWithAggregatesInput | CreatorScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Creator"> | string
+    userId?: StringWithAggregatesFilter<"Creator"> | string
+    displayName?: StringNullableWithAggregatesFilter<"Creator"> | string | null
+    description?: StringNullableWithAggregatesFilter<"Creator"> | string | null
+    category?: StringNullableWithAggregatesFilter<"Creator"> | string | null
+    coverImage?: StringNullableWithAggregatesFilter<"Creator"> | string | null
+    website?: StringNullableWithAggregatesFilter<"Creator"> | string | null
+    isVerified?: BoolWithAggregatesFilter<"Creator"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Creator"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Creator"> | Date | string
   }
 
   export type GenreWhereInput = {
@@ -15183,10 +20226,7 @@ export namespace Prisma {
     id?: StringFilter<"Content"> | string
     title?: StringFilter<"Content"> | string
     description?: StringNullableFilter<"Content"> | string | null
-    body?: StringNullableFilter<"Content"> | string | null
     type?: EnumContentTypeFilter<"Content"> | $Enums.ContentType
-    externalUrl?: StringNullableFilter<"Content"> | string | null
-    mediaUrl?: StringNullableFilter<"Content"> | string | null
     genreId?: StringFilter<"Content"> | string
     creatorId?: StringFilter<"Content"> | string
     deletedAt?: DateTimeNullableFilter<"Content"> | Date | string | null
@@ -15194,6 +20234,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Content"> | Date | string
     genre?: XOR<GenreScalarRelationFilter, GenreWhereInput>
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    article?: XOR<ArticleNullableScalarRelationFilter, ArticleWhereInput> | null
+    image?: XOR<ImageNullableScalarRelationFilter, ImageWhereInput> | null
+    video?: XOR<VideoNullableScalarRelationFilter, VideoWhereInput> | null
     likes?: LikeListRelationFilter
     shares?: ShareListRelationFilter
     challenge?: XOR<ChallengeNullableScalarRelationFilter, ChallengeWhereInput> | null
@@ -15203,10 +20246,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
-    body?: SortOrderInput | SortOrder
     type?: SortOrder
-    externalUrl?: SortOrderInput | SortOrder
-    mediaUrl?: SortOrderInput | SortOrder
     genreId?: SortOrder
     creatorId?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -15214,6 +20254,9 @@ export namespace Prisma {
     updatedAt?: SortOrder
     genre?: GenreOrderByWithRelationInput
     creator?: UserOrderByWithRelationInput
+    article?: ArticleOrderByWithRelationInput
+    image?: ImageOrderByWithRelationInput
+    video?: VideoOrderByWithRelationInput
     likes?: LikeOrderByRelationAggregateInput
     shares?: ShareOrderByRelationAggregateInput
     challenge?: ChallengeOrderByWithRelationInput
@@ -15226,10 +20269,7 @@ export namespace Prisma {
     NOT?: ContentWhereInput | ContentWhereInput[]
     title?: StringFilter<"Content"> | string
     description?: StringNullableFilter<"Content"> | string | null
-    body?: StringNullableFilter<"Content"> | string | null
     type?: EnumContentTypeFilter<"Content"> | $Enums.ContentType
-    externalUrl?: StringNullableFilter<"Content"> | string | null
-    mediaUrl?: StringNullableFilter<"Content"> | string | null
     genreId?: StringFilter<"Content"> | string
     creatorId?: StringFilter<"Content"> | string
     deletedAt?: DateTimeNullableFilter<"Content"> | Date | string | null
@@ -15237,6 +20277,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Content"> | Date | string
     genre?: XOR<GenreScalarRelationFilter, GenreWhereInput>
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    article?: XOR<ArticleNullableScalarRelationFilter, ArticleWhereInput> | null
+    image?: XOR<ImageNullableScalarRelationFilter, ImageWhereInput> | null
+    video?: XOR<VideoNullableScalarRelationFilter, VideoWhereInput> | null
     likes?: LikeListRelationFilter
     shares?: ShareListRelationFilter
     challenge?: XOR<ChallengeNullableScalarRelationFilter, ChallengeWhereInput> | null
@@ -15246,10 +20289,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
-    body?: SortOrderInput | SortOrder
     type?: SortOrder
-    externalUrl?: SortOrderInput | SortOrder
-    mediaUrl?: SortOrderInput | SortOrder
     genreId?: SortOrder
     creatorId?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -15267,10 +20307,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Content"> | string
     title?: StringWithAggregatesFilter<"Content"> | string
     description?: StringNullableWithAggregatesFilter<"Content"> | string | null
-    body?: StringNullableWithAggregatesFilter<"Content"> | string | null
     type?: EnumContentTypeWithAggregatesFilter<"Content"> | $Enums.ContentType
-    externalUrl?: StringNullableWithAggregatesFilter<"Content"> | string | null
-    mediaUrl?: StringNullableWithAggregatesFilter<"Content"> | string | null
     genreId?: StringWithAggregatesFilter<"Content"> | string
     creatorId?: StringWithAggregatesFilter<"Content"> | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Content"> | Date | string | null
@@ -15474,6 +20511,7 @@ export namespace Prisma {
     senderId?: StringFilter<"Relationship"> | string
     receiverId?: StringFilter<"Relationship"> | string
     status?: EnumFollowStatusFilter<"Relationship"> | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFilter<"Relationship"> | $Enums.RelationshipType
     createdAt?: DateTimeFilter<"Relationship"> | Date | string
     updatedAt?: DateTimeFilter<"Relationship"> | Date | string
     sender?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -15485,6 +20523,7 @@ export namespace Prisma {
     senderId?: SortOrder
     receiverId?: SortOrder
     status?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sender?: UserOrderByWithRelationInput
@@ -15500,6 +20539,7 @@ export namespace Prisma {
     senderId?: StringFilter<"Relationship"> | string
     receiverId?: StringFilter<"Relationship"> | string
     status?: EnumFollowStatusFilter<"Relationship"> | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFilter<"Relationship"> | $Enums.RelationshipType
     createdAt?: DateTimeFilter<"Relationship"> | Date | string
     updatedAt?: DateTimeFilter<"Relationship"> | Date | string
     sender?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -15511,6 +20551,7 @@ export namespace Prisma {
     senderId?: SortOrder
     receiverId?: SortOrder
     status?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: RelationshipCountOrderByAggregateInput
@@ -15526,6 +20567,7 @@ export namespace Prisma {
     senderId?: StringWithAggregatesFilter<"Relationship"> | string
     receiverId?: StringWithAggregatesFilter<"Relationship"> | string
     status?: EnumFollowStatusWithAggregatesFilter<"Relationship"> | $Enums.FollowStatus
+    type?: EnumRelationshipTypeWithAggregatesFilter<"Relationship"> | $Enums.RelationshipType
     createdAt?: DateTimeWithAggregatesFilter<"Relationship"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Relationship"> | Date | string
   }
@@ -15721,6 +20763,208 @@ export namespace Prisma {
     count?: IntWithAggregatesFilter<"ProductivityCount"> | number
   }
 
+  export type ArticleWhereInput = {
+    AND?: ArticleWhereInput | ArticleWhereInput[]
+    OR?: ArticleWhereInput[]
+    NOT?: ArticleWhereInput | ArticleWhereInput[]
+    id?: StringFilter<"Article"> | string
+    contentId?: StringFilter<"Article"> | string
+    subject?: StringFilter<"Article"> | string
+    body?: StringNullableFilter<"Article"> | string | null
+    pdfUrl?: StringNullableFilter<"Article"> | string | null
+    pdfFileName?: StringNullableFilter<"Article"> | string | null
+    createdAt?: DateTimeFilter<"Article"> | Date | string
+    updatedAt?: DateTimeFilter<"Article"> | Date | string
+    content?: XOR<ContentScalarRelationFilter, ContentWhereInput>
+  }
+
+  export type ArticleOrderByWithRelationInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    subject?: SortOrder
+    body?: SortOrderInput | SortOrder
+    pdfUrl?: SortOrderInput | SortOrder
+    pdfFileName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    content?: ContentOrderByWithRelationInput
+  }
+
+  export type ArticleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentId?: string
+    AND?: ArticleWhereInput | ArticleWhereInput[]
+    OR?: ArticleWhereInput[]
+    NOT?: ArticleWhereInput | ArticleWhereInput[]
+    subject?: StringFilter<"Article"> | string
+    body?: StringNullableFilter<"Article"> | string | null
+    pdfUrl?: StringNullableFilter<"Article"> | string | null
+    pdfFileName?: StringNullableFilter<"Article"> | string | null
+    createdAt?: DateTimeFilter<"Article"> | Date | string
+    updatedAt?: DateTimeFilter<"Article"> | Date | string
+    content?: XOR<ContentScalarRelationFilter, ContentWhereInput>
+  }, "id" | "contentId">
+
+  export type ArticleOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    subject?: SortOrder
+    body?: SortOrderInput | SortOrder
+    pdfUrl?: SortOrderInput | SortOrder
+    pdfFileName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ArticleCountOrderByAggregateInput
+    _max?: ArticleMaxOrderByAggregateInput
+    _min?: ArticleMinOrderByAggregateInput
+  }
+
+  export type ArticleScalarWhereWithAggregatesInput = {
+    AND?: ArticleScalarWhereWithAggregatesInput | ArticleScalarWhereWithAggregatesInput[]
+    OR?: ArticleScalarWhereWithAggregatesInput[]
+    NOT?: ArticleScalarWhereWithAggregatesInput | ArticleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Article"> | string
+    contentId?: StringWithAggregatesFilter<"Article"> | string
+    subject?: StringWithAggregatesFilter<"Article"> | string
+    body?: StringNullableWithAggregatesFilter<"Article"> | string | null
+    pdfUrl?: StringNullableWithAggregatesFilter<"Article"> | string | null
+    pdfFileName?: StringNullableWithAggregatesFilter<"Article"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Article"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Article"> | Date | string
+  }
+
+  export type ImageWhereInput = {
+    AND?: ImageWhereInput | ImageWhereInput[]
+    OR?: ImageWhereInput[]
+    NOT?: ImageWhereInput | ImageWhereInput[]
+    id?: StringFilter<"Image"> | string
+    contentId?: StringFilter<"Image"> | string
+    imageUrl?: StringFilter<"Image"> | string
+    altText?: StringNullableFilter<"Image"> | string | null
+    createdAt?: DateTimeFilter<"Image"> | Date | string
+    updatedAt?: DateTimeFilter<"Image"> | Date | string
+    content?: XOR<ContentScalarRelationFilter, ContentWhereInput>
+  }
+
+  export type ImageOrderByWithRelationInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    imageUrl?: SortOrder
+    altText?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    content?: ContentOrderByWithRelationInput
+  }
+
+  export type ImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentId?: string
+    AND?: ImageWhereInput | ImageWhereInput[]
+    OR?: ImageWhereInput[]
+    NOT?: ImageWhereInput | ImageWhereInput[]
+    imageUrl?: StringFilter<"Image"> | string
+    altText?: StringNullableFilter<"Image"> | string | null
+    createdAt?: DateTimeFilter<"Image"> | Date | string
+    updatedAt?: DateTimeFilter<"Image"> | Date | string
+    content?: XOR<ContentScalarRelationFilter, ContentWhereInput>
+  }, "id" | "contentId">
+
+  export type ImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    imageUrl?: SortOrder
+    altText?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ImageCountOrderByAggregateInput
+    _max?: ImageMaxOrderByAggregateInput
+    _min?: ImageMinOrderByAggregateInput
+  }
+
+  export type ImageScalarWhereWithAggregatesInput = {
+    AND?: ImageScalarWhereWithAggregatesInput | ImageScalarWhereWithAggregatesInput[]
+    OR?: ImageScalarWhereWithAggregatesInput[]
+    NOT?: ImageScalarWhereWithAggregatesInput | ImageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Image"> | string
+    contentId?: StringWithAggregatesFilter<"Image"> | string
+    imageUrl?: StringWithAggregatesFilter<"Image"> | string
+    altText?: StringNullableWithAggregatesFilter<"Image"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Image"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Image"> | Date | string
+  }
+
+  export type VideoWhereInput = {
+    AND?: VideoWhereInput | VideoWhereInput[]
+    OR?: VideoWhereInput[]
+    NOT?: VideoWhereInput | VideoWhereInput[]
+    id?: StringFilter<"Video"> | string
+    contentId?: StringFilter<"Video"> | string
+    videoUrl?: StringNullableFilter<"Video"> | string | null
+    externalUrl?: StringNullableFilter<"Video"> | string | null
+    thumbnailUrl?: StringNullableFilter<"Video"> | string | null
+    duration?: IntNullableFilter<"Video"> | number | null
+    createdAt?: DateTimeFilter<"Video"> | Date | string
+    updatedAt?: DateTimeFilter<"Video"> | Date | string
+    content?: XOR<ContentScalarRelationFilter, ContentWhereInput>
+  }
+
+  export type VideoOrderByWithRelationInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    videoUrl?: SortOrderInput | SortOrder
+    externalUrl?: SortOrderInput | SortOrder
+    thumbnailUrl?: SortOrderInput | SortOrder
+    duration?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    content?: ContentOrderByWithRelationInput
+  }
+
+  export type VideoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentId?: string
+    AND?: VideoWhereInput | VideoWhereInput[]
+    OR?: VideoWhereInput[]
+    NOT?: VideoWhereInput | VideoWhereInput[]
+    videoUrl?: StringNullableFilter<"Video"> | string | null
+    externalUrl?: StringNullableFilter<"Video"> | string | null
+    thumbnailUrl?: StringNullableFilter<"Video"> | string | null
+    duration?: IntNullableFilter<"Video"> | number | null
+    createdAt?: DateTimeFilter<"Video"> | Date | string
+    updatedAt?: DateTimeFilter<"Video"> | Date | string
+    content?: XOR<ContentScalarRelationFilter, ContentWhereInput>
+  }, "id" | "contentId">
+
+  export type VideoOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    videoUrl?: SortOrderInput | SortOrder
+    externalUrl?: SortOrderInput | SortOrder
+    thumbnailUrl?: SortOrderInput | SortOrder
+    duration?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: VideoCountOrderByAggregateInput
+    _avg?: VideoAvgOrderByAggregateInput
+    _max?: VideoMaxOrderByAggregateInput
+    _min?: VideoMinOrderByAggregateInput
+    _sum?: VideoSumOrderByAggregateInput
+  }
+
+  export type VideoScalarWhereWithAggregatesInput = {
+    AND?: VideoScalarWhereWithAggregatesInput | VideoScalarWhereWithAggregatesInput[]
+    OR?: VideoScalarWhereWithAggregatesInput[]
+    NOT?: VideoScalarWhereWithAggregatesInput | VideoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Video"> | string
+    contentId?: StringWithAggregatesFilter<"Video"> | string
+    videoUrl?: StringNullableWithAggregatesFilter<"Video"> | string | null
+    externalUrl?: StringNullableWithAggregatesFilter<"Video"> | string | null
+    thumbnailUrl?: StringNullableWithAggregatesFilter<"Video"> | string | null
+    duration?: IntNullableWithAggregatesFilter<"Video"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"Video"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Video"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -15734,6 +20978,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
@@ -15760,6 +21005,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -15786,6 +21032,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
@@ -15812,6 +21059,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -15866,6 +21114,96 @@ export namespace Prisma {
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     streak?: IntFieldUpdateOperationsInput | number
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreatorCreateInput = {
+    id?: string
+    displayName?: string | null
+    description?: string | null
+    category?: string | null
+    coverImage?: string | null
+    website?: string | null
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCreatorInput
+  }
+
+  export type CreatorUncheckedCreateInput = {
+    id?: string
+    userId: string
+    displayName?: string | null
+    description?: string | null
+    category?: string | null
+    coverImage?: string | null
+    website?: string | null
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CreatorUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCreatorNestedInput
+  }
+
+  export type CreatorUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreatorCreateManyInput = {
+    id?: string
+    userId: string
+    displayName?: string | null
+    description?: string | null
+    category?: string | null
+    coverImage?: string | null
+    website?: string | null
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CreatorUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreatorUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15978,15 +21316,15 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     genre: GenreCreateNestedOneWithoutContentsInput
     creator: UserCreateNestedOneWithoutContentsInput
+    article?: ArticleCreateNestedOneWithoutContentInput
+    image?: ImageCreateNestedOneWithoutContentInput
+    video?: VideoCreateNestedOneWithoutContentInput
     likes?: LikeCreateNestedManyWithoutContentInput
     shares?: ShareCreateNestedManyWithoutContentInput
     challenge?: ChallengeCreateNestedOneWithoutContentInput
@@ -15996,15 +21334,15 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     genreId: string
     creatorId: string
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    article?: ArticleUncheckedCreateNestedOneWithoutContentInput
+    image?: ImageUncheckedCreateNestedOneWithoutContentInput
+    video?: VideoUncheckedCreateNestedOneWithoutContentInput
     likes?: LikeUncheckedCreateNestedManyWithoutContentInput
     shares?: ShareUncheckedCreateNestedManyWithoutContentInput
     challenge?: ChallengeUncheckedCreateNestedOneWithoutContentInput
@@ -16014,15 +21352,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     genre?: GenreUpdateOneRequiredWithoutContentsNestedInput
     creator?: UserUpdateOneRequiredWithoutContentsNestedInput
+    article?: ArticleUpdateOneWithoutContentNestedInput
+    image?: ImageUpdateOneWithoutContentNestedInput
+    video?: VideoUpdateOneWithoutContentNestedInput
     likes?: LikeUpdateManyWithoutContentNestedInput
     shares?: ShareUpdateManyWithoutContentNestedInput
     challenge?: ChallengeUpdateOneWithoutContentNestedInput
@@ -16032,15 +21370,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     genreId?: StringFieldUpdateOperationsInput | string
     creatorId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    article?: ArticleUncheckedUpdateOneWithoutContentNestedInput
+    image?: ImageUncheckedUpdateOneWithoutContentNestedInput
+    video?: VideoUncheckedUpdateOneWithoutContentNestedInput
     likes?: LikeUncheckedUpdateManyWithoutContentNestedInput
     shares?: ShareUncheckedUpdateManyWithoutContentNestedInput
     challenge?: ChallengeUncheckedUpdateOneWithoutContentNestedInput
@@ -16050,10 +21388,7 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     genreId: string
     creatorId: string
     deletedAt?: Date | string | null
@@ -16065,10 +21400,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16078,10 +21410,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     genreId?: StringFieldUpdateOperationsInput | string
     creatorId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -16267,6 +21596,7 @@ export namespace Prisma {
   export type RelationshipCreateInput = {
     id?: string
     status?: $Enums.FollowStatus
+    type?: $Enums.RelationshipType
     createdAt?: Date | string
     updatedAt?: Date | string
     sender: UserCreateNestedOneWithoutSentRelationshipsInput
@@ -16278,6 +21608,7 @@ export namespace Prisma {
     senderId: string
     receiverId: string
     status?: $Enums.FollowStatus
+    type?: $Enums.RelationshipType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16285,6 +21616,7 @@ export namespace Prisma {
   export type RelationshipUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sender?: UserUpdateOneRequiredWithoutSentRelationshipsNestedInput
@@ -16296,6 +21628,7 @@ export namespace Prisma {
     senderId?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16305,6 +21638,7 @@ export namespace Prisma {
     senderId: string
     receiverId: string
     status?: $Enums.FollowStatus
+    type?: $Enums.RelationshipType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16312,6 +21646,7 @@ export namespace Prisma {
   export type RelationshipUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16321,6 +21656,7 @@ export namespace Prisma {
     senderId?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16510,6 +21846,220 @@ export namespace Prisma {
     count?: IntFieldUpdateOperationsInput | number
   }
 
+  export type ArticleCreateInput = {
+    id?: string
+    subject: string
+    body?: string | null
+    pdfUrl?: string | null
+    pdfFileName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutArticleInput
+  }
+
+  export type ArticleUncheckedCreateInput = {
+    id?: string
+    contentId: string
+    subject: string
+    body?: string | null
+    pdfUrl?: string | null
+    pdfFileName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ArticleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfFileName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutArticleNestedInput
+  }
+
+  export type ArticleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfFileName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ArticleCreateManyInput = {
+    id?: string
+    contentId: string
+    subject: string
+    body?: string | null
+    pdfUrl?: string | null
+    pdfFileName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ArticleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfFileName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ArticleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfFileName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImageCreateInput = {
+    id?: string
+    imageUrl: string
+    altText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutImageInput
+  }
+
+  export type ImageUncheckedCreateInput = {
+    id?: string
+    contentId: string
+    imageUrl: string
+    altText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    altText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutImageNestedInput
+  }
+
+  export type ImageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    altText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImageCreateManyInput = {
+    id?: string
+    contentId: string
+    imageUrl: string
+    altText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    altText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    altText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCreateInput = {
+    id?: string
+    videoUrl?: string | null
+    externalUrl?: string | null
+    thumbnailUrl?: string | null
+    duration?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutVideoInput
+  }
+
+  export type VideoUncheckedCreateInput = {
+    id?: string
+    contentId: string
+    videoUrl?: string | null
+    externalUrl?: string | null
+    thumbnailUrl?: string | null
+    duration?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VideoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutVideoNestedInput
+  }
+
+  export type VideoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCreateManyInput = {
+    id?: string
+    contentId: string
+    videoUrl?: string | null
+    externalUrl?: string | null
+    thumbnailUrl?: string | null
+    duration?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VideoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -16578,6 +22128,11 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type CreatorNullableScalarRelationFilter = {
+    is?: CreatorWhereInput | null
+    isNot?: CreatorWhereInput | null
   }
 
   export type UserGenreListRelationFilter = {
@@ -16818,6 +22373,63 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type CreatorCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    displayName?: SortOrder
+    description?: SortOrder
+    category?: SortOrder
+    coverImage?: SortOrder
+    website?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CreatorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    displayName?: SortOrder
+    description?: SortOrder
+    category?: SortOrder
+    coverImage?: SortOrder
+    website?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CreatorMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    displayName?: SortOrder
+    description?: SortOrder
+    category?: SortOrder
+    coverImage?: SortOrder
+    website?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type GenreCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -16837,11 +22449,6 @@ export namespace Prisma {
     name?: SortOrder
     slug?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
   }
 
   export type GenreScalarRelationFilter = {
@@ -16882,6 +22489,21 @@ export namespace Prisma {
     not?: NestedEnumContentTypeFilter<$PrismaModel> | $Enums.ContentType
   }
 
+  export type ArticleNullableScalarRelationFilter = {
+    is?: ArticleWhereInput | null
+    isNot?: ArticleWhereInput | null
+  }
+
+  export type ImageNullableScalarRelationFilter = {
+    is?: ImageWhereInput | null
+    isNot?: ImageWhereInput | null
+  }
+
+  export type VideoNullableScalarRelationFilter = {
+    is?: VideoWhereInput | null
+    isNot?: VideoWhereInput | null
+  }
+
   export type ChallengeNullableScalarRelationFilter = {
     is?: ChallengeWhereInput | null
     isNot?: ChallengeWhereInput | null
@@ -16891,10 +22513,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    body?: SortOrder
     type?: SortOrder
-    externalUrl?: SortOrder
-    mediaUrl?: SortOrder
     genreId?: SortOrder
     creatorId?: SortOrder
     deletedAt?: SortOrder
@@ -16906,10 +22525,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    body?: SortOrder
     type?: SortOrder
-    externalUrl?: SortOrder
-    mediaUrl?: SortOrder
     genreId?: SortOrder
     creatorId?: SortOrder
     deletedAt?: SortOrder
@@ -16921,10 +22537,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    body?: SortOrder
     type?: SortOrder
-    externalUrl?: SortOrder
-    mediaUrl?: SortOrder
     genreId?: SortOrder
     creatorId?: SortOrder
     deletedAt?: SortOrder
@@ -17047,6 +22660,13 @@ export namespace Prisma {
     not?: NestedEnumFollowStatusFilter<$PrismaModel> | $Enums.FollowStatus
   }
 
+  export type EnumRelationshipTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationshipType | EnumRelationshipTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationshipType[] | ListEnumRelationshipTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationshipType[] | ListEnumRelationshipTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationshipTypeFilter<$PrismaModel> | $Enums.RelationshipType
+  }
+
   export type RelationshipSenderIdReceiverIdCompoundUniqueInput = {
     senderId: string
     receiverId: string
@@ -17057,6 +22677,7 @@ export namespace Prisma {
     senderId?: SortOrder
     receiverId?: SortOrder
     status?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -17066,6 +22687,7 @@ export namespace Prisma {
     senderId?: SortOrder
     receiverId?: SortOrder
     status?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -17075,6 +22697,7 @@ export namespace Prisma {
     senderId?: SortOrder
     receiverId?: SortOrder
     status?: SortOrder
+    type?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -17087,6 +22710,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumFollowStatusFilter<$PrismaModel>
     _max?: NestedEnumFollowStatusFilter<$PrismaModel>
+  }
+
+  export type EnumRelationshipTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationshipType | EnumRelationshipTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationshipType[] | ListEnumRelationshipTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationshipType[] | ListEnumRelationshipTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationshipTypeWithAggregatesFilter<$PrismaModel> | $Enums.RelationshipType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRelationshipTypeFilter<$PrismaModel>
+    _max?: NestedEnumRelationshipTypeFilter<$PrismaModel>
   }
 
   export type ChallengeCountOrderByAggregateInput = {
@@ -17212,6 +22845,140 @@ export namespace Prisma {
     count?: SortOrder
   }
 
+  export type ArticleCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    subject?: SortOrder
+    body?: SortOrder
+    pdfUrl?: SortOrder
+    pdfFileName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ArticleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    subject?: SortOrder
+    body?: SortOrder
+    pdfUrl?: SortOrder
+    pdfFileName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ArticleMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    subject?: SortOrder
+    body?: SortOrder
+    pdfUrl?: SortOrder
+    pdfFileName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    imageUrl?: SortOrder
+    altText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    imageUrl?: SortOrder
+    altText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    imageUrl?: SortOrder
+    altText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type VideoCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    videoUrl?: SortOrder
+    externalUrl?: SortOrder
+    thumbnailUrl?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VideoAvgOrderByAggregateInput = {
+    duration?: SortOrder
+  }
+
+  export type VideoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    videoUrl?: SortOrder
+    externalUrl?: SortOrder
+    thumbnailUrl?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VideoMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentId?: SortOrder
+    videoUrl?: SortOrder
+    externalUrl?: SortOrder
+    thumbnailUrl?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VideoSumOrderByAggregateInput = {
+    duration?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type CreatorCreateNestedOneWithoutUserInput = {
+    create?: XOR<CreatorCreateWithoutUserInput, CreatorUncheckedCreateWithoutUserInput>
+    connectOrCreate?: CreatorCreateOrConnectWithoutUserInput
+    connect?: CreatorWhereUniqueInput
+  }
+
   export type UserGenreCreateNestedManyWithoutUserInput = {
     create?: XOR<UserGenreCreateWithoutUserInput, UserGenreUncheckedCreateWithoutUserInput> | UserGenreCreateWithoutUserInput[] | UserGenreUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserGenreCreateOrConnectWithoutUserInput | UserGenreCreateOrConnectWithoutUserInput[]
@@ -17287,6 +23054,12 @@ export namespace Prisma {
     connectOrCreate?: ProductivityCountCreateOrConnectWithoutUserInput | ProductivityCountCreateOrConnectWithoutUserInput[]
     createMany?: ProductivityCountCreateManyUserInputEnvelope
     connect?: ProductivityCountWhereUniqueInput | ProductivityCountWhereUniqueInput[]
+  }
+
+  export type CreatorUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<CreatorCreateWithoutUserInput, CreatorUncheckedCreateWithoutUserInput>
+    connectOrCreate?: CreatorCreateOrConnectWithoutUserInput
+    connect?: CreatorWhereUniqueInput
   }
 
   export type UserGenreUncheckedCreateNestedManyWithoutUserInput = {
@@ -17392,6 +23165,16 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type CreatorUpdateOneWithoutUserNestedInput = {
+    create?: XOR<CreatorCreateWithoutUserInput, CreatorUncheckedCreateWithoutUserInput>
+    connectOrCreate?: CreatorCreateOrConnectWithoutUserInput
+    upsert?: CreatorUpsertWithoutUserInput
+    disconnect?: CreatorWhereInput | boolean
+    delete?: CreatorWhereInput | boolean
+    connect?: CreatorWhereUniqueInput
+    update?: XOR<XOR<CreatorUpdateToOneWithWhereWithoutUserInput, CreatorUpdateWithoutUserInput>, CreatorUncheckedUpdateWithoutUserInput>
   }
 
   export type UserGenreUpdateManyWithoutUserNestedInput = {
@@ -17548,6 +23331,16 @@ export namespace Prisma {
     deleteMany?: ProductivityCountScalarWhereInput | ProductivityCountScalarWhereInput[]
   }
 
+  export type CreatorUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<CreatorCreateWithoutUserInput, CreatorUncheckedCreateWithoutUserInput>
+    connectOrCreate?: CreatorCreateOrConnectWithoutUserInput
+    upsert?: CreatorUpsertWithoutUserInput
+    disconnect?: CreatorWhereInput | boolean
+    delete?: CreatorWhereInput | boolean
+    connect?: CreatorWhereUniqueInput
+    update?: XOR<XOR<CreatorUpdateToOneWithWhereWithoutUserInput, CreatorUpdateWithoutUserInput>, CreatorUncheckedUpdateWithoutUserInput>
+  }
+
   export type UserGenreUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<UserGenreCreateWithoutUserInput, UserGenreUncheckedCreateWithoutUserInput> | UserGenreCreateWithoutUserInput[] | UserGenreUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserGenreCreateOrConnectWithoutUserInput | UserGenreCreateOrConnectWithoutUserInput[]
@@ -17702,6 +23495,24 @@ export namespace Prisma {
     deleteMany?: ProductivityCountScalarWhereInput | ProductivityCountScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutCreatorInput = {
+    create?: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatorInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type UserUpdateOneRequiredWithoutCreatorNestedInput = {
+    create?: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatorInput
+    upsert?: UserUpsertWithoutCreatorInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatorInput, UserUpdateWithoutCreatorInput>, UserUncheckedUpdateWithoutCreatorInput>
+  }
+
   export type UserGenreCreateNestedManyWithoutGenreInput = {
     create?: XOR<UserGenreCreateWithoutGenreInput, UserGenreUncheckedCreateWithoutGenreInput> | UserGenreCreateWithoutGenreInput[] | UserGenreUncheckedCreateWithoutGenreInput[]
     connectOrCreate?: UserGenreCreateOrConnectWithoutGenreInput | UserGenreCreateOrConnectWithoutGenreInput[]
@@ -17826,6 +23637,24 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ArticleCreateNestedOneWithoutContentInput = {
+    create?: XOR<ArticleCreateWithoutContentInput, ArticleUncheckedCreateWithoutContentInput>
+    connectOrCreate?: ArticleCreateOrConnectWithoutContentInput
+    connect?: ArticleWhereUniqueInput
+  }
+
+  export type ImageCreateNestedOneWithoutContentInput = {
+    create?: XOR<ImageCreateWithoutContentInput, ImageUncheckedCreateWithoutContentInput>
+    connectOrCreate?: ImageCreateOrConnectWithoutContentInput
+    connect?: ImageWhereUniqueInput
+  }
+
+  export type VideoCreateNestedOneWithoutContentInput = {
+    create?: XOR<VideoCreateWithoutContentInput, VideoUncheckedCreateWithoutContentInput>
+    connectOrCreate?: VideoCreateOrConnectWithoutContentInput
+    connect?: VideoWhereUniqueInput
+  }
+
   export type LikeCreateNestedManyWithoutContentInput = {
     create?: XOR<LikeCreateWithoutContentInput, LikeUncheckedCreateWithoutContentInput> | LikeCreateWithoutContentInput[] | LikeUncheckedCreateWithoutContentInput[]
     connectOrCreate?: LikeCreateOrConnectWithoutContentInput | LikeCreateOrConnectWithoutContentInput[]
@@ -17844,6 +23673,24 @@ export namespace Prisma {
     create?: XOR<ChallengeCreateWithoutContentInput, ChallengeUncheckedCreateWithoutContentInput>
     connectOrCreate?: ChallengeCreateOrConnectWithoutContentInput
     connect?: ChallengeWhereUniqueInput
+  }
+
+  export type ArticleUncheckedCreateNestedOneWithoutContentInput = {
+    create?: XOR<ArticleCreateWithoutContentInput, ArticleUncheckedCreateWithoutContentInput>
+    connectOrCreate?: ArticleCreateOrConnectWithoutContentInput
+    connect?: ArticleWhereUniqueInput
+  }
+
+  export type ImageUncheckedCreateNestedOneWithoutContentInput = {
+    create?: XOR<ImageCreateWithoutContentInput, ImageUncheckedCreateWithoutContentInput>
+    connectOrCreate?: ImageCreateOrConnectWithoutContentInput
+    connect?: ImageWhereUniqueInput
+  }
+
+  export type VideoUncheckedCreateNestedOneWithoutContentInput = {
+    create?: XOR<VideoCreateWithoutContentInput, VideoUncheckedCreateWithoutContentInput>
+    connectOrCreate?: VideoCreateOrConnectWithoutContentInput
+    connect?: VideoWhereUniqueInput
   }
 
   export type LikeUncheckedCreateNestedManyWithoutContentInput = {
@@ -17886,6 +23733,36 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutContentsInput, UserUpdateWithoutContentsInput>, UserUncheckedUpdateWithoutContentsInput>
   }
 
+  export type ArticleUpdateOneWithoutContentNestedInput = {
+    create?: XOR<ArticleCreateWithoutContentInput, ArticleUncheckedCreateWithoutContentInput>
+    connectOrCreate?: ArticleCreateOrConnectWithoutContentInput
+    upsert?: ArticleUpsertWithoutContentInput
+    disconnect?: ArticleWhereInput | boolean
+    delete?: ArticleWhereInput | boolean
+    connect?: ArticleWhereUniqueInput
+    update?: XOR<XOR<ArticleUpdateToOneWithWhereWithoutContentInput, ArticleUpdateWithoutContentInput>, ArticleUncheckedUpdateWithoutContentInput>
+  }
+
+  export type ImageUpdateOneWithoutContentNestedInput = {
+    create?: XOR<ImageCreateWithoutContentInput, ImageUncheckedCreateWithoutContentInput>
+    connectOrCreate?: ImageCreateOrConnectWithoutContentInput
+    upsert?: ImageUpsertWithoutContentInput
+    disconnect?: ImageWhereInput | boolean
+    delete?: ImageWhereInput | boolean
+    connect?: ImageWhereUniqueInput
+    update?: XOR<XOR<ImageUpdateToOneWithWhereWithoutContentInput, ImageUpdateWithoutContentInput>, ImageUncheckedUpdateWithoutContentInput>
+  }
+
+  export type VideoUpdateOneWithoutContentNestedInput = {
+    create?: XOR<VideoCreateWithoutContentInput, VideoUncheckedCreateWithoutContentInput>
+    connectOrCreate?: VideoCreateOrConnectWithoutContentInput
+    upsert?: VideoUpsertWithoutContentInput
+    disconnect?: VideoWhereInput | boolean
+    delete?: VideoWhereInput | boolean
+    connect?: VideoWhereUniqueInput
+    update?: XOR<XOR<VideoUpdateToOneWithWhereWithoutContentInput, VideoUpdateWithoutContentInput>, VideoUncheckedUpdateWithoutContentInput>
+  }
+
   export type LikeUpdateManyWithoutContentNestedInput = {
     create?: XOR<LikeCreateWithoutContentInput, LikeUncheckedCreateWithoutContentInput> | LikeCreateWithoutContentInput[] | LikeUncheckedCreateWithoutContentInput[]
     connectOrCreate?: LikeCreateOrConnectWithoutContentInput | LikeCreateOrConnectWithoutContentInput[]
@@ -17922,6 +23799,36 @@ export namespace Prisma {
     delete?: ChallengeWhereInput | boolean
     connect?: ChallengeWhereUniqueInput
     update?: XOR<XOR<ChallengeUpdateToOneWithWhereWithoutContentInput, ChallengeUpdateWithoutContentInput>, ChallengeUncheckedUpdateWithoutContentInput>
+  }
+
+  export type ArticleUncheckedUpdateOneWithoutContentNestedInput = {
+    create?: XOR<ArticleCreateWithoutContentInput, ArticleUncheckedCreateWithoutContentInput>
+    connectOrCreate?: ArticleCreateOrConnectWithoutContentInput
+    upsert?: ArticleUpsertWithoutContentInput
+    disconnect?: ArticleWhereInput | boolean
+    delete?: ArticleWhereInput | boolean
+    connect?: ArticleWhereUniqueInput
+    update?: XOR<XOR<ArticleUpdateToOneWithWhereWithoutContentInput, ArticleUpdateWithoutContentInput>, ArticleUncheckedUpdateWithoutContentInput>
+  }
+
+  export type ImageUncheckedUpdateOneWithoutContentNestedInput = {
+    create?: XOR<ImageCreateWithoutContentInput, ImageUncheckedCreateWithoutContentInput>
+    connectOrCreate?: ImageCreateOrConnectWithoutContentInput
+    upsert?: ImageUpsertWithoutContentInput
+    disconnect?: ImageWhereInput | boolean
+    delete?: ImageWhereInput | boolean
+    connect?: ImageWhereUniqueInput
+    update?: XOR<XOR<ImageUpdateToOneWithWhereWithoutContentInput, ImageUpdateWithoutContentInput>, ImageUncheckedUpdateWithoutContentInput>
+  }
+
+  export type VideoUncheckedUpdateOneWithoutContentNestedInput = {
+    create?: XOR<VideoCreateWithoutContentInput, VideoUncheckedCreateWithoutContentInput>
+    connectOrCreate?: VideoCreateOrConnectWithoutContentInput
+    upsert?: VideoUpsertWithoutContentInput
+    disconnect?: VideoWhereInput | boolean
+    delete?: VideoWhereInput | boolean
+    connect?: VideoWhereUniqueInput
+    update?: XOR<XOR<VideoUpdateToOneWithWhereWithoutContentInput, VideoUpdateWithoutContentInput>, VideoUncheckedUpdateWithoutContentInput>
   }
 
   export type LikeUncheckedUpdateManyWithoutContentNestedInput = {
@@ -18078,6 +23985,10 @@ export namespace Prisma {
 
   export type EnumFollowStatusFieldUpdateOperationsInput = {
     set?: $Enums.FollowStatus
+  }
+
+  export type EnumRelationshipTypeFieldUpdateOperationsInput = {
+    set?: $Enums.RelationshipType
   }
 
   export type UserUpdateOneRequiredWithoutSentRelationshipsNestedInput = {
@@ -18242,6 +24153,56 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutProductivityCountsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProductivityCountsInput, UserUpdateWithoutProductivityCountsInput>, UserUncheckedUpdateWithoutProductivityCountsInput>
+  }
+
+  export type ContentCreateNestedOneWithoutArticleInput = {
+    create?: XOR<ContentCreateWithoutArticleInput, ContentUncheckedCreateWithoutArticleInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutArticleInput
+    connect?: ContentWhereUniqueInput
+  }
+
+  export type ContentUpdateOneRequiredWithoutArticleNestedInput = {
+    create?: XOR<ContentCreateWithoutArticleInput, ContentUncheckedCreateWithoutArticleInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutArticleInput
+    upsert?: ContentUpsertWithoutArticleInput
+    connect?: ContentWhereUniqueInput
+    update?: XOR<XOR<ContentUpdateToOneWithWhereWithoutArticleInput, ContentUpdateWithoutArticleInput>, ContentUncheckedUpdateWithoutArticleInput>
+  }
+
+  export type ContentCreateNestedOneWithoutImageInput = {
+    create?: XOR<ContentCreateWithoutImageInput, ContentUncheckedCreateWithoutImageInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutImageInput
+    connect?: ContentWhereUniqueInput
+  }
+
+  export type ContentUpdateOneRequiredWithoutImageNestedInput = {
+    create?: XOR<ContentCreateWithoutImageInput, ContentUncheckedCreateWithoutImageInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutImageInput
+    upsert?: ContentUpsertWithoutImageInput
+    connect?: ContentWhereUniqueInput
+    update?: XOR<XOR<ContentUpdateToOneWithWhereWithoutImageInput, ContentUpdateWithoutImageInput>, ContentUncheckedUpdateWithoutImageInput>
+  }
+
+  export type ContentCreateNestedOneWithoutVideoInput = {
+    create?: XOR<ContentCreateWithoutVideoInput, ContentUncheckedCreateWithoutVideoInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutVideoInput
+    connect?: ContentWhereUniqueInput
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type ContentUpdateOneRequiredWithoutVideoNestedInput = {
+    create?: XOR<ContentCreateWithoutVideoInput, ContentUncheckedCreateWithoutVideoInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutVideoInput
+    upsert?: ContentUpsertWithoutVideoInput
+    connect?: ContentWhereUniqueInput
+    update?: XOR<XOR<ContentUpdateToOneWithWhereWithoutVideoInput, ContentUpdateWithoutVideoInput>, ContentUncheckedUpdateWithoutVideoInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -18422,6 +24383,19 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedEnumContentTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.ContentType | EnumContentTypeFieldRefInput<$PrismaModel>
     in?: $Enums.ContentType[] | ListEnumContentTypeFieldRefInput<$PrismaModel>
@@ -18446,6 +24420,13 @@ export namespace Prisma {
     not?: NestedEnumFollowStatusFilter<$PrismaModel> | $Enums.FollowStatus
   }
 
+  export type NestedEnumRelationshipTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationshipType | EnumRelationshipTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationshipType[] | ListEnumRelationshipTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationshipType[] | ListEnumRelationshipTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationshipTypeFilter<$PrismaModel> | $Enums.RelationshipType
+  }
+
   export type NestedEnumFollowStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.FollowStatus | EnumFollowStatusFieldRefInput<$PrismaModel>
     in?: $Enums.FollowStatus[] | ListEnumFollowStatusFieldRefInput<$PrismaModel>
@@ -18454,6 +24435,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumFollowStatusFilter<$PrismaModel>
     _max?: NestedEnumFollowStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRelationshipTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationshipType | EnumRelationshipTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationshipType[] | ListEnumRelationshipTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationshipType[] | ListEnumRelationshipTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationshipTypeWithAggregatesFilter<$PrismaModel> | $Enums.RelationshipType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRelationshipTypeFilter<$PrismaModel>
+    _max?: NestedEnumRelationshipTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumChallengeStatusFilter<$PrismaModel = never> = {
@@ -18471,6 +24462,62 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumChallengeStatusFilter<$PrismaModel>
     _max?: NestedEnumChallengeStatusFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type CreatorCreateWithoutUserInput = {
+    id?: string
+    displayName?: string | null
+    description?: string | null
+    category?: string | null
+    coverImage?: string | null
+    website?: string | null
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CreatorUncheckedCreateWithoutUserInput = {
+    id?: string
+    displayName?: string | null
+    description?: string | null
+    category?: string | null
+    coverImage?: string | null
+    website?: string | null
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CreatorCreateOrConnectWithoutUserInput = {
+    where: CreatorWhereUniqueInput
+    create: XOR<CreatorCreateWithoutUserInput, CreatorUncheckedCreateWithoutUserInput>
   }
 
   export type UserGenreCreateWithoutUserInput = {
@@ -18499,14 +24546,14 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     genre: GenreCreateNestedOneWithoutContentsInput
+    article?: ArticleCreateNestedOneWithoutContentInput
+    image?: ImageCreateNestedOneWithoutContentInput
+    video?: VideoCreateNestedOneWithoutContentInput
     likes?: LikeCreateNestedManyWithoutContentInput
     shares?: ShareCreateNestedManyWithoutContentInput
     challenge?: ChallengeCreateNestedOneWithoutContentInput
@@ -18516,14 +24563,14 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     genreId: string
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    article?: ArticleUncheckedCreateNestedOneWithoutContentInput
+    image?: ImageUncheckedCreateNestedOneWithoutContentInput
+    video?: VideoUncheckedCreateNestedOneWithoutContentInput
     likes?: LikeUncheckedCreateNestedManyWithoutContentInput
     shares?: ShareUncheckedCreateNestedManyWithoutContentInput
     challenge?: ChallengeUncheckedCreateNestedOneWithoutContentInput
@@ -18650,6 +24697,7 @@ export namespace Prisma {
   export type RelationshipCreateWithoutSenderInput = {
     id?: string
     status?: $Enums.FollowStatus
+    type?: $Enums.RelationshipType
     createdAt?: Date | string
     updatedAt?: Date | string
     receiver: UserCreateNestedOneWithoutReceivedRelationshipsInput
@@ -18659,6 +24707,7 @@ export namespace Prisma {
     id?: string
     receiverId: string
     status?: $Enums.FollowStatus
+    type?: $Enums.RelationshipType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18676,6 +24725,7 @@ export namespace Prisma {
   export type RelationshipCreateWithoutReceiverInput = {
     id?: string
     status?: $Enums.FollowStatus
+    type?: $Enums.RelationshipType
     createdAt?: Date | string
     updatedAt?: Date | string
     sender: UserCreateNestedOneWithoutSentRelationshipsInput
@@ -18685,6 +24735,7 @@ export namespace Prisma {
     id?: string
     senderId: string
     status?: $Enums.FollowStatus
+    type?: $Enums.RelationshipType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18779,6 +24830,41 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CreatorUpsertWithoutUserInput = {
+    update: XOR<CreatorUpdateWithoutUserInput, CreatorUncheckedUpdateWithoutUserInput>
+    create: XOR<CreatorCreateWithoutUserInput, CreatorUncheckedCreateWithoutUserInput>
+    where?: CreatorWhereInput
+  }
+
+  export type CreatorUpdateToOneWithWhereWithoutUserInput = {
+    where?: CreatorWhereInput
+    data: XOR<CreatorUpdateWithoutUserInput, CreatorUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CreatorUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreatorUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserGenreUpsertWithWhereUniqueWithoutUserInput = {
     where: UserGenreWhereUniqueInput
     update: XOR<UserGenreUpdateWithoutUserInput, UserGenreUncheckedUpdateWithoutUserInput>
@@ -18828,10 +24914,7 @@ export namespace Prisma {
     id?: StringFilter<"Content"> | string
     title?: StringFilter<"Content"> | string
     description?: StringNullableFilter<"Content"> | string | null
-    body?: StringNullableFilter<"Content"> | string | null
     type?: EnumContentTypeFilter<"Content"> | $Enums.ContentType
-    externalUrl?: StringNullableFilter<"Content"> | string | null
-    mediaUrl?: StringNullableFilter<"Content"> | string | null
     genreId?: StringFilter<"Content"> | string
     creatorId?: StringFilter<"Content"> | string
     deletedAt?: DateTimeNullableFilter<"Content"> | Date | string | null
@@ -18962,6 +25045,7 @@ export namespace Prisma {
     senderId?: StringFilter<"Relationship"> | string
     receiverId?: StringFilter<"Relationship"> | string
     status?: EnumFollowStatusFilter<"Relationship"> | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFilter<"Relationship"> | $Enums.RelationshipType
     createdAt?: DateTimeFilter<"Relationship"> | Date | string
     updatedAt?: DateTimeFilter<"Relationship"> | Date | string
   }
@@ -19065,6 +25149,126 @@ export namespace Prisma {
     count?: IntFilter<"ProductivityCount"> | number
   }
 
+  export type UserCreateWithoutCreatorInput = {
+    id?: string
+    name: string
+    username: string
+    email: string
+    passwordHash: string
+    accountType?: $Enums.AccountType
+    bio?: string | null
+    profileImage?: string | null
+    streak?: number
+    lastActiveAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
+    contents?: ContentCreateNestedManyWithoutCreatorInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
+    sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
+    receivedRelationships?: RelationshipCreateNestedManyWithoutReceiverInput
+    createdChallenges?: ChallengeCreateNestedManyWithoutCreatedByInput
+    userChallenges?: UserChallengeCreateNestedManyWithoutUserInput
+    productivityCounts?: ProductivityCountCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    name: string
+    username: string
+    email: string
+    passwordHash: string
+    accountType?: $Enums.AccountType
+    bio?: string | null
+    profileImage?: string | null
+    streak?: number
+    lastActiveAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
+    contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
+    receivedRelationships?: RelationshipUncheckedCreateNestedManyWithoutReceiverInput
+    createdChallenges?: ChallengeUncheckedCreateNestedManyWithoutCreatedByInput
+    userChallenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
+    productivityCounts?: ProductivityCountUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCreatorInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type UserUpsertWithoutCreatorInput = {
+    update: XOR<UserUpdateWithoutCreatorInput, UserUncheckedUpdateWithoutCreatorInput>
+    create: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCreatorInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCreatorInput, UserUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type UserUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    streak?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
+    contents?: ContentUpdateManyWithoutCreatorNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
+    sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
+    receivedRelationships?: RelationshipUpdateManyWithoutReceiverNestedInput
+    createdChallenges?: ChallengeUpdateManyWithoutCreatedByNestedInput
+    userChallenges?: UserChallengeUpdateManyWithoutUserNestedInput
+    productivityCounts?: ProductivityCountUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    streak?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
+    contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
+    receivedRelationships?: RelationshipUncheckedUpdateManyWithoutReceiverNestedInput
+    createdChallenges?: ChallengeUncheckedUpdateManyWithoutCreatedByNestedInput
+    userChallenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+    productivityCounts?: ProductivityCountUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserGenreCreateWithoutGenreInput = {
     id?: string
     createdAt?: Date | string
@@ -19091,14 +25295,14 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     creator: UserCreateNestedOneWithoutContentsInput
+    article?: ArticleCreateNestedOneWithoutContentInput
+    image?: ImageCreateNestedOneWithoutContentInput
+    video?: VideoCreateNestedOneWithoutContentInput
     likes?: LikeCreateNestedManyWithoutContentInput
     shares?: ShareCreateNestedManyWithoutContentInput
     challenge?: ChallengeCreateNestedOneWithoutContentInput
@@ -19108,14 +25312,14 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     creatorId: string
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    article?: ArticleUncheckedCreateNestedOneWithoutContentInput
+    image?: ImageUncheckedCreateNestedOneWithoutContentInput
+    video?: VideoUncheckedCreateNestedOneWithoutContentInput
     likes?: LikeUncheckedCreateNestedManyWithoutContentInput
     shares?: ShareUncheckedCreateNestedManyWithoutContentInput
     challenge?: ChallengeUncheckedCreateNestedOneWithoutContentInput
@@ -19176,6 +25380,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
@@ -19201,6 +25406,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
@@ -19263,6 +25469,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
@@ -19288,6 +25495,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
@@ -19361,6 +25569,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
@@ -19386,6 +25595,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
@@ -19401,6 +25611,77 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutContentsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutContentsInput, UserUncheckedCreateWithoutContentsInput>
+  }
+
+  export type ArticleCreateWithoutContentInput = {
+    id?: string
+    subject: string
+    body?: string | null
+    pdfUrl?: string | null
+    pdfFileName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ArticleUncheckedCreateWithoutContentInput = {
+    id?: string
+    subject: string
+    body?: string | null
+    pdfUrl?: string | null
+    pdfFileName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ArticleCreateOrConnectWithoutContentInput = {
+    where: ArticleWhereUniqueInput
+    create: XOR<ArticleCreateWithoutContentInput, ArticleUncheckedCreateWithoutContentInput>
+  }
+
+  export type ImageCreateWithoutContentInput = {
+    id?: string
+    imageUrl: string
+    altText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImageUncheckedCreateWithoutContentInput = {
+    id?: string
+    imageUrl: string
+    altText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImageCreateOrConnectWithoutContentInput = {
+    where: ImageWhereUniqueInput
+    create: XOR<ImageCreateWithoutContentInput, ImageUncheckedCreateWithoutContentInput>
+  }
+
+  export type VideoCreateWithoutContentInput = {
+    id?: string
+    videoUrl?: string | null
+    externalUrl?: string | null
+    thumbnailUrl?: string | null
+    duration?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VideoUncheckedCreateWithoutContentInput = {
+    id?: string
+    videoUrl?: string | null
+    externalUrl?: string | null
+    thumbnailUrl?: string | null
+    duration?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VideoCreateOrConnectWithoutContentInput = {
+    where: VideoWhereUniqueInput
+    create: XOR<VideoCreateWithoutContentInput, VideoUncheckedCreateWithoutContentInput>
   }
 
   export type LikeCreateWithoutContentInput = {
@@ -19521,6 +25802,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
@@ -19546,6 +25828,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
@@ -19556,6 +25839,95 @@ export namespace Prisma {
     createdChallenges?: ChallengeUncheckedUpdateManyWithoutCreatedByNestedInput
     userChallenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     productivityCounts?: ProductivityCountUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ArticleUpsertWithoutContentInput = {
+    update: XOR<ArticleUpdateWithoutContentInput, ArticleUncheckedUpdateWithoutContentInput>
+    create: XOR<ArticleCreateWithoutContentInput, ArticleUncheckedCreateWithoutContentInput>
+    where?: ArticleWhereInput
+  }
+
+  export type ArticleUpdateToOneWithWhereWithoutContentInput = {
+    where?: ArticleWhereInput
+    data: XOR<ArticleUpdateWithoutContentInput, ArticleUncheckedUpdateWithoutContentInput>
+  }
+
+  export type ArticleUpdateWithoutContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfFileName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ArticleUncheckedUpdateWithoutContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfFileName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImageUpsertWithoutContentInput = {
+    update: XOR<ImageUpdateWithoutContentInput, ImageUncheckedUpdateWithoutContentInput>
+    create: XOR<ImageCreateWithoutContentInput, ImageUncheckedCreateWithoutContentInput>
+    where?: ImageWhereInput
+  }
+
+  export type ImageUpdateToOneWithWhereWithoutContentInput = {
+    where?: ImageWhereInput
+    data: XOR<ImageUpdateWithoutContentInput, ImageUncheckedUpdateWithoutContentInput>
+  }
+
+  export type ImageUpdateWithoutContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    altText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImageUncheckedUpdateWithoutContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    altText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoUpsertWithoutContentInput = {
+    update: XOR<VideoUpdateWithoutContentInput, VideoUncheckedUpdateWithoutContentInput>
+    create: XOR<VideoCreateWithoutContentInput, VideoUncheckedCreateWithoutContentInput>
+    where?: VideoWhereInput
+  }
+
+  export type VideoUpdateToOneWithWhereWithoutContentInput = {
+    where?: VideoWhereInput
+    data: XOR<VideoUpdateWithoutContentInput, VideoUncheckedUpdateWithoutContentInput>
+  }
+
+  export type VideoUpdateWithoutContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoUncheckedUpdateWithoutContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LikeUpsertWithWhereUniqueWithoutContentInput = {
@@ -19632,6 +26004,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
@@ -19657,6 +26030,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
@@ -19712,6 +26086,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
@@ -19737,6 +26112,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -19778,6 +26154,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
@@ -19803,6 +26180,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
@@ -19870,6 +26248,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
@@ -19895,6 +26274,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -19920,6 +26300,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
@@ -19945,6 +26326,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -19966,15 +26348,15 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     genre: GenreCreateNestedOneWithoutContentsInput
     creator: UserCreateNestedOneWithoutContentsInput
+    article?: ArticleCreateNestedOneWithoutContentInput
+    image?: ImageCreateNestedOneWithoutContentInput
+    video?: VideoCreateNestedOneWithoutContentInput
     shares?: ShareCreateNestedManyWithoutContentInput
     challenge?: ChallengeCreateNestedOneWithoutContentInput
   }
@@ -19983,15 +26365,15 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     genreId: string
     creatorId: string
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    article?: ArticleUncheckedCreateNestedOneWithoutContentInput
+    image?: ImageUncheckedCreateNestedOneWithoutContentInput
+    video?: VideoUncheckedCreateNestedOneWithoutContentInput
     shares?: ShareUncheckedCreateNestedManyWithoutContentInput
     challenge?: ChallengeUncheckedCreateNestedOneWithoutContentInput
   }
@@ -20025,6 +26407,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
@@ -20050,6 +26433,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -20077,15 +26461,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     genre?: GenreUpdateOneRequiredWithoutContentsNestedInput
     creator?: UserUpdateOneRequiredWithoutContentsNestedInput
+    article?: ArticleUpdateOneWithoutContentNestedInput
+    image?: ImageUpdateOneWithoutContentNestedInput
+    video?: VideoUpdateOneWithoutContentNestedInput
     shares?: ShareUpdateManyWithoutContentNestedInput
     challenge?: ChallengeUpdateOneWithoutContentNestedInput
   }
@@ -20094,15 +26478,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     genreId?: StringFieldUpdateOperationsInput | string
     creatorId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    article?: ArticleUncheckedUpdateOneWithoutContentNestedInput
+    image?: ImageUncheckedUpdateOneWithoutContentNestedInput
+    video?: VideoUncheckedUpdateOneWithoutContentNestedInput
     shares?: ShareUncheckedUpdateManyWithoutContentNestedInput
     challenge?: ChallengeUncheckedUpdateOneWithoutContentNestedInput
   }
@@ -20120,6 +26504,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
@@ -20145,6 +26530,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -20166,15 +26552,15 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     genre: GenreCreateNestedOneWithoutContentsInput
     creator: UserCreateNestedOneWithoutContentsInput
+    article?: ArticleCreateNestedOneWithoutContentInput
+    image?: ImageCreateNestedOneWithoutContentInput
+    video?: VideoCreateNestedOneWithoutContentInput
     likes?: LikeCreateNestedManyWithoutContentInput
     challenge?: ChallengeCreateNestedOneWithoutContentInput
   }
@@ -20183,15 +26569,15 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     genreId: string
     creatorId: string
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    article?: ArticleUncheckedCreateNestedOneWithoutContentInput
+    image?: ImageUncheckedCreateNestedOneWithoutContentInput
+    video?: VideoUncheckedCreateNestedOneWithoutContentInput
     likes?: LikeUncheckedCreateNestedManyWithoutContentInput
     challenge?: ChallengeUncheckedCreateNestedOneWithoutContentInput
   }
@@ -20225,6 +26611,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
@@ -20250,6 +26637,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -20277,15 +26665,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     genre?: GenreUpdateOneRequiredWithoutContentsNestedInput
     creator?: UserUpdateOneRequiredWithoutContentsNestedInput
+    article?: ArticleUpdateOneWithoutContentNestedInput
+    image?: ImageUpdateOneWithoutContentNestedInput
+    video?: VideoUpdateOneWithoutContentNestedInput
     likes?: LikeUpdateManyWithoutContentNestedInput
     challenge?: ChallengeUpdateOneWithoutContentNestedInput
   }
@@ -20294,15 +26682,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     genreId?: StringFieldUpdateOperationsInput | string
     creatorId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    article?: ArticleUncheckedUpdateOneWithoutContentNestedInput
+    image?: ImageUncheckedUpdateOneWithoutContentNestedInput
+    video?: VideoUncheckedUpdateOneWithoutContentNestedInput
     likes?: LikeUncheckedUpdateManyWithoutContentNestedInput
     challenge?: ChallengeUncheckedUpdateOneWithoutContentNestedInput
   }
@@ -20320,6 +26708,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
@@ -20345,6 +26734,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -20375,6 +26765,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
@@ -20400,6 +26791,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -20441,6 +26833,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
@@ -20466,6 +26859,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -20502,6 +26896,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
@@ -20527,6 +26922,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -20543,15 +26939,15 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     genre: GenreCreateNestedOneWithoutContentsInput
     creator: UserCreateNestedOneWithoutContentsInput
+    article?: ArticleCreateNestedOneWithoutContentInput
+    image?: ImageCreateNestedOneWithoutContentInput
+    video?: VideoCreateNestedOneWithoutContentInput
     likes?: LikeCreateNestedManyWithoutContentInput
     shares?: ShareCreateNestedManyWithoutContentInput
   }
@@ -20560,15 +26956,15 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     genreId: string
     creatorId: string
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    article?: ArticleUncheckedCreateNestedOneWithoutContentInput
+    image?: ImageUncheckedCreateNestedOneWithoutContentInput
+    video?: VideoUncheckedCreateNestedOneWithoutContentInput
     likes?: LikeUncheckedCreateNestedManyWithoutContentInput
     shares?: ShareUncheckedCreateNestedManyWithoutContentInput
   }
@@ -20591,6 +26987,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
@@ -20616,6 +27013,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -20678,15 +27076,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     genre?: GenreUpdateOneRequiredWithoutContentsNestedInput
     creator?: UserUpdateOneRequiredWithoutContentsNestedInput
+    article?: ArticleUpdateOneWithoutContentNestedInput
+    image?: ImageUpdateOneWithoutContentNestedInput
+    video?: VideoUpdateOneWithoutContentNestedInput
     likes?: LikeUpdateManyWithoutContentNestedInput
     shares?: ShareUpdateManyWithoutContentNestedInput
   }
@@ -20695,15 +27093,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     genreId?: StringFieldUpdateOperationsInput | string
     creatorId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    article?: ArticleUncheckedUpdateOneWithoutContentNestedInput
+    image?: ImageUncheckedUpdateOneWithoutContentNestedInput
+    video?: VideoUncheckedUpdateOneWithoutContentNestedInput
     likes?: LikeUncheckedUpdateManyWithoutContentNestedInput
     shares?: ShareUncheckedUpdateManyWithoutContentNestedInput
   }
@@ -20732,6 +27130,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
@@ -20757,6 +27156,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -20798,6 +27198,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
@@ -20823,6 +27224,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -20914,6 +27316,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
@@ -20939,6 +27342,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -21026,6 +27430,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
@@ -21051,6 +27456,7 @@ export namespace Prisma {
     lastActiveAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -21092,6 +27498,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
@@ -21117,6 +27524,7 @@ export namespace Prisma {
     lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -21129,6 +27537,258 @@ export namespace Prisma {
     userChallenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type ContentCreateWithoutArticleInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.ContentType
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    genre: GenreCreateNestedOneWithoutContentsInput
+    creator: UserCreateNestedOneWithoutContentsInput
+    image?: ImageCreateNestedOneWithoutContentInput
+    video?: VideoCreateNestedOneWithoutContentInput
+    likes?: LikeCreateNestedManyWithoutContentInput
+    shares?: ShareCreateNestedManyWithoutContentInput
+    challenge?: ChallengeCreateNestedOneWithoutContentInput
+  }
+
+  export type ContentUncheckedCreateWithoutArticleInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.ContentType
+    genreId: string
+    creatorId: string
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    image?: ImageUncheckedCreateNestedOneWithoutContentInput
+    video?: VideoUncheckedCreateNestedOneWithoutContentInput
+    likes?: LikeUncheckedCreateNestedManyWithoutContentInput
+    shares?: ShareUncheckedCreateNestedManyWithoutContentInput
+    challenge?: ChallengeUncheckedCreateNestedOneWithoutContentInput
+  }
+
+  export type ContentCreateOrConnectWithoutArticleInput = {
+    where: ContentWhereUniqueInput
+    create: XOR<ContentCreateWithoutArticleInput, ContentUncheckedCreateWithoutArticleInput>
+  }
+
+  export type ContentUpsertWithoutArticleInput = {
+    update: XOR<ContentUpdateWithoutArticleInput, ContentUncheckedUpdateWithoutArticleInput>
+    create: XOR<ContentCreateWithoutArticleInput, ContentUncheckedCreateWithoutArticleInput>
+    where?: ContentWhereInput
+  }
+
+  export type ContentUpdateToOneWithWhereWithoutArticleInput = {
+    where?: ContentWhereInput
+    data: XOR<ContentUpdateWithoutArticleInput, ContentUncheckedUpdateWithoutArticleInput>
+  }
+
+  export type ContentUpdateWithoutArticleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    genre?: GenreUpdateOneRequiredWithoutContentsNestedInput
+    creator?: UserUpdateOneRequiredWithoutContentsNestedInput
+    image?: ImageUpdateOneWithoutContentNestedInput
+    video?: VideoUpdateOneWithoutContentNestedInput
+    likes?: LikeUpdateManyWithoutContentNestedInput
+    shares?: ShareUpdateManyWithoutContentNestedInput
+    challenge?: ChallengeUpdateOneWithoutContentNestedInput
+  }
+
+  export type ContentUncheckedUpdateWithoutArticleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+    genreId?: StringFieldUpdateOperationsInput | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: ImageUncheckedUpdateOneWithoutContentNestedInput
+    video?: VideoUncheckedUpdateOneWithoutContentNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutContentNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutContentNestedInput
+    challenge?: ChallengeUncheckedUpdateOneWithoutContentNestedInput
+  }
+
+  export type ContentCreateWithoutImageInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.ContentType
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    genre: GenreCreateNestedOneWithoutContentsInput
+    creator: UserCreateNestedOneWithoutContentsInput
+    article?: ArticleCreateNestedOneWithoutContentInput
+    video?: VideoCreateNestedOneWithoutContentInput
+    likes?: LikeCreateNestedManyWithoutContentInput
+    shares?: ShareCreateNestedManyWithoutContentInput
+    challenge?: ChallengeCreateNestedOneWithoutContentInput
+  }
+
+  export type ContentUncheckedCreateWithoutImageInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.ContentType
+    genreId: string
+    creatorId: string
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    article?: ArticleUncheckedCreateNestedOneWithoutContentInput
+    video?: VideoUncheckedCreateNestedOneWithoutContentInput
+    likes?: LikeUncheckedCreateNestedManyWithoutContentInput
+    shares?: ShareUncheckedCreateNestedManyWithoutContentInput
+    challenge?: ChallengeUncheckedCreateNestedOneWithoutContentInput
+  }
+
+  export type ContentCreateOrConnectWithoutImageInput = {
+    where: ContentWhereUniqueInput
+    create: XOR<ContentCreateWithoutImageInput, ContentUncheckedCreateWithoutImageInput>
+  }
+
+  export type ContentUpsertWithoutImageInput = {
+    update: XOR<ContentUpdateWithoutImageInput, ContentUncheckedUpdateWithoutImageInput>
+    create: XOR<ContentCreateWithoutImageInput, ContentUncheckedCreateWithoutImageInput>
+    where?: ContentWhereInput
+  }
+
+  export type ContentUpdateToOneWithWhereWithoutImageInput = {
+    where?: ContentWhereInput
+    data: XOR<ContentUpdateWithoutImageInput, ContentUncheckedUpdateWithoutImageInput>
+  }
+
+  export type ContentUpdateWithoutImageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    genre?: GenreUpdateOneRequiredWithoutContentsNestedInput
+    creator?: UserUpdateOneRequiredWithoutContentsNestedInput
+    article?: ArticleUpdateOneWithoutContentNestedInput
+    video?: VideoUpdateOneWithoutContentNestedInput
+    likes?: LikeUpdateManyWithoutContentNestedInput
+    shares?: ShareUpdateManyWithoutContentNestedInput
+    challenge?: ChallengeUpdateOneWithoutContentNestedInput
+  }
+
+  export type ContentUncheckedUpdateWithoutImageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+    genreId?: StringFieldUpdateOperationsInput | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    article?: ArticleUncheckedUpdateOneWithoutContentNestedInput
+    video?: VideoUncheckedUpdateOneWithoutContentNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutContentNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutContentNestedInput
+    challenge?: ChallengeUncheckedUpdateOneWithoutContentNestedInput
+  }
+
+  export type ContentCreateWithoutVideoInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.ContentType
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    genre: GenreCreateNestedOneWithoutContentsInput
+    creator: UserCreateNestedOneWithoutContentsInput
+    article?: ArticleCreateNestedOneWithoutContentInput
+    image?: ImageCreateNestedOneWithoutContentInput
+    likes?: LikeCreateNestedManyWithoutContentInput
+    shares?: ShareCreateNestedManyWithoutContentInput
+    challenge?: ChallengeCreateNestedOneWithoutContentInput
+  }
+
+  export type ContentUncheckedCreateWithoutVideoInput = {
+    id?: string
+    title: string
+    description?: string | null
+    type: $Enums.ContentType
+    genreId: string
+    creatorId: string
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    article?: ArticleUncheckedCreateNestedOneWithoutContentInput
+    image?: ImageUncheckedCreateNestedOneWithoutContentInput
+    likes?: LikeUncheckedCreateNestedManyWithoutContentInput
+    shares?: ShareUncheckedCreateNestedManyWithoutContentInput
+    challenge?: ChallengeUncheckedCreateNestedOneWithoutContentInput
+  }
+
+  export type ContentCreateOrConnectWithoutVideoInput = {
+    where: ContentWhereUniqueInput
+    create: XOR<ContentCreateWithoutVideoInput, ContentUncheckedCreateWithoutVideoInput>
+  }
+
+  export type ContentUpsertWithoutVideoInput = {
+    update: XOR<ContentUpdateWithoutVideoInput, ContentUncheckedUpdateWithoutVideoInput>
+    create: XOR<ContentCreateWithoutVideoInput, ContentUncheckedCreateWithoutVideoInput>
+    where?: ContentWhereInput
+  }
+
+  export type ContentUpdateToOneWithWhereWithoutVideoInput = {
+    where?: ContentWhereInput
+    data: XOR<ContentUpdateWithoutVideoInput, ContentUncheckedUpdateWithoutVideoInput>
+  }
+
+  export type ContentUpdateWithoutVideoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    genre?: GenreUpdateOneRequiredWithoutContentsNestedInput
+    creator?: UserUpdateOneRequiredWithoutContentsNestedInput
+    article?: ArticleUpdateOneWithoutContentNestedInput
+    image?: ImageUpdateOneWithoutContentNestedInput
+    likes?: LikeUpdateManyWithoutContentNestedInput
+    shares?: ShareUpdateManyWithoutContentNestedInput
+    challenge?: ChallengeUpdateOneWithoutContentNestedInput
+  }
+
+  export type ContentUncheckedUpdateWithoutVideoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+    genreId?: StringFieldUpdateOperationsInput | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    article?: ArticleUncheckedUpdateOneWithoutContentNestedInput
+    image?: ImageUncheckedUpdateOneWithoutContentNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutContentNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutContentNestedInput
+    challenge?: ChallengeUncheckedUpdateOneWithoutContentNestedInput
+  }
+
   export type UserGenreCreateManyUserInput = {
     id?: string
     genreId: string
@@ -21139,10 +27799,7 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     genreId: string
     deletedAt?: Date | string | null
     createdAt?: Date | string
@@ -21187,6 +27844,7 @@ export namespace Prisma {
     id?: string
     receiverId: string
     status?: $Enums.FollowStatus
+    type?: $Enums.RelationshipType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21195,6 +27853,7 @@ export namespace Prisma {
     id?: string
     senderId: string
     status?: $Enums.FollowStatus
+    type?: $Enums.RelationshipType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21244,14 +27903,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     genre?: GenreUpdateOneRequiredWithoutContentsNestedInput
+    article?: ArticleUpdateOneWithoutContentNestedInput
+    image?: ImageUpdateOneWithoutContentNestedInput
+    video?: VideoUpdateOneWithoutContentNestedInput
     likes?: LikeUpdateManyWithoutContentNestedInput
     shares?: ShareUpdateManyWithoutContentNestedInput
     challenge?: ChallengeUpdateOneWithoutContentNestedInput
@@ -21261,14 +27920,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     genreId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    article?: ArticleUncheckedUpdateOneWithoutContentNestedInput
+    image?: ImageUncheckedUpdateOneWithoutContentNestedInput
+    video?: VideoUncheckedUpdateOneWithoutContentNestedInput
     likes?: LikeUncheckedUpdateManyWithoutContentNestedInput
     shares?: ShareUncheckedUpdateManyWithoutContentNestedInput
     challenge?: ChallengeUncheckedUpdateOneWithoutContentNestedInput
@@ -21278,10 +27937,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     genreId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21393,6 +28049,7 @@ export namespace Prisma {
   export type RelationshipUpdateWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     receiver?: UserUpdateOneRequiredWithoutReceivedRelationshipsNestedInput
@@ -21402,6 +28059,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21410,6 +28068,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21417,6 +28076,7 @@ export namespace Prisma {
   export type RelationshipUpdateWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sender?: UserUpdateOneRequiredWithoutSentRelationshipsNestedInput
@@ -21426,6 +28086,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21434,6 +28095,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
+    type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21521,10 +28183,7 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    body?: string | null
     type: $Enums.ContentType
-    externalUrl?: string | null
-    mediaUrl?: string | null
     creatorId: string
     deletedAt?: Date | string | null
     createdAt?: Date | string
@@ -21553,14 +28212,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     creator?: UserUpdateOneRequiredWithoutContentsNestedInput
+    article?: ArticleUpdateOneWithoutContentNestedInput
+    image?: ImageUpdateOneWithoutContentNestedInput
+    video?: VideoUpdateOneWithoutContentNestedInput
     likes?: LikeUpdateManyWithoutContentNestedInput
     shares?: ShareUpdateManyWithoutContentNestedInput
     challenge?: ChallengeUpdateOneWithoutContentNestedInput
@@ -21570,14 +28229,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     creatorId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    article?: ArticleUncheckedUpdateOneWithoutContentNestedInput
+    image?: ImageUncheckedUpdateOneWithoutContentNestedInput
+    video?: VideoUncheckedUpdateOneWithoutContentNestedInput
     likes?: LikeUncheckedUpdateManyWithoutContentNestedInput
     shares?: ShareUncheckedUpdateManyWithoutContentNestedInput
     challenge?: ChallengeUncheckedUpdateOneWithoutContentNestedInput
@@ -21587,10 +28246,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    body?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
-    externalUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     creatorId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

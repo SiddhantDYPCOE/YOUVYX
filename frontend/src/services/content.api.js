@@ -10,7 +10,7 @@ export const getContentById = async (contentId) => {
   return response.data;
 };
 
-export const getMyContents = async () => {
+export const getMyContent = async () => {
   const response = await api.get("/content/me");
   return response.data;
 };
@@ -35,3 +35,9 @@ export const toggleLike = async (contentId) => {
   return response.data;
 };
 
+export const createArticle = async (formData) => {
+  const response = await api.post(
+    "/content/article",
+    formData
+  );
+}

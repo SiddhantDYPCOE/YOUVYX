@@ -262,3 +262,49 @@ export async function findContentsWithEngagement(userId) {
     },
   });
 }
+
+
+export const createArticle = async ({
+  creatorId,
+  title,
+  description,
+  genreId,
+  subject,
+  body,
+  pdfUrl,
+  pdfFileName,
+}) => {
+  return prisma.$transaction(
+    async (tx) => {
+      const content = await tx.content.create({
+        data: {
+          title,
+          description,
+          type: "ARTICLE",
+          genreId,
+          creatorId,
+
+          article: {
+            create: {
+              subject,
+              body: body || null,
+              pdfUrl: pdfUrl || null,
+              pdfFileName: pdfFileName || null,
+            },
+          },
+        },
+
+        include: {
+          genre: true,
+          article: true,
+        },
+      });
+
+      return content;
+    },
+    {
+      timeout: 10000,
+      maxWait: 10000,
+    }
+  );
+};

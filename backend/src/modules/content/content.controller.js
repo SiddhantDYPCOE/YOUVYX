@@ -5,6 +5,7 @@ import {
   getContentsForUser,
   updateExistingContent,
   deleteExistingContent,
+  createArticleService,
 } from "./content.service.js";
 
 export async function createContent(req, res, next) {
@@ -126,3 +127,40 @@ export async function deleteContent(
     next(error);
   }
 }
+
+
+export const createArticle = async (req, res, next) => {
+  try {
+    const {
+      title,
+      subject,
+      description,
+      genreId,
+      body,
+    } = req.validatedBody;
+
+    const pdfUrl = req.file?.path || null;
+    const pdfFileName = req.file?.originalname || null;
+
+    const article = await createArticleService({
+      creatorId: req.user.id,
+      title,
+      subject,
+      description,
+      genreId,
+      body,
+      pdfUrl,
+      pdfFileName,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Article published successfully",
+      data: {
+        content: article,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};

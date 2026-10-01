@@ -24,9 +24,6 @@ export const registerSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters"),
 
-  accountType: z
-    .enum(["NORMAL", "CREATOR", "ADMIN"])
-    .default("NORMAL"),
 });
 
 export const loginSchema = z.object({
@@ -38,4 +35,8 @@ export const loginSchema = z.object({
   password: z
     .string()
     .min(1, "Password is required"),
+});
+
+export const userIdParamSchema = z.object({
+  userId: z.string().min(1),
 });

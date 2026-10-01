@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 
 import {
-    becomeCreatorApi,
   getMe,
   loginUser,
   registerUser,
@@ -72,12 +71,20 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  const becomeCreator = async () => { 
-    const response = await becomeCreatorApi(); 
-    const { user: updatedUser, token } = response.data; 
-    setAuthData(token, updatedUser); 
-    setUser(updatedUser); return response; };
+const refreshUser = async () => {
+  const response = await getMe();
 
+  const currentUser = response.data.user;
+
+  setUser(currentUser);
+
+  localStorage.setItem(
+    "youvyx_user",
+    JSON.stringify(currentUser)
+  );
+
+  return currentUser;
+};
   return (
     <AuthContext.Provider
       value={{
@@ -85,7 +92,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         login,
         register,
-        becomeCreator,
+        refreshUser,
         logout,
         isAuthenticated: !!user,
       }}

@@ -7,7 +7,7 @@ import {
   findUserByEmailOrUsername,
   createUser,
   findUserById,
-  updateUserAccountType,
+  getPublicUserProfile,
 } from "./auth.repository.js";
 
 const SALT_ROUNDS = 12;
@@ -128,50 +128,24 @@ export async function getCurrentUser(userId) {
   return user;
 }
 
-export async function becomeCreator(userId) {
-  const user = await findUserById(userId);
+export const getPublicUserProfileService = async (userId) => {
+  const user = await getPublicUserProfile(userId);
 
   if (!user) {
-    const error = new Error("User not found");
-    error.statusCode = 404;
-    throw error;
+    throw new Error("User not found");
   }
 
-  if (user.accountType === "CREATOR") {
-    const error = new Error("User is already a creator");
-    error.statusCode = 409;
-    throw error;
+  if (user.accountType !== "NORMAL") {
+    throw new Error("Normal user profile not found");
   }
-
-  if (user.accountType === "ADMIN") {
-    const error = new Error("Admin accounts cannot be converted to creator accounts");
-    error.statusCode = 400;
-    throw error;
-  }
-
-  const updatedUser = await updateUserAccountType(
-    userId,
-    "CREATOR"
-  );
-
-  if (!process.env.JWT_SECRET) {
-    throw new Error("JWT_SECRET is not configured");
-  }
-
-  const token = jwt.sign(
-    {
-      userId: updatedUser.id,
-      accountType: updatedUser.accountType,
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: process.env.JWT_EXPIRES_IN || "7d",
-    }
-  );
 
   return {
-    user: updatedUser,
-    token,
+    id: user.id,
+    name: user.name,
+    username: user.username,
+    accountType: user.accountType,
+    bio: user.bio,
+    profileImage: user.profileImage,
+    createdAt: user.createdAt,
   };
-}
-
+};

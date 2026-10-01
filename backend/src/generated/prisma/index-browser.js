@@ -135,6 +135,19 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CreatorScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  displayName: 'displayName',
+  description: 'description',
+  category: 'category',
+  coverImage: 'coverImage',
+  website: 'website',
+  isVerified: 'isVerified',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.GenreScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -153,10 +166,7 @@ exports.Prisma.ContentScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
-  body: 'body',
   type: 'type',
-  externalUrl: 'externalUrl',
-  mediaUrl: 'mediaUrl',
   genreId: 'genreId',
   creatorId: 'creatorId',
   deletedAt: 'deletedAt',
@@ -195,6 +205,7 @@ exports.Prisma.RelationshipScalarFieldEnum = {
   senderId: 'senderId',
   receiverId: 'receiverId',
   status: 'status',
+  type: 'type',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -223,6 +234,37 @@ exports.Prisma.ProductivityCountScalarFieldEnum = {
   userId: 'userId',
   date: 'date',
   count: 'count'
+};
+
+exports.Prisma.ArticleScalarFieldEnum = {
+  id: 'id',
+  contentId: 'contentId',
+  subject: 'subject',
+  body: 'body',
+  pdfUrl: 'pdfUrl',
+  pdfFileName: 'pdfFileName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ImageScalarFieldEnum = {
+  id: 'id',
+  contentId: 'contentId',
+  imageUrl: 'imageUrl',
+  altText: 'altText',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VideoScalarFieldEnum = {
+  id: 'id',
+  contentId: 'contentId',
+  videoUrl: 'videoUrl',
+  externalUrl: 'externalUrl',
+  thumbnailUrl: 'thumbnailUrl',
+  duration: 'duration',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -254,7 +296,13 @@ exports.ContentType = exports.$Enums.ContentType = {
 exports.FollowStatus = exports.$Enums.FollowStatus = {
   PENDING: 'PENDING',
   ACCEPTED: 'ACCEPTED',
-  REJECTED: 'REJECTED'
+  REJECTED: 'REJECTED',
+  BLOCKED: 'BLOCKED'
+};
+
+exports.RelationshipType = exports.$Enums.RelationshipType = {
+  FOLLOW: 'FOLLOW',
+  MUTUAL: 'MUTUAL'
 };
 
 exports.ChallengeStatus = exports.$Enums.ChallengeStatus = {
@@ -266,6 +314,7 @@ exports.ChallengeStatus = exports.$Enums.ChallengeStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Creator: 'Creator',
   Genre: 'Genre',
   UserGenre: 'UserGenre',
   Content: 'Content',
@@ -275,7 +324,10 @@ exports.Prisma.ModelName = {
   Relationship: 'Relationship',
   Challenge: 'Challenge',
   UserChallenge: 'UserChallenge',
-  ProductivityCount: 'ProductivityCount'
+  ProductivityCount: 'ProductivityCount',
+  Article: 'Article',
+  Image: 'Image',
+  Video: 'Video'
 };
 
 /**

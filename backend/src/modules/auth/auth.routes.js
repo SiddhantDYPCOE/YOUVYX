@@ -1,19 +1,22 @@
-
 import { Router } from "express";
 
 import { authenticate } from "../../middlewares/auth.middleware.js";
-import { validate } from "../../middlewares/validate.middleware.js";
+import {
+  validate,
+  validateParams,
+} from "../../middlewares/validate.middleware.js";
 
 import {
   getMe,
+  getPublicUserProfile,
   login,
   register,
-  becomeCreatorHandler,
 } from "./auth.controller.js";
 
 import {
   loginSchema,
   registerSchema,
+  userIdParamSchema,
 } from "./auth.validator.js";
 
 const router = Router();
@@ -36,11 +39,10 @@ router.get(
   getMe
 );
 
-router.patch(
-  "/become-creator",
-  authenticate,
-  becomeCreatorHandler
+router.get(
+  "/:userId",
+  validateParams(userIdParamSchema),
+  getPublicUserProfile
 );
 
 export default router;
-
