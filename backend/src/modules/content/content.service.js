@@ -170,8 +170,12 @@ export async function deleteExistingContent(
   };
 }
 
-export async function getContentById(contentId, userId) {
-  const content = await findContentWithEngagement(
+
+export async function getContentByIdService(
+  contentId,
+  userId
+) {
+  const content = await findContentById(
     contentId,
     userId
   );
@@ -184,17 +188,29 @@ export async function getContentById(contentId, userId) {
 
   return {
     id: content.id,
+
     title: content.title,
     description: content.description,
-    body: content.body,
+
     type: content.type,
+
+    // Generic/legacy fields if they still exist
+    body: content.body,
     externalUrl: content.externalUrl,
     mediaUrl: content.mediaUrl,
 
+    // Content relationships
     genre: content.genre,
     creator: content.creator,
+
+    // Content type specific data
+    article: content.article,
+    image: content.image,
+    video: content.video,
+
     challenge: content.challenge,
 
+    // Engagement
     likeCount: content._count.likes,
     shareCount: content._count.shares,
     likedByMe: content.likes.length > 0,

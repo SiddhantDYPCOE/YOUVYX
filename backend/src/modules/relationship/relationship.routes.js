@@ -48,6 +48,16 @@ router.get(
   relationshipController.getFollowing
 );
 
+router.get("/:userId/followers", relationshipController.getFollowersByUserId);
+router.get("/:userId/following", relationshipController.getFollowingByUserId);
+
+router.get(
+  "/:userId/status",
+  authenticate,
+  relationshipController.getRelationshipStatus
+);
+
+
 /*
 |-------------------------------------------------------------------------- 
 | Create relationship

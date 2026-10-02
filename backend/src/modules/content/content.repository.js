@@ -36,14 +36,17 @@ export async function createContent({
   });
 }
 
-export async function findContentById(contentId) {
+
+export async function findContentById(contentId,userId) {
   return prisma.content.findFirst({
     where: {
       id: contentId,
       deletedAt: null,
     },
+
     include: {
       genre: true,
+
       creator: {
         select: {
           id: true,
@@ -54,10 +57,33 @@ export async function findContentById(contentId) {
           bio: true,
         },
       },
+
+      article: true,
+
+      image: true,
+
+      video: true,
+
       challenge: true,
+      likes: {
+        where: {
+          userId,
+        },
+        select: {
+          id: true,
+        },
+      },
+
+      _count: {
+        select: {
+          likes: true,
+          shares: true,
+        },
+      },
     },
   });
 }
+
 
 export async function findContentsByCreator(creatorId) {
   return prisma.content.findMany({

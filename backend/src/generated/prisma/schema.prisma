@@ -223,6 +223,8 @@ model Relationship {
   senderId   String
   receiverId String
 
+  pairKey String @unique
+
   status FollowStatus     @default(PENDING)
   type   RelationshipType @default(FOLLOW)
 
@@ -233,7 +235,6 @@ model Relationship {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([senderId, receiverId])
   @@index([senderId])
   @@index([receiverId])
   @@index([status])

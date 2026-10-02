@@ -1,12 +1,14 @@
-
 import { useState } from "react";
 import {
   Bookmark,
-  ChevronRight,
   Clock3,
   FileText,
   Heart,
+  MessageCircle,
+  MoreHorizontal,
+  Repeat2,
   Share2,
+  ThumbsDown,
 } from "lucide-react";
 
 import { toggleLike } from "../../services/content.api";
@@ -39,7 +41,7 @@ const getInitials = (name) => {
     .toUpperCase();
 };
 
-const getBodyPreview = (body = "", maxLength = 420) => {
+const getBodyPreview = (body = "", maxLength = 180) => {
   if (!body || typeof body !== "string") {
     return "";
   }
@@ -60,7 +62,6 @@ const ContentCard = ({ content, onOpen }) => {
 
   const creator = content.creator || {};
   const genre = content.genre || {};
-
   const article = content.article || {};
 
   const body = article.body || "";
@@ -106,8 +107,14 @@ const ContentCard = ({ content, onOpen }) => {
     console.log("Share content:", content.id);
   };
 
+  const handleBookmark = (event) => {
+    event.stopPropagation();
+
+    console.log("Bookmark content:", content.id);
+  };
+
   const handleOpen = () => {
-    if (!content.id) {
+    if (!content.id || !onOpen) {
       return;
     }
 
@@ -117,167 +124,237 @@ const ContentCard = ({ content, onOpen }) => {
   return (
     <article
       onClick={handleOpen}
-      className="relative flex min-h-[calc(100vh-9rem)] w-full cursor-pointer snap-start items-center overflow-hidden rounded-3xl border border-black/[0.07] bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg"
+      className="group relative w-full cursor-pointer overflow-hidden border-b border-gray-200 bg-white px-5 py-7 transition-colors duration-200 hover:bg-gray-50 sm:px-8 sm:py-8"
     >
-      <div className="w-full p-7 sm:p-10 lg:p-12">
-        {/* Top */}
-
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="rounded-full bg-indigo-50 px-3 py-1.5 text-xs font-bold text-indigo-600">
-              {genre.name || "General"}
-            </span>
-
-            <span className="rounded-full bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-400">
-              {content.type || "CONTENT"}
-            </span>
-          </div>
-
-          <button
-            type="button"
-            onClick={(event) => event.stopPropagation()}
-            className="rounded-full p-2.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-900"
-            aria-label="Bookmark"
-          >
-            <Bookmark size={19} />
-          </button>
-        </div>
-
-        {/* Main content */}
-
-        <div className="mt-10 max-w-3xl">
-          {content.type === "ARTICLE" && (
-            <div className="mb-5 flex items-center gap-2 text-xs font-semibold text-gray-400">
-              <FileText size={15} />
-              Article
-            </div>
-          )}
-
-          <h2 className="text-3xl font-black leading-[1.1] tracking-tight text-gray-950 transition-colors group-hover:text-indigo-600 sm:text-4xl lg:text-5xl">
-            {content.title || "Untitled content"}
-          </h2>
-
-          {article.subject && (
-            <p className="mt-4 text-sm font-semibold text-indigo-600">
-              {article.subject}
-            </p>
-          )}
-
-          {content.description && (
-            <p className="mt-5 max-w-2xl text-base leading-7 text-gray-500 sm:text-lg sm:leading-8">
-              {content.description}
-            </p>
-          )}
-
-          {content.type === "ARTICLE" && body && (
-            <div className="mt-7 max-w-2xl border-l-2 border-indigo-100 pl-5">
-              <p className="whitespace-pre-wrap text-sm leading-7 text-gray-600 sm:text-base sm:leading-8">
-                {getBodyPreview(body)}
-              </p>
-
-              <p className="mt-3 text-xs font-bold text-indigo-600">
-                Continue reading →
-              </p>
-            </div>
-          )}
-
-          {content.type === "ARTICLE" &&
-            !body &&
-            article.pdfUrl && (
-              <div className="mt-7 flex items-center gap-3 rounded-2xl bg-gray-50 p-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-                  <FileText size={18} />
-                </div>
-
-                <div>
-                  <p className="text-sm font-bold text-gray-900">
-                    PDF Article
-                  </p>
-
-                  <p className="mt-0.5 text-xs text-gray-400">
-                    Open to read the full document
-                  </p>
-                </div>
-              </div>
-            )}
-        </div>
-
+      <div className="mx-auto max-w-5xl">
         {/* Creator */}
 
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-5">
-          <div className="flex min-w-0 items-center gap-3">
-            {creator.profileImage ? (
-              <img
-                src={creator.profileImage}
-                alt={creator.name || "Creator"}
-                className="h-11 w-11 shrink-0 rounded-full object-cover"
-              />
-            ) : (
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gray-950 text-xs font-bold text-white">
-                {getInitials(creator.name)}
+        <div className="flex items-center gap-3">
+          {creator.profileImage ? (
+            <img
+              src={creator.profileImage}
+              alt={creator.name || "Creator"}
+              className="h-9 w-9 shrink-0 rounded-full object-cover"
+            />
+          ) : (
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-900 text-[10px] font-bold text-white">
+              {getInitials(creator.name)}
+            </div>
+          )}
+
+          <div className="flex min-w-0 items-center gap-2">
+            <p className="truncate text-sm font-semibold text-gray-900">
+              {creator.name || "YOUVYX Creator"}
+            </p>
+
+            {creator.accountType === "CREATOR" && (
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-indigo-600 text-[9px] font-bold text-white">
+                ✓
+              </span>
+            )}
+
+            <span className="text-gray-300">·</span>
+
+            <span className="text-sm text-gray-400">
+              {content.createdAt
+                ? new Date(content.createdAt).toLocaleDateString(
+                    "en-US",
+                    {
+                      month: "short",
+                      day: "numeric",
+                    }
+                  )
+                : ""}
+            </span>
+          </div>
+        </div>
+
+        {/* Main */}
+
+        <div className="mt-6 flex gap-7">
+          {/* Text */}
+
+          <div className="min-w-0 flex-1">
+            <div className="mb-3 flex items-center gap-2">
+              <span className="text-xs font-semibold text-indigo-600">
+                {genre.name || "General"}
+              </span>
+
+              <span className="text-xs text-gray-300">·</span>
+
+              <span className="text-xs font-medium text-gray-400">
+                {content.type === "ARTICLE"
+                  ? "Article"
+                  : content.type || "Content"}
+              </span>
+            </div>
+
+            <h2 className="text-2xl font-black leading-[1.12] tracking-[-0.025em] text-gray-950 transition-colors duration-200 group-hover:text-indigo-600 sm:text-3xl">
+              {content.title || "Untitled content"}
+            </h2>
+
+            {content.description && (
+              <p className="mt-3 line-clamp-2 max-w-2xl text-[15px] leading-6 text-gray-500 sm:text-base">
+                {content.description}
+              </p>
+            )}
+
+            {/* Article preview */}
+
+            {content.type === "ARTICLE" && body && (
+              <p className="mt-3 line-clamp-2 max-w-2xl text-sm leading-6 text-gray-400">
+                {getBodyPreview(body)}
+              </p>
+            )}
+
+            {/* PDF */}
+
+            {content.type === "ARTICLE" &&
+              !body &&
+              article.pdfUrl && (
+                <div className="mt-4 flex items-center gap-2 text-xs font-medium text-gray-500">
+                  <FileText size={15} />
+                  <span>
+                    {article.pdfFileName || "PDF document"}
+                  </span>
+                </div>
+              )}
+
+            {/* Meta */}
+
+            {content.type === "ARTICLE" && (
+              <div className="mt-4 flex items-center gap-1.5 text-xs text-gray-400">
+                <Clock3 size={13} />
+                {getReadingTime(body)}
+              </div>
+            )}
+          </div>
+
+          {/* Media */}
+
+          {content.type === "IMAGE" &&
+            content.image?.url && (
+              <div className="hidden h-32 w-52 shrink-0 overflow-hidden rounded-sm bg-gray-100 sm:block">
+                <img
+                  src={content.image.url}
+                  alt={content.title || "Content"}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                />
               </div>
             )}
 
-            <div className="min-w-0">
-              <p className="truncate text-sm font-bold text-gray-950">
-                {creator.name || "YOUVYX Creator"}
-              </p>
+          {content.type === "VIDEO" &&
+            content.video?.url && (
+              <div className="hidden h-32 w-52 shrink-0 overflow-hidden rounded-sm bg-gray-950 sm:block">
+                <video
+                  src={content.video.url}
+                  muted
+                  preload="metadata"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            )}
 
-              <p className="truncate text-xs text-gray-400">
-                @{creator.username || "creator"}
-              </p>
-            </div>
-          </div>
-
-          {content.type === "ARTICLE" && (
-            <div className="flex items-center gap-1.5 text-xs font-medium text-gray-400">
-              <Clock3 size={14} />
-              {getReadingTime(body)}
-            </div>
-          )}
+          {content.type === "ARTICLE" &&
+            article.pdfUrl && (
+              <div className="hidden h-32 w-52 shrink-0 items-center justify-center rounded-sm bg-gray-100 sm:flex">
+                <FileText
+                  size={38}
+                  strokeWidth={1.5}
+                  className="text-gray-400"
+                />
+              </div>
+            )}
         </div>
 
-        {/* Footer */}
+        {/* Bottom actions */}
 
-        <div className="mt-8 flex items-center justify-between border-t border-gray-100 pt-5">
-          <div className="flex items-center gap-6">
+        <div className="mt-7 flex items-center justify-between">
+          <div className="flex items-center gap-5">
+            {/* Like */}
+
             <button
               type="button"
               onClick={handleLike}
               disabled={likeLoading}
-              className={`flex items-center gap-2 text-sm transition ${
+              className={`flex items-center gap-1.5 text-sm transition ${
                 liked
                   ? "text-red-500"
-                  : "text-gray-400 hover:text-gray-950"
+                  : "text-gray-400 hover:text-gray-900"
               } ${
                 likeLoading
                   ? "cursor-not-allowed opacity-60"
                   : ""
               }`}
+              aria-label="Like"
             >
               <Heart
-                size={18}
+                size={17}
                 fill={liked ? "currentColor" : "none"}
               />
 
-              {likeCount}
+              <span>
+                {likeCount > 0 ? likeCount : ""}
+              </span>
             </button>
+
+            {/* Comment placeholder */}
+
+            <button
+              type="button"
+              onClick={(event) => event.stopPropagation()}
+              className="flex items-center gap-1.5 text-sm text-gray-400 transition hover:text-gray-900"
+              aria-label="Comments"
+            >
+              <MessageCircle size={17} />
+
+              <span>
+                {Number(content.commentCount) > 0
+                  ? content.commentCount
+                  : ""}
+              </span>
+            </button>
+
+            {/* Share */}
 
             <button
               type="button"
               onClick={handleShare}
-              className="flex items-center gap-2 text-sm text-gray-400 transition hover:text-gray-950"
+              className="flex items-center gap-1.5 text-sm text-gray-400 transition hover:text-gray-900"
+              aria-label="Share"
             >
-              <Share2 size={18} />
+              <Repeat2 size={18} />
 
-              {Number(content.shareCount) || 0}
+              <span>
+                {Number(content.shareCount) > 0
+                  ? content.shareCount
+                  : ""}
+              </span>
             </button>
           </div>
 
-          <div className="flex items-center gap-2 text-sm font-bold text-gray-900">
-            Open
+          <div className="flex items-center gap-4">
+            {/* Bookmark */}
 
-            <ChevronRight size={17} />
+            <button
+              type="button"
+              onClick={handleBookmark}
+              className="text-gray-400 transition hover:text-gray-900"
+              aria-label="Bookmark"
+            >
+              <Bookmark size={18} />
+            </button>
+
+            {/* More */}
+
+            <button
+              type="button"
+              onClick={(event) => event.stopPropagation()}
+              className="text-gray-400 transition hover:text-gray-900"
+              aria-label="More options"
+            >
+              <MoreHorizontal size={19} />
+            </button>
           </div>
         </div>
       </div>
@@ -286,4 +363,3 @@ const ContentCard = ({ content, onOpen }) => {
 };
 
 export default ContentCard;
-

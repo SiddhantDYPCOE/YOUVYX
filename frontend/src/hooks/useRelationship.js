@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+
+import { useCallback, useEffect, useState } from "react";
 
 import {
   createRelationship,
@@ -6,92 +7,49 @@ import {
   removeRelationship,
   rejectRelationship,
   acceptRelationship,
+  getRelationshipStatus,
 } from "../services/relationship.api";
-
-const getStatus = ({
-  targetUserId,
-  followers,
-  following,
-  sentRequests,
-  receivedRequests,
-}) => {
-  const followingUser = following.find(
-    (user) => user.id === targetUserId
-  );
-
-  const followerUser = followers.find(
-    (user) => user.id === targetUserId
-  );
-
-  const sentRequest = sentRequests.find(
-    (request) =>
-      request.receiver?.id === targetUserId
-  );
-
-  const receivedRequest = receivedRequests.find(
-    (request) =>
-      request.sender?.id === targetUserId
-  );
-
-  // Incoming request
-  if (receivedRequest) {
-    return {
-      status: "REQUEST_RECEIVED",
-      relationshipId: receivedRequest.id,
-    };
-  }
-
-  // Both users follow each other
-  if (followingUser && followerUser) {
-    return {
-      status: "MUTUAL",
-      relationshipId:
-        followingUser.relationshipId ||
-        followerUser.relationshipId ||
-        null,
-    };
-  }
-
-  // Current user follows target
-  if (followingUser) {
-    return {
-      status: "FOLLOWING",
-      relationshipId:
-        followingUser.relationshipId || null,
-    };
-  }
-
-  // Current user sent request
-  if (sentRequest) {
-    return {
-      status: "REQUEST_SENT",
-      relationshipId: sentRequest.id,
-    };
-  }
-
-  return {
-    status: "NONE",
-    relationshipId: null,
-  };
-};
 
 const useRelationship = ({
   targetUserId,
-  followers = [],
-  following = [],
-  sentRequests = [],
-  receivedRequests = [],
   onChange,
 }) => {
+  const [status, setStatus] = useState("NONE");
+  const [relationshipId, setRelationshipId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const relationship = getStatus({
-    targetUserId,
-    followers,
-    following,
-    sentRequests,
-    receivedRequests,
-  });
+  const loadRelationshipStatus = useCallback(async () => {
+    if (!targetUserId) return;
+
+    try {
+      setLoading(true);
+
+      const response =
+        await getRelationshipStatus(targetUserId);
+
+      const relationship =
+        response?.data?.relationship;
+
+      setStatus(
+        relationship?.status || "NONE"
+      );
+
+      setRelationshipId(
+        relationship?.relationshipId || null
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [targetUserId]);
+
+  useEffect(() => {
+    loadRelationshipStatus();
+  }, [loadRelationshipStatus]);
+
+  const refresh = useCallback(async () => {
+    await loadRelationshipStatus();
+    await onChange?.();
+  }, [loadRelationshipStatus, onChange]);
 
   const follow = useCallback(async () => {
     try {
@@ -99,59 +57,25 @@ const useRelationship = ({
 
       await createRelationship(targetUserId);
 
-      await onChange?.();
+      await refresh();
     } finally {
       setLoading(false);
     }
-  }, [targetUserId, onChange]);
+  }, [targetUserId, refresh]);
 
   const cancel = useCallback(async () => {
-    if (!relationship.relationshipId) return;
+    if (!relationshipId) return;
 
     try {
       setLoading(true);
 
-      await cancelRequest(
-        relationship.relationshipId
-      );
+      await cancelRequest(relationshipId);
 
-      await onChange?.();
+      await refresh();
     } finally {
       setLoading(false);
     }
-  }, [relationship.relationshipId, onChange]);
-
-  const accept = useCallback(async () => {
-    if (!relationship.relationshipId) return;
-
-    try {
-      setLoading(true);
-
-      await acceptRelationship(
-        relationship.relationshipId
-      );
-
-      await onChange?.();
-    } finally {
-      setLoading(false);
-    }
-  }, [relationship.relationshipId, onChange]);
-
-  const reject = useCallback(async () => {
-    if (!relationship.relationshipId) return;
-
-    try {
-      setLoading(true);
-
-      await rejectRelationship(
-        relationship.relationshipId
-      );
-
-      await onChange?.();
-    } finally {
-      setLoading(false);
-    }
-  }, [relationship.relationshipId, onChange]);
+  }, [relationshipId, refresh]);
 
   const remove = useCallback(async () => {
     try {
@@ -159,23 +83,51 @@ const useRelationship = ({
 
       await removeRelationship(targetUserId);
 
-      await onChange?.();
+      await refresh();
     } finally {
       setLoading(false);
     }
-  }, [targetUserId, onChange]);
+  }, [targetUserId, refresh]);
+
+  const accept = useCallback(async () => {
+    if (!relationshipId) return;
+
+    try {
+      setLoading(true);
+
+      await acceptRelationship(relationshipId);
+
+      await refresh();
+    } finally {
+      setLoading(false);
+    }
+  }, [relationshipId, refresh]);
+
+  const reject = useCallback(async () => {
+    if (!relationshipId) return;
+
+    try {
+      setLoading(true);
+
+      await rejectRelationship(relationshipId);
+
+      await refresh();
+    } finally {
+      setLoading(false);
+    }
+  }, [relationshipId, refresh]);
 
   return {
-    status: relationship.status,
-    relationshipId: relationship.relationshipId,
+    status,
+    relationshipId,
     loading,
-
     follow,
     cancel,
+    remove,
     accept,
     reject,
-    remove,
   };
 };
 
 export default useRelationship;
+

@@ -204,6 +204,7 @@ exports.Prisma.RelationshipScalarFieldEnum = {
   id: 'id',
   senderId: 'senderId',
   receiverId: 'receiverId',
+  pairKey: 'pairKey',
   status: 'status',
   type: 'type',
   createdAt: 'createdAt',

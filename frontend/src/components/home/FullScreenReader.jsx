@@ -1,3 +1,4 @@
+
 import {
   ArrowDown,
   ArrowUp,
@@ -5,7 +6,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import ContentCard from "../content/ContentCard";
+import FullScreenContentCard from "../content/FullscreenContentCard";
 
 const FullScreenReader = ({
   contents,
@@ -18,10 +19,19 @@ const FullScreenReader = ({
 
   const currentContent = contents[currentContentIndex];
 
+  if (!currentContent) {
+    return null;
+  }
+
   return (
     <div className="fixed inset-0 z-[100] flex h-screen w-screen flex-col bg-[#f7f7f8]">
-      {/* Header */}
+
+      {/* ------------------------------------------------ */}
+      {/* HEADER */}
+      {/* ------------------------------------------------ */}
+
       <header className="flex h-16 shrink-0 items-center justify-between border-b border-black/[0.06] bg-white/90 px-5 backdrop-blur-xl sm:px-8">
+
         <button
           type="button"
           onClick={() => navigate("/")}
@@ -31,6 +41,7 @@ const FullScreenReader = ({
         </button>
 
         <div className="flex items-center gap-3">
+
           <span className="hidden text-xs font-medium text-gray-400 sm:block">
             {currentContentIndex + 1} / {contents.length}
           </span>
@@ -46,25 +57,37 @@ const FullScreenReader = ({
               Exit Full Screen
             </span>
           </button>
+
         </div>
       </header>
 
-      {/* Content */}
+      {/* ------------------------------------------------ */}
+      {/* CONTENT */}
+      {/* ------------------------------------------------ */}
+
       <main className="relative flex-1 overflow-y-auto">
-        <div className="mx-auto flex min-h-full max-w-4xl items-start justify-center px-5 py-10 sm:px-8 sm:py-16">
+
+        <div className="mx-auto flex min-h-full max-w-5xl items-center justify-center px-5 py-8 sm:px-8 sm:py-10">
+
           <div className="w-full">
-            <ContentCard
+            <FullScreenContentCard
               content={currentContent}
               onOpen={(id) =>
                 navigate(`/content/${id}`)
               }
             />
           </div>
+
         </div>
+
       </main>
 
-      {/* Navigation */}
+      {/* ------------------------------------------------ */}
+      {/* NAVIGATION */}
+      {/* ------------------------------------------------ */}
+
       <div className="pointer-events-none absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2">
+
         <button
           type="button"
           onClick={handlePreviousContent}
@@ -86,11 +109,17 @@ const FullScreenReader = ({
         >
           <ArrowDown size={18} />
         </button>
+
       </div>
+
+      {/* ------------------------------------------------ */}
+      {/* KEYBOARD HINT */}
+      {/* ------------------------------------------------ */}
 
       <div className="pointer-events-none absolute bottom-8 right-6 hidden text-xs text-gray-400 lg:block">
         ↑ ↓ to navigate · Esc to exit
       </div>
+
     </div>
   );
 };

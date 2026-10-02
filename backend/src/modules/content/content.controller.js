@@ -1,3 +1,4 @@
+import { uploadToCloudinary } from "../../utils/cloudinaryUpload.js";
 import {
   createNewContent,
   getContent,
@@ -6,6 +7,7 @@ import {
   updateExistingContent,
   deleteExistingContent,
   createArticleService,
+  getContentByIdService,
 } from "./content.service.js";
 
 export async function createContent(req, res, next) {
@@ -32,7 +34,7 @@ export async function getContentById(
   next
 ) {
   try {
-    const content = await getContentById(
+    const content = await getContentByIdService(
       req.params.contentId,
       req.user.id
     );
@@ -139,8 +141,19 @@ export const createArticle = async (req, res, next) => {
       body,
     } = req.validatedBody;
 
-    const pdfUrl = req.file?.path || null;
-    const pdfFileName = req.file?.originalname || null;
+    let pdfUrl = null;
+    let pdfFileName = null;
+
+    if (req.file) {
+      const result = await uploadToCloudinary({
+        buffer: req.file.buffer,
+        folder: "youvyx/articles",
+        resourceType: "raw",
+      });
+
+      pdfUrl = result.secure_url;
+      pdfFileName = req.file.originalname;
+    }
 
     const article = await createArticleService({
       creatorId: req.user.id,
@@ -164,3 +177,4 @@ export const createArticle = async (req, res, next) => {
     next(error);
   }
 };
+

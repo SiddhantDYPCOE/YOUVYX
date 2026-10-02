@@ -35,9 +35,7 @@ export const toggleLike = async (contentId) => {
   return response.data;
 };
 
-export const createArticle = async (formData) => {
-  const response = await api.post(
-    "/content/article",
-    formData
-  );
-}
+export const createArticle = async (data) => { 
+  const response = await api.post( "/content/article", data ); 
+  return response.data; 
+};

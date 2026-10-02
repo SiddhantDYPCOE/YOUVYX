@@ -1,11 +1,9 @@
 
-import { ChevronRight, Crown, UserRound } from "lucide-react";
+import { UserRound } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const getInitials = (name) => {
-  if (!name || typeof name !== "string") {
-    return "U";
-  }
+  if (!name) return "U";
 
   return name
     .trim()
@@ -20,75 +18,63 @@ const getInitials = (name) => {
 const UserRelationshipCard = ({ user }) => {
   const navigate = useNavigate();
 
-  const isCreator =
-    user?.accountType === "CREATOR";
+  if (!user) return null;
 
-  const handleClick = () => {
-    if (!user?.id) return;
+  const handleProfileClick = () => {
+    if (!user.id) return;
 
-    if (isCreator) {
+    if (user.accountType === "CREATOR") {
       navigate(`/creator/${user.id}`);
       return;
     }
 
-    navigate(`/user/${user.id}`);
+    navigate(`/profile/${user.id}`);
   };
 
   return (
     <button
       type="button"
-      onClick={handleClick}
-      className="group flex w-full items-center gap-4 rounded-2xl border border-black/[0.07] bg-white p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md"
+      onClick={handleProfileClick}
+      className="flex w-full items-center gap-4 rounded-2xl border border-black/[0.07] bg-white p-4 text-left transition hover:border-indigo-100 hover:bg-gray-50"
     >
       {/* Avatar */}
-
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gray-950 text-sm font-bold text-white">
-        {user?.profileImage ? (
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100 text-sm font-bold text-gray-600">
+        {user.profileImage ? (
           <img
             src={user.profileImage}
-            alt={user.name}
+            alt={user.name || "User"}
             className="h-full w-full object-cover"
           />
         ) : (
-          getInitials(user?.name)
+          getInitials(user.name)
         )}
       </div>
 
       {/* User Info */}
-
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <h3 className="truncate text-sm font-bold text-gray-950 group-hover:text-indigo-600">
-            {user?.name || "Unknown User"}
-          </h3>
+          <p className="truncate text-sm font-bold text-gray-950">
+            {user.name}
+          </p>
 
-          {isCreator && (
-            <span className="flex shrink-0 items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-semibold text-indigo-600">
-              <Crown size={10} />
+          {user.accountType === "CREATOR" && (
+            <span className="shrink-0 rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-indigo-600">
               Creator
             </span>
           )}
         </div>
 
         <p className="mt-0.5 truncate text-xs text-gray-400">
-          @{user?.username || "user"}
+          @{user.username}
         </p>
-
-        {user?.bio && (
-          <p className="mt-2 line-clamp-1 text-xs text-gray-500">
-            {user.bio}
-          </p>
-        )}
       </div>
 
       {/* Arrow */}
-
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gray-50 text-gray-400 transition group-hover:bg-indigo-50 group-hover:text-indigo-600">
-        <ChevronRight size={17} />
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gray-50 text-gray-400 transition group-hover:text-gray-700">
+        <UserRound size={16} />
       </div>
     </button>
   );
 };
 
 export default UserRelationshipCard;
-

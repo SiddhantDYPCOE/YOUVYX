@@ -17,7 +17,7 @@ import {
   createArticleSchema,
 } from "./content.validator.js";
 
-import { validate } from "../../middlewares/validate.middleware.js";
+import { validate, validateArticle } from "../../middlewares/validate.middleware.js";
 import { authenticate } from "../../middlewares/auth.middleware.js";
 import { upload } from "../../middlewares/upload.middleware.js";
 
@@ -50,7 +50,7 @@ router.post(
   "/article",
   authenticate,
   upload.single("pdf"),
-  validate(createArticleSchema),
+  validateArticle(createArticleSchema),
   createArticle
 );
 

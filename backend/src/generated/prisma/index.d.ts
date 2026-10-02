@@ -11821,6 +11821,7 @@ export namespace Prisma {
     id: string | null
     senderId: string | null
     receiverId: string | null
+    pairKey: string | null
     status: $Enums.FollowStatus | null
     type: $Enums.RelationshipType | null
     createdAt: Date | null
@@ -11831,6 +11832,7 @@ export namespace Prisma {
     id: string | null
     senderId: string | null
     receiverId: string | null
+    pairKey: string | null
     status: $Enums.FollowStatus | null
     type: $Enums.RelationshipType | null
     createdAt: Date | null
@@ -11841,6 +11843,7 @@ export namespace Prisma {
     id: number
     senderId: number
     receiverId: number
+    pairKey: number
     status: number
     type: number
     createdAt: number
@@ -11853,6 +11856,7 @@ export namespace Prisma {
     id?: true
     senderId?: true
     receiverId?: true
+    pairKey?: true
     status?: true
     type?: true
     createdAt?: true
@@ -11863,6 +11867,7 @@ export namespace Prisma {
     id?: true
     senderId?: true
     receiverId?: true
+    pairKey?: true
     status?: true
     type?: true
     createdAt?: true
@@ -11873,6 +11878,7 @@ export namespace Prisma {
     id?: true
     senderId?: true
     receiverId?: true
+    pairKey?: true
     status?: true
     type?: true
     createdAt?: true
@@ -11956,6 +11962,7 @@ export namespace Prisma {
     id: string
     senderId: string
     receiverId: string
+    pairKey: string
     status: $Enums.FollowStatus
     type: $Enums.RelationshipType
     createdAt: Date
@@ -11983,6 +11990,7 @@ export namespace Prisma {
     id?: boolean
     senderId?: boolean
     receiverId?: boolean
+    pairKey?: boolean
     status?: boolean
     type?: boolean
     createdAt?: boolean
@@ -11995,6 +12003,7 @@ export namespace Prisma {
     id?: boolean
     senderId?: boolean
     receiverId?: boolean
+    pairKey?: boolean
     status?: boolean
     type?: boolean
     createdAt?: boolean
@@ -12007,6 +12016,7 @@ export namespace Prisma {
     id?: boolean
     senderId?: boolean
     receiverId?: boolean
+    pairKey?: boolean
     status?: boolean
     type?: boolean
     createdAt?: boolean
@@ -12019,13 +12029,14 @@ export namespace Prisma {
     id?: boolean
     senderId?: boolean
     receiverId?: boolean
+    pairKey?: boolean
     status?: boolean
     type?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type RelationshipOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderId" | "receiverId" | "status" | "type" | "createdAt" | "updatedAt", ExtArgs["result"]["relationship"]>
+  export type RelationshipOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderId" | "receiverId" | "pairKey" | "status" | "type" | "createdAt" | "updatedAt", ExtArgs["result"]["relationship"]>
   export type RelationshipInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
@@ -12049,6 +12060,7 @@ export namespace Prisma {
       id: string
       senderId: string
       receiverId: string
+      pairKey: string
       status: $Enums.FollowStatus
       type: $Enums.RelationshipType
       createdAt: Date
@@ -12481,6 +12493,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Relationship", 'String'>
     readonly senderId: FieldRef<"Relationship", 'String'>
     readonly receiverId: FieldRef<"Relationship", 'String'>
+    readonly pairKey: FieldRef<"Relationship", 'String'>
     readonly status: FieldRef<"Relationship", 'FollowStatus'>
     readonly type: FieldRef<"Relationship", 'RelationshipType'>
     readonly createdAt: FieldRef<"Relationship", 'DateTime'>
@@ -19658,6 +19671,7 @@ export namespace Prisma {
     id: 'id',
     senderId: 'senderId',
     receiverId: 'receiverId',
+    pairKey: 'pairKey',
     status: 'status',
     type: 'type',
     createdAt: 'createdAt',
@@ -20510,6 +20524,7 @@ export namespace Prisma {
     id?: StringFilter<"Relationship"> | string
     senderId?: StringFilter<"Relationship"> | string
     receiverId?: StringFilter<"Relationship"> | string
+    pairKey?: StringFilter<"Relationship"> | string
     status?: EnumFollowStatusFilter<"Relationship"> | $Enums.FollowStatus
     type?: EnumRelationshipTypeFilter<"Relationship"> | $Enums.RelationshipType
     createdAt?: DateTimeFilter<"Relationship"> | Date | string
@@ -20522,6 +20537,7 @@ export namespace Prisma {
     id?: SortOrder
     senderId?: SortOrder
     receiverId?: SortOrder
+    pairKey?: SortOrder
     status?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
@@ -20532,7 +20548,7 @@ export namespace Prisma {
 
   export type RelationshipWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    senderId_receiverId?: RelationshipSenderIdReceiverIdCompoundUniqueInput
+    pairKey?: string
     AND?: RelationshipWhereInput | RelationshipWhereInput[]
     OR?: RelationshipWhereInput[]
     NOT?: RelationshipWhereInput | RelationshipWhereInput[]
@@ -20544,12 +20560,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Relationship"> | Date | string
     sender?: XOR<UserScalarRelationFilter, UserWhereInput>
     receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "senderId_receiverId">
+  }, "id" | "pairKey">
 
   export type RelationshipOrderByWithAggregationInput = {
     id?: SortOrder
     senderId?: SortOrder
     receiverId?: SortOrder
+    pairKey?: SortOrder
     status?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
@@ -20566,6 +20583,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Relationship"> | string
     senderId?: StringWithAggregatesFilter<"Relationship"> | string
     receiverId?: StringWithAggregatesFilter<"Relationship"> | string
+    pairKey?: StringWithAggregatesFilter<"Relationship"> | string
     status?: EnumFollowStatusWithAggregatesFilter<"Relationship"> | $Enums.FollowStatus
     type?: EnumRelationshipTypeWithAggregatesFilter<"Relationship"> | $Enums.RelationshipType
     createdAt?: DateTimeWithAggregatesFilter<"Relationship"> | Date | string
@@ -21595,6 +21613,7 @@ export namespace Prisma {
 
   export type RelationshipCreateInput = {
     id?: string
+    pairKey: string
     status?: $Enums.FollowStatus
     type?: $Enums.RelationshipType
     createdAt?: Date | string
@@ -21607,6 +21626,7 @@ export namespace Prisma {
     id?: string
     senderId: string
     receiverId: string
+    pairKey: string
     status?: $Enums.FollowStatus
     type?: $Enums.RelationshipType
     createdAt?: Date | string
@@ -21615,6 +21635,7 @@ export namespace Prisma {
 
   export type RelationshipUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
     type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21627,6 +21648,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
     type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21637,6 +21659,7 @@ export namespace Prisma {
     id?: string
     senderId: string
     receiverId: string
+    pairKey: string
     status?: $Enums.FollowStatus
     type?: $Enums.RelationshipType
     createdAt?: Date | string
@@ -21645,6 +21668,7 @@ export namespace Prisma {
 
   export type RelationshipUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
     type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21655,6 +21679,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
     type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22667,15 +22692,11 @@ export namespace Prisma {
     not?: NestedEnumRelationshipTypeFilter<$PrismaModel> | $Enums.RelationshipType
   }
 
-  export type RelationshipSenderIdReceiverIdCompoundUniqueInput = {
-    senderId: string
-    receiverId: string
-  }
-
   export type RelationshipCountOrderByAggregateInput = {
     id?: SortOrder
     senderId?: SortOrder
     receiverId?: SortOrder
+    pairKey?: SortOrder
     status?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
@@ -22686,6 +22707,7 @@ export namespace Prisma {
     id?: SortOrder
     senderId?: SortOrder
     receiverId?: SortOrder
+    pairKey?: SortOrder
     status?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
@@ -22696,6 +22718,7 @@ export namespace Prisma {
     id?: SortOrder
     senderId?: SortOrder
     receiverId?: SortOrder
+    pairKey?: SortOrder
     status?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
@@ -24696,6 +24719,7 @@ export namespace Prisma {
 
   export type RelationshipCreateWithoutSenderInput = {
     id?: string
+    pairKey: string
     status?: $Enums.FollowStatus
     type?: $Enums.RelationshipType
     createdAt?: Date | string
@@ -24706,6 +24730,7 @@ export namespace Prisma {
   export type RelationshipUncheckedCreateWithoutSenderInput = {
     id?: string
     receiverId: string
+    pairKey: string
     status?: $Enums.FollowStatus
     type?: $Enums.RelationshipType
     createdAt?: Date | string
@@ -24724,6 +24749,7 @@ export namespace Prisma {
 
   export type RelationshipCreateWithoutReceiverInput = {
     id?: string
+    pairKey: string
     status?: $Enums.FollowStatus
     type?: $Enums.RelationshipType
     createdAt?: Date | string
@@ -24734,6 +24760,7 @@ export namespace Prisma {
   export type RelationshipUncheckedCreateWithoutReceiverInput = {
     id?: string
     senderId: string
+    pairKey: string
     status?: $Enums.FollowStatus
     type?: $Enums.RelationshipType
     createdAt?: Date | string
@@ -25044,6 +25071,7 @@ export namespace Prisma {
     id?: StringFilter<"Relationship"> | string
     senderId?: StringFilter<"Relationship"> | string
     receiverId?: StringFilter<"Relationship"> | string
+    pairKey?: StringFilter<"Relationship"> | string
     status?: EnumFollowStatusFilter<"Relationship"> | $Enums.FollowStatus
     type?: EnumRelationshipTypeFilter<"Relationship"> | $Enums.RelationshipType
     createdAt?: DateTimeFilter<"Relationship"> | Date | string
@@ -27843,6 +27871,7 @@ export namespace Prisma {
   export type RelationshipCreateManySenderInput = {
     id?: string
     receiverId: string
+    pairKey: string
     status?: $Enums.FollowStatus
     type?: $Enums.RelationshipType
     createdAt?: Date | string
@@ -27852,6 +27881,7 @@ export namespace Prisma {
   export type RelationshipCreateManyReceiverInput = {
     id?: string
     senderId: string
+    pairKey: string
     status?: $Enums.FollowStatus
     type?: $Enums.RelationshipType
     createdAt?: Date | string
@@ -28048,6 +28078,7 @@ export namespace Prisma {
 
   export type RelationshipUpdateWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
     type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28058,6 +28089,7 @@ export namespace Prisma {
   export type RelationshipUncheckedUpdateWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
     type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28067,6 +28099,7 @@ export namespace Prisma {
   export type RelationshipUncheckedUpdateManyWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
     type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28075,6 +28108,7 @@ export namespace Prisma {
 
   export type RelationshipUpdateWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
     type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28085,6 +28119,7 @@ export namespace Prisma {
   export type RelationshipUncheckedUpdateWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
     type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28094,6 +28129,7 @@ export namespace Prisma {
   export type RelationshipUncheckedUpdateManyWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumFollowStatusFieldUpdateOperationsInput | $Enums.FollowStatus
     type?: EnumRelationshipTypeFieldUpdateOperationsInput | $Enums.RelationshipType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

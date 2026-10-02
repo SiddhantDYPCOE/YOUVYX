@@ -9,8 +9,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getPublicUserProfile } from "../../services/auth.api";
 
 import {
-  getFollowers,
-  getFollowing,
+  getFollowersByUserId,
+  getFollowingByUserId,
   getReceivedRequests,
   getSentRequests,
 } from "../../services/relationship.api";
@@ -43,8 +43,6 @@ const PublicUserProfile = () => {
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
-  const [sentRequests, setSentRequests] = useState([]);
-  const [receivedRequests, setReceivedRequests] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [relationshipLoading, setRelationshipLoading] =
@@ -80,7 +78,7 @@ const PublicUserProfile = () => {
   }, [userId]);
 
   const loadRelationships = useCallback(async () => {
-    if (!isAuthenticated) return;
+
 
     try {
       setRelationshipLoading(true);
@@ -88,13 +86,10 @@ const PublicUserProfile = () => {
       const [
         followersResponse,
         followingResponse,
-        sentResponse,
-        receivedResponse,
       ] = await Promise.all([
-        getFollowers(),
-        getFollowing(),
-        getSentRequests(),
-        getReceivedRequests(),
+        getFollowersByUserId(userId),
+        getFollowingByUserId(userId),
+        
       ]);
 
       setFollowers(
@@ -105,17 +100,11 @@ const PublicUserProfile = () => {
         followingResponse?.data?.following || []
       );
 
-      setSentRequests(
-        sentResponse?.data?.requests || []
-      );
-
-      setReceivedRequests(
-        receivedResponse?.data?.requests || []
-      );
+      
     } finally {
       setRelationshipLoading(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, userId]);
 
   useEffect(() => {
     loadProfile();
@@ -125,14 +114,13 @@ const PublicUserProfile = () => {
     loadRelationships();
   }, [loadRelationships]);
 
-  const relationship = useRelationship({
-    targetUserId: userId,
-    followers,
-    following,
-    sentRequests,
-    receivedRequests,
-    onChange: loadRelationships,
-  });
+
+const relationship = useRelationship({
+  targetUserId: userId,
+  onChange: loadRelationships,
+});
+
+
 
   if (loading) {
     return (

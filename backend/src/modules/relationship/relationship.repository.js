@@ -62,11 +62,60 @@ export const findRelationshipById = async (relationshipId) => {
   });
 };
 
-export const createRelationship = async (data) => {
-  return prisma.relationship.create({
-    data,
+
+export const findRelationshipByPairKey = async (
+  pairKey
+) => {
+  return prisma.relationship.findUnique({
+    where: {
+      pairKey,
+    },
   });
 };
+
+export const createRelationship = async ({
+  senderId,
+  receiverId,
+  pairKey,
+  status,
+  type,
+}) => {
+  return prisma.relationship.create({
+    data: {
+      senderId,
+      receiverId,
+      pairKey,
+      status,
+      type,
+    },
+
+    include: {
+      sender: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          profileImage: true,
+          accountType: true,
+        },
+      },
+
+      receiver: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          profileImage: true,
+          accountType: true,
+        },
+      },
+    },
+  });
+};
+
+
+
+
 
 export const updateRelationship = async (relationshipId, data) => {
   return prisma.relationship.update({
@@ -231,3 +280,36 @@ export const getFollowers = async (userId) => {
     relationshipId: relationship.id,
   }));
 };
+
+
+export const findRelationshipsBetweenUsers = async (
+  userId,
+  otherUserId
+) => {
+  return prisma.relationship.findMany({
+    where: {
+      OR: [
+        {
+          senderId: userId,
+          receiverId: otherUserId,
+        },
+        {
+          senderId: otherUserId,
+          receiverId: userId,
+        },
+      ],
+      type: {
+        in: ["FOLLOW", "MUTUAL"],
+      },
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+};
+
+
+
+
+
+

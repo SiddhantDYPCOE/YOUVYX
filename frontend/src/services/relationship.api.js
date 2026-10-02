@@ -71,3 +71,28 @@ export const getSentRequests = async () => {
 
   return response.data;
 };
+
+export const getFollowersByUserId = async (userId) => {
+  const response = await api.get(
+    `/relationship/${userId}/followers`
+  );
+
+  return response.data;
+};
+
+export const getFollowingByUserId = async (userId) => {
+  const response = await api.get(
+    `/relationship/${userId}/following`
+  );
+
+  return response.data;
+};
+
+
+export const getRelationshipStatus = async (userId) => {
+  const response = await api.get(
+    `/relationship/${userId}/status`
+  );
+
+  return response.data;
+};

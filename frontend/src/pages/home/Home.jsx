@@ -14,6 +14,7 @@ import FeedLoading from "../../components/home/FeedLoading";
 import FeedError from "../../components/home/FeedError";
 import FeedEmpty from "../../components/home/FeedEmpty";
 import FullScreenReader from "../../components/home/FullScreenReader";
+import ContentTypeNavigation from "../../components/home/ContentTypeNavigation";
 
 const Home = () => {
   const { user, logout } = useAuth();
@@ -26,9 +27,30 @@ const Home = () => {
 
   const [activeTab, setActiveTab] = useState("productive");
 
+  // New content navigation
+  const [contentTab, setContentTab] = useState("all");
+
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [currentContentIndex, setCurrentContentIndex] =
-    useState(0);
+  const [currentContentIndex, setCurrentContentIndex] = useState(0);
+
+  /* -------------------------------------------------- */
+  /* FILTER CONTENT */
+  /* -------------------------------------------------- */
+
+  const filteredContents = contents.filter((content) => {
+    if (contentTab === "articles") {
+      return content.type === "ARTICLE";
+    }
+
+    if (contentTab === "discover") {
+      return (
+        content.type === "IMAGE" ||
+        content.type === "VIDEO"
+      );
+    }
+
+    return true;
+  });
 
   /* -------------------------------------------------- */
   /* LOAD FEED */
@@ -82,6 +104,14 @@ const Home = () => {
   }, []);
 
   /* -------------------------------------------------- */
+  /* RESET INDEX WHEN TAB CHANGES */
+  /* -------------------------------------------------- */
+
+  useEffect(() => {
+    setCurrentContentIndex(0);
+  }, [contentTab]);
+
+  /* -------------------------------------------------- */
   /* FULL SCREEN KEYBOARD CONTROLS */
   /* -------------------------------------------------- */
 
@@ -102,7 +132,7 @@ const Home = () => {
         setCurrentContentIndex((previous) =>
           Math.min(
             previous + 1,
-            Math.max(contents.length - 1, 0)
+            Math.max(filteredContents.length - 1, 0)
           )
         );
       }
@@ -116,10 +146,7 @@ const Home = () => {
       }
     };
 
-    window.addEventListener(
-      "keydown",
-      handleKeyDown
-    );
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
       window.removeEventListener(
@@ -127,14 +154,14 @@ const Home = () => {
         handleKeyDown
       );
     };
-  }, [isFullScreen, contents.length]);
+  }, [isFullScreen, filteredContents.length]);
 
   /* -------------------------------------------------- */
   /* FULL SCREEN */
   /* -------------------------------------------------- */
 
   const handleFullScreen = () => {
-    if (!contents.length) {
+    if (!filteredContents.length) {
       return;
     }
 
@@ -150,7 +177,7 @@ const Home = () => {
     setCurrentContentIndex((previous) =>
       Math.min(
         previous + 1,
-        Math.max(contents.length - 1, 0)
+        Math.max(filteredContents.length - 1, 0)
       )
     );
   };
@@ -169,11 +196,11 @@ const Home = () => {
     isFullScreen &&
     !loading &&
     !error &&
-    contents.length > 0
+    filteredContents.length > 0
   ) {
     return (
       <FullScreenReader
-        contents={contents}
+        contents={filteredContents}
         currentContentIndex={currentContentIndex}
         handleExitFullScreen={handleExitFullScreen}
         handleNextContent={handleNextContent}
@@ -188,25 +215,23 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-[#f7f7f8]">
-      {/* ------------------------------------------------ */}
+
       {/* HEADER */}
-      {/* ------------------------------------------------ */}
 
       <HomeHeader
         user={user}
         logout={logout}
       />
 
-      {/* ------------------------------------------------ */}
       {/* MAIN */}
-      {/* ------------------------------------------------ */}
 
       <main className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
-        {/* Hero */}
+
+        {/* HERO */}
 
         <HomeHero />
 
-        {/* Navigation */}
+        {/* MAIN NAVIGATION */}
 
         <HomeNavigation
           activeTab={activeTab}
@@ -218,15 +243,14 @@ const Home = () => {
           handleFullScreen={handleFullScreen}
         />
 
-        {/* ------------------------------------------------ */}
+        {/* CONTENT TYPE NAVIGATION */}
+
+        {activeTab === "productive" && ( <ContentTypeNavigation contentTab={contentTab} setContentTab={setContentTab} /> )}
         {/* LOADING */}
-        {/* ------------------------------------------------ */}
 
         {loading && <FeedLoading />}
 
-        {/* ------------------------------------------------ */}
         {/* ERROR */}
-        {/* ------------------------------------------------ */}
 
         {!loading && error && (
           <FeedError
@@ -236,38 +260,39 @@ const Home = () => {
           />
         )}
 
-        {/* ------------------------------------------------ */}
         {/* EMPTY */}
-        {/* ------------------------------------------------ */}
 
         {!loading &&
           !error &&
-          contents.length === 0 && (
+          filteredContents.length === 0 && (
             <FeedEmpty
               loadFeed={loadFeed}
               refreshing={refreshing}
             />
           )}
 
-        {/* ------------------------------------------------ */}
         {/* VERTICAL FEED */}
-        {/* ------------------------------------------------ */}
 
         {!loading &&
           !error &&
-          contents.length > 0 && (
-            <section className="mx-auto max-w-4xl">
+          filteredContents.length > 0 && (
+            <section className="mx-auto mt-6 max-w-4xl">
+
               {/* Feed heading */}
 
               <div className="mb-5 flex items-end justify-between">
                 <div>
                   <h2 className="text-lg font-bold tracking-tight text-gray-950">
-                    Productive Feed
+                    {contentTab === "articles"
+                      ? "Articles"
+                      : contentTab === "discover"
+                      ? "Discover"
+                      : "Productive Feed"}
                   </h2>
 
                   <p className="mt-1 text-sm text-gray-400">
-                    {contents.length}{" "}
-                    {contents.length === 1
+                    {filteredContents.length}{" "}
+                    {filteredContents.length === 1
                       ? "piece"
                       : "pieces"}{" "}
                     of content
@@ -277,9 +302,10 @@ const Home = () => {
 
               {/* Scrollable feed */}
 
-              <div className="h-[calc(100vh-13rem)] min-h-[500px] snap-y snap-mandatory overflow-y-auto overscroll-contain pr-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300">
-                <div className="space-y-5 pb-8">
-                  {contents.map((content) => (
+              <div className="h-[calc(100vh-17rem)] min-h-[500px] snap-y snap-mandatory overflow-y-auto overscroll-contain pr-1">
+                <div className="divide-y divide-gray-200 pb-8">
+
+                  {filteredContents.map((content) => (
                     <div
                       key={content.id}
                       className="snap-start"
@@ -294,13 +320,16 @@ const Home = () => {
                       />
                     </div>
                   ))}
+
                 </div>
               </div>
             </section>
           )}
+
       </main>
     </div>
   );
 };
 
 export default Home;
+

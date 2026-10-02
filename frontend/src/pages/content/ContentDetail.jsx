@@ -10,7 +10,7 @@ import {
   Share2,
 } from "lucide-react";
 
-import { getFeed, toggleLike } from "../../services/content.api";
+import { getContentById, getFeed, toggleLike } from "../../services/content.api";
 
 const getInitials = (name = "U") => {
   if (!name || typeof name !== "string") {
@@ -76,13 +76,9 @@ const ContentDetails = () => {
           return;
         }
 
-        const response = await getFeed();
+        const response = await getContentById(contentId);
 
-        const contents = response?.data?.contents || [];
-
-        const selectedContent = contents.find(
-          (item) => item.id === contentId
-        );
+const selectedContent = response?.data?.content;
 
         if (!selectedContent) {
           setError("This content could not be found in your feed.");
@@ -331,31 +327,32 @@ const ContentDetails = () => {
 
             {/* PDF */}
 
-            {article.pdfUrl && (
-              <div className="mt-12 rounded-2xl border border-gray-200 bg-gray-50 p-6">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-gray-950">
-                      PDF version
-                    </p>
 
-                    <p className="mt-1 text-xs text-gray-400">
-                      {article.pdfFileName ||
-                        "View attached document"}
-                    </p>
-                  </div>
+{article.pdfUrl && (
+  <div className="mt-12 rounded-2xl border border-gray-200 bg-gray-50 p-6">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <p className="text-sm font-semibold text-gray-950">
+          PDF version
+        </p>
 
-                  <a
-                    href={article.pdfUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex w-fit rounded-full bg-gray-950 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800"
-                  >
-                    Open PDF
-                  </a>
-                </div>
-              </div>
-            )}
+        <p className="mt-1 text-xs text-gray-400">
+          {article.pdfFileName || "View attached document"}
+        </p>
+      </div>
+
+      <a
+        href={article.pdfUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex w-fit rounded-full bg-gray-950 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800"
+      >
+        Open PDF
+      </a>
+    </div>
+  </div>
+)}
+
 
             {/* Empty article fallback */}
 

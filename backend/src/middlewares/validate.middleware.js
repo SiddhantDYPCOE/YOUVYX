@@ -1,6 +1,6 @@
-export const validate = (schema) => {
+export const validate = (schema, source = "body") => {
   return (req, res, next) => {
-    const result = schema.safeParse(req.body);
+    const result = schema.safeParse(req[source]);
 
     if (!result.success) {
       return res.status(400).json({
@@ -13,8 +13,7 @@ export const validate = (schema) => {
       });
     }
 
-    req.validatedBody = result.data;
-
+    req[source] = result.data;
     next();
   };
 };
@@ -54,3 +53,25 @@ export const validateQuery = (schema) => {
     next();
   };
 };
+
+export const validateArticle = (schema, source = "body") => {
+  return (req, res, next) => {
+    const result = schema.safeParse(req[source]);
+
+    if (!result.success) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation failed",
+        errors: result.error.issues.map((issue) => ({
+          field: issue.path.join(".") || "unknown",
+          message: issue.message,
+        })),
+      });
+    }
+
+    req.validatedBody = result.data;
+
+    next();
+  };
+};
+

@@ -241,3 +241,63 @@ export const getFollowing = async (req, res) => {
     });
   }
 };
+
+export const getFollowersByUserId = async (req, res, next) => {
+  try {
+    const followers = await relationshipService.getFollowersByUserIdService(
+      req.params.userId
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Followers retrieved successfully",
+      data: {
+        followers,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getFollowingByUserId = async (req, res, next) => {
+  try {
+    const following = await relationshipService.getFollowingByUserIdService(
+      req.params.userId
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Following retrieved successfully",
+      data: {
+        following,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getRelationshipStatus = async (req, res, next) => {
+  try {
+    const currentUserId = req.user.id;
+    const targetUserId = req.params.userId;
+
+    const relationship =
+      await relationshipService.getRelationshipStatusService(
+        currentUserId,
+        targetUserId
+      );
+
+    return res.status(200).json({
+      success: true,
+      message: "Relationship status retrieved successfully",
+      data: {
+        relationship,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+

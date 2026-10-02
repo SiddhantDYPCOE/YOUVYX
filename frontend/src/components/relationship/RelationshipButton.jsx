@@ -83,6 +83,19 @@ const RelationshipButton = ({
     );
   }
 
+if (status === "FOLLOWER") {
+  return (
+    <button
+      type="button"
+      disabled
+      className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-500"
+    >
+      Follows you
+    </button>
+  );
+}
+
+
   // Current user follows target
   if (status === "FOLLOWING") {
     return (
