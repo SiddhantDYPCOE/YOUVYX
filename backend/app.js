@@ -10,6 +10,7 @@ import likeRoutes from "./src/modules/like/like.routes.js"
 import creatorRoutes from "./src/modules/creator/creator.routes.js"
 import shareRoutes from "./src/modules/share/share.routes.js"
 import relationshipRoutes from "./src/modules/relationship/relationship.routes.js";
+import postRoutes from "./src/modules/post/post.routes.js";
 import { errorMiddleware } from "./src/middlewares/error.middleware.js";
 
 
@@ -22,7 +23,6 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "http://192.168.1.22:5173",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
@@ -45,6 +45,8 @@ app.use("/api/youvyx/content/", likeRoutes)
 app.use("/api/youvyx/content/", shareRoutes)
 app.use("/api/youvyx/creator", creatorRoutes);
 app.use("/api/youvyx/relationship", relationshipRoutes);
+
+app.use("/api/youvyx/post", postRoutes);
 
 app.use(errorMiddleware);
 

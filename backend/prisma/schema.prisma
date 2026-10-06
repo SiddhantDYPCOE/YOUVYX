@@ -42,13 +42,20 @@ enum RelationshipType {
   FOLLOW
   MUTUAL
 } 
+
+enum PostTagStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+
 model User {
   id           String      @id @default(cuid())
   name         String
   username     String      @unique
   email        String      @unique
   passwordHash String
-
   accountType  AccountType @default(NORMAL)
 
   bio          String?
@@ -57,21 +64,25 @@ model User {
   streak       Int       @default(0)
   lastActiveAt DateTime?
 
-  creator      Creator?
-
+  creator       Creator?
   selectedGenres UserGenre[]
-  contents      Content[]
-  posts         Post[] @relation("PostAuthor")
-  taggedInPosts Post[] @relation("PostTaggedCreator")
-  likes         Like[]
-  shares        Share[]
+  contents       Content[]
+
+  posts Post[] @relation("PostAuthor")
+
+  receivedPostTags PostTag[] @relation("PostTagsReceived")
+  createdPostTags  PostTag[] @relation("PostTagsCreated")
+
+  likes   Like[]
+  shares  Share[]
 
   sentRelationships     Relationship[] @relation("RelationshipSender")
   receivedRelationships Relationship[] @relation("RelationshipReceiver")
 
-  createdChallenges    Challenge[]
-  userChallenges       UserChallenge[]
-  productivityCounts   ProductivityCount[]
+  createdChallenges Challenge[]
+  userChallenges    UserChallenge[]
+
+  productivityCounts ProductivityCount[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -79,6 +90,7 @@ model User {
   @@index([accountType])
   @@index([username])
 }
+
 model Creator {
   id String @id @default(cuid())
 
@@ -156,20 +168,21 @@ model Content {
   @@index([genreId, createdAt])
 }
 
-model Post {
-  id      String @id @default(cuid())
-  content String
 
+model Post {
+  id String @id @default(cuid())
+
+  content  String
   mediaUrl String?
 
   authorId String
-  author   User   @relation("PostAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  author   User @relation("PostAuthor",fields: [authorId],references: [id],onDelete: Cascade)
 
-  challengeId String?        @unique
-  challenge   UserChallenge? @relation(fields: [challengeId], references: [id], onDelete: SetNull)
+  challengeId String? @unique
 
-  taggedCreatorId String?
-  taggedCreator   User?   @relation("PostTaggedCreator", fields: [taggedCreatorId], references: [id], onDelete: SetNull)
+  challenge UserChallenge? @relation(fields: [challengeId],references: [id],onDelete: SetNull)
+
+  tags PostTag[]
 
   deletedAt DateTime?
 
@@ -179,8 +192,36 @@ model Post {
   @@index([authorId])
   @@index([createdAt])
   @@index([challengeId])
-  @@index([taggedCreatorId])
+  @@index([deletedAt])
 }
+
+
+model PostTag {
+  id String @id @default(cuid())
+
+  postId String
+  post   Post @relation(fields: [postId],references: [id],onDelete: Cascade)
+
+  taggedUserId String
+  taggedUser   User @relation("PostTagsReceived",fields: [taggedUserId],references: [id],onDelete: Cascade)
+
+  taggedById String
+  taggedBy   User @relation("PostTagsCreated",fields: [taggedById],references: [id],onDelete: Cascade)
+
+  status PostTagStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([postId, taggedUserId])
+  @@index([postId])
+  @@index([taggedUserId])
+  @@index([taggedById])
+  @@index([status])
+}
+
+
+
 
 model Like {
   id String @id @default(cuid())
@@ -255,21 +296,25 @@ model Challenge {
   userChallenges UserChallenge[]
 }
 
+
 model UserChallenge {
   id String @id @default(cuid())
 
   userId      String
   challengeId String
 
-  // Offered -> PENDING; user acts on it -> ACCEPTED/REJECTED; finished -> COMPLETED.
+  // Offered -> PENDING
+  // User accepts/rejects -> ACCEPTED/REJECTED
+  // User finishes -> COMPLETED
   status ChallengeStatus @default(PENDING)
 
   offeredAt   DateTime  @default(now())
   acceptedAt  DateTime?
   completedAt DateTime?
 
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+
+  challenge Challenge @relation(fields: [challengeId],references: [id],onDelete: Cascade)
 
   resultPost Post?
 
@@ -336,3 +381,6 @@ model Video {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
+

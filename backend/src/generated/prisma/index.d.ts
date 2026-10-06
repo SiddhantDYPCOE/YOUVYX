@@ -44,6 +44,11 @@ export type Content = $Result.DefaultSelection<Prisma.$ContentPayload>
  */
 export type Post = $Result.DefaultSelection<Prisma.$PostPayload>
 /**
+ * Model PostTag
+ * 
+ */
+export type PostTag = $Result.DefaultSelection<Prisma.$PostTagPayload>
+/**
  * Model Like
  * 
  */
@@ -138,6 +143,15 @@ export const RelationshipType: {
 
 export type RelationshipType = (typeof RelationshipType)[keyof typeof RelationshipType]
 
+
+export const PostTagStatus: {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
+};
+
+export type PostTagStatus = (typeof PostTagStatus)[keyof typeof PostTagStatus]
+
 }
 
 export type AccountType = $Enums.AccountType
@@ -159,6 +173,10 @@ export const ChallengeStatus: typeof $Enums.ChallengeStatus
 export type RelationshipType = $Enums.RelationshipType
 
 export const RelationshipType: typeof $Enums.RelationshipType
+
+export type PostTagStatus = $Enums.PostTagStatus
+
+export const PostTagStatus: typeof $Enums.PostTagStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -340,6 +358,16 @@ export class PrismaClient<
     * ```
     */
   get post(): Prisma.PostDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.postTag`: Exposes CRUD operations for the **PostTag** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PostTags
+    * const postTags = await prisma.postTag.findMany()
+    * ```
+    */
+  get postTag(): Prisma.PostTagDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.like`: Exposes CRUD operations for the **Like** model.
@@ -883,6 +911,7 @@ export namespace Prisma {
     UserGenre: 'UserGenre',
     Content: 'Content',
     Post: 'Post',
+    PostTag: 'PostTag',
     Like: 'Like',
     Share: 'Share',
     Relationship: 'Relationship',
@@ -907,7 +936,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "creator" | "genre" | "userGenre" | "content" | "post" | "like" | "share" | "relationship" | "challenge" | "userChallenge" | "productivityCount" | "article" | "image" | "video"
+      modelProps: "user" | "creator" | "genre" | "userGenre" | "content" | "post" | "postTag" | "like" | "share" | "relationship" | "challenge" | "userChallenge" | "productivityCount" | "article" | "image" | "video"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1352,6 +1381,80 @@ export namespace Prisma {
           count: {
             args: Prisma.PostCountArgs<ExtArgs>
             result: $Utils.Optional<PostCountAggregateOutputType> | number
+          }
+        }
+      }
+      PostTag: {
+        payload: Prisma.$PostTagPayload<ExtArgs>
+        fields: Prisma.PostTagFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PostTagFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTagPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PostTagFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTagPayload>
+          }
+          findFirst: {
+            args: Prisma.PostTagFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTagPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PostTagFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTagPayload>
+          }
+          findMany: {
+            args: Prisma.PostTagFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTagPayload>[]
+          }
+          create: {
+            args: Prisma.PostTagCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTagPayload>
+          }
+          createMany: {
+            args: Prisma.PostTagCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PostTagCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTagPayload>[]
+          }
+          delete: {
+            args: Prisma.PostTagDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTagPayload>
+          }
+          update: {
+            args: Prisma.PostTagUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTagPayload>
+          }
+          deleteMany: {
+            args: Prisma.PostTagDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PostTagUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PostTagUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTagPayload>[]
+          }
+          upsert: {
+            args: Prisma.PostTagUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTagPayload>
+          }
+          aggregate: {
+            args: Prisma.PostTagAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePostTag>
+          }
+          groupBy: {
+            args: Prisma.PostTagGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PostTagGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PostTagCountArgs<ExtArgs>
+            result: $Utils.Optional<PostTagCountAggregateOutputType> | number
           }
         }
       }
@@ -2150,6 +2253,7 @@ export namespace Prisma {
     userGenre?: UserGenreOmit
     content?: ContentOmit
     post?: PostOmit
+    postTag?: PostTagOmit
     like?: LikeOmit
     share?: ShareOmit
     relationship?: RelationshipOmit
@@ -2242,7 +2346,8 @@ export namespace Prisma {
     selectedGenres: number
     contents: number
     posts: number
-    taggedInPosts: number
+    receivedPostTags: number
+    createdPostTags: number
     likes: number
     shares: number
     sentRelationships: number
@@ -2256,7 +2361,8 @@ export namespace Prisma {
     selectedGenres?: boolean | UserCountOutputTypeCountSelectedGenresArgs
     contents?: boolean | UserCountOutputTypeCountContentsArgs
     posts?: boolean | UserCountOutputTypeCountPostsArgs
-    taggedInPosts?: boolean | UserCountOutputTypeCountTaggedInPostsArgs
+    receivedPostTags?: boolean | UserCountOutputTypeCountReceivedPostTagsArgs
+    createdPostTags?: boolean | UserCountOutputTypeCountCreatedPostTagsArgs
     likes?: boolean | UserCountOutputTypeCountLikesArgs
     shares?: boolean | UserCountOutputTypeCountSharesArgs
     sentRelationships?: boolean | UserCountOutputTypeCountSentRelationshipsArgs
@@ -2301,8 +2407,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountTaggedInPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PostWhereInput
+  export type UserCountOutputTypeCountReceivedPostTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostTagWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCreatedPostTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostTagWhereInput
   }
 
   /**
@@ -2432,6 +2545,37 @@ export namespace Prisma {
    */
   export type ContentCountOutputTypeCountSharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ShareWhereInput
+  }
+
+
+  /**
+   * Count Type PostCountOutputType
+   */
+
+  export type PostCountOutputType = {
+    tags: number
+  }
+
+  export type PostCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tags?: boolean | PostCountOutputTypeCountTagsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PostCountOutputType without action
+   */
+  export type PostCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCountOutputType
+     */
+    select?: PostCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PostCountOutputType without action
+   */
+  export type PostCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostTagWhereInput
   }
 
 
@@ -2728,7 +2872,8 @@ export namespace Prisma {
     selectedGenres?: boolean | User$selectedGenresArgs<ExtArgs>
     contents?: boolean | User$contentsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
-    taggedInPosts?: boolean | User$taggedInPostsArgs<ExtArgs>
+    receivedPostTags?: boolean | User$receivedPostTagsArgs<ExtArgs>
+    createdPostTags?: boolean | User$createdPostTagsArgs<ExtArgs>
     likes?: boolean | User$likesArgs<ExtArgs>
     shares?: boolean | User$sharesArgs<ExtArgs>
     sentRelationships?: boolean | User$sentRelationshipsArgs<ExtArgs>
@@ -2790,7 +2935,8 @@ export namespace Prisma {
     selectedGenres?: boolean | User$selectedGenresArgs<ExtArgs>
     contents?: boolean | User$contentsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
-    taggedInPosts?: boolean | User$taggedInPostsArgs<ExtArgs>
+    receivedPostTags?: boolean | User$receivedPostTagsArgs<ExtArgs>
+    createdPostTags?: boolean | User$createdPostTagsArgs<ExtArgs>
     likes?: boolean | User$likesArgs<ExtArgs>
     shares?: boolean | User$sharesArgs<ExtArgs>
     sentRelationships?: boolean | User$sentRelationshipsArgs<ExtArgs>
@@ -2810,7 +2956,8 @@ export namespace Prisma {
       selectedGenres: Prisma.$UserGenrePayload<ExtArgs>[]
       contents: Prisma.$ContentPayload<ExtArgs>[]
       posts: Prisma.$PostPayload<ExtArgs>[]
-      taggedInPosts: Prisma.$PostPayload<ExtArgs>[]
+      receivedPostTags: Prisma.$PostTagPayload<ExtArgs>[]
+      createdPostTags: Prisma.$PostTagPayload<ExtArgs>[]
       likes: Prisma.$LikePayload<ExtArgs>[]
       shares: Prisma.$SharePayload<ExtArgs>[]
       sentRelationships: Prisma.$RelationshipPayload<ExtArgs>[]
@@ -3230,7 +3377,8 @@ export namespace Prisma {
     selectedGenres<T extends User$selectedGenresArgs<ExtArgs> = {}>(args?: Subset<T, User$selectedGenresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGenrePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contents<T extends User$contentsArgs<ExtArgs> = {}>(args?: Subset<T, User$contentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    taggedInPosts<T extends User$taggedInPostsArgs<ExtArgs> = {}>(args?: Subset<T, User$taggedInPostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    receivedPostTags<T extends User$receivedPostTagsArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedPostTagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdPostTags<T extends User$createdPostTagsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdPostTagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     likes<T extends User$likesArgs<ExtArgs> = {}>(args?: Subset<T, User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shares<T extends User$sharesArgs<ExtArgs> = {}>(args?: Subset<T, User$sharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sentRelationships<T extends User$sentRelationshipsArgs<ExtArgs> = {}>(args?: Subset<T, User$sentRelationshipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3763,27 +3911,51 @@ export namespace Prisma {
   }
 
   /**
-   * User.taggedInPosts
+   * User.receivedPostTags
    */
-  export type User$taggedInPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$receivedPostTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Post
+     * Select specific fields to fetch from the PostTag
      */
-    select?: PostSelect<ExtArgs> | null
+    select?: PostTagSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Post
+     * Omit specific fields from the PostTag
      */
-    omit?: PostOmit<ExtArgs> | null
+    omit?: PostTagOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostInclude<ExtArgs> | null
-    where?: PostWhereInput
-    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[]
-    cursor?: PostWhereUniqueInput
+    include?: PostTagInclude<ExtArgs> | null
+    where?: PostTagWhereInput
+    orderBy?: PostTagOrderByWithRelationInput | PostTagOrderByWithRelationInput[]
+    cursor?: PostTagWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
+    distinct?: PostTagScalarFieldEnum | PostTagScalarFieldEnum[]
+  }
+
+  /**
+   * User.createdPostTags
+   */
+  export type User$createdPostTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagInclude<ExtArgs> | null
+    where?: PostTagWhereInput
+    orderBy?: PostTagOrderByWithRelationInput | PostTagOrderByWithRelationInput[]
+    cursor?: PostTagWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostTagScalarFieldEnum | PostTagScalarFieldEnum[]
   }
 
   /**
@@ -8538,7 +8710,6 @@ export namespace Prisma {
     mediaUrl: string | null
     authorId: string | null
     challengeId: string | null
-    taggedCreatorId: string | null
     deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8550,7 +8721,6 @@ export namespace Prisma {
     mediaUrl: string | null
     authorId: string | null
     challengeId: string | null
-    taggedCreatorId: string | null
     deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8562,7 +8732,6 @@ export namespace Prisma {
     mediaUrl: number
     authorId: number
     challengeId: number
-    taggedCreatorId: number
     deletedAt: number
     createdAt: number
     updatedAt: number
@@ -8576,7 +8745,6 @@ export namespace Prisma {
     mediaUrl?: true
     authorId?: true
     challengeId?: true
-    taggedCreatorId?: true
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -8588,7 +8756,6 @@ export namespace Prisma {
     mediaUrl?: true
     authorId?: true
     challengeId?: true
-    taggedCreatorId?: true
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -8600,7 +8767,6 @@ export namespace Prisma {
     mediaUrl?: true
     authorId?: true
     challengeId?: true
-    taggedCreatorId?: true
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -8685,7 +8851,6 @@ export namespace Prisma {
     mediaUrl: string | null
     authorId: string
     challengeId: string | null
-    taggedCreatorId: string | null
     deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -8714,13 +8879,13 @@ export namespace Prisma {
     mediaUrl?: boolean
     authorId?: boolean
     challengeId?: boolean
-    taggedCreatorId?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | Post$challengeArgs<ExtArgs>
-    taggedCreator?: boolean | Post$taggedCreatorArgs<ExtArgs>
+    tags?: boolean | Post$tagsArgs<ExtArgs>
+    _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8729,13 +8894,11 @@ export namespace Prisma {
     mediaUrl?: boolean
     authorId?: boolean
     challengeId?: boolean
-    taggedCreatorId?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | Post$challengeArgs<ExtArgs>
-    taggedCreator?: boolean | Post$taggedCreatorArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8744,13 +8907,11 @@ export namespace Prisma {
     mediaUrl?: boolean
     authorId?: boolean
     challengeId?: boolean
-    taggedCreatorId?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | Post$challengeArgs<ExtArgs>
-    taggedCreator?: boolean | Post$taggedCreatorArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectScalar = {
@@ -8759,27 +8920,25 @@ export namespace Prisma {
     mediaUrl?: boolean
     authorId?: boolean
     challengeId?: boolean
-    taggedCreatorId?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "mediaUrl" | "authorId" | "challengeId" | "taggedCreatorId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "mediaUrl" | "authorId" | "challengeId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | Post$challengeArgs<ExtArgs>
-    taggedCreator?: boolean | Post$taggedCreatorArgs<ExtArgs>
+    tags?: boolean | Post$tagsArgs<ExtArgs>
+    _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | Post$challengeArgs<ExtArgs>
-    taggedCreator?: boolean | Post$taggedCreatorArgs<ExtArgs>
   }
   export type PostIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | Post$challengeArgs<ExtArgs>
-    taggedCreator?: boolean | Post$taggedCreatorArgs<ExtArgs>
   }
 
   export type $PostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8787,7 +8946,7 @@ export namespace Prisma {
     objects: {
       author: Prisma.$UserPayload<ExtArgs>
       challenge: Prisma.$UserChallengePayload<ExtArgs> | null
-      taggedCreator: Prisma.$UserPayload<ExtArgs> | null
+      tags: Prisma.$PostTagPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8795,7 +8954,6 @@ export namespace Prisma {
       mediaUrl: string | null
       authorId: string
       challengeId: string | null
-      taggedCreatorId: string | null
       deletedAt: Date | null
       createdAt: Date
       updatedAt: Date
@@ -9195,7 +9353,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     challenge<T extends Post$challengeArgs<ExtArgs> = {}>(args?: Subset<T, Post$challengeArgs<ExtArgs>>): Prisma__UserChallengeClient<$Result.GetResult<Prisma.$UserChallengePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    taggedCreator<T extends Post$taggedCreatorArgs<ExtArgs> = {}>(args?: Subset<T, Post$taggedCreatorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tags<T extends Post$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Post$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9230,7 +9388,6 @@ export namespace Prisma {
     readonly mediaUrl: FieldRef<"Post", 'String'>
     readonly authorId: FieldRef<"Post", 'String'>
     readonly challengeId: FieldRef<"Post", 'String'>
-    readonly taggedCreatorId: FieldRef<"Post", 'String'>
     readonly deletedAt: FieldRef<"Post", 'DateTime'>
     readonly createdAt: FieldRef<"Post", 'DateTime'>
     readonly updatedAt: FieldRef<"Post", 'DateTime'>
@@ -9654,22 +9811,27 @@ export namespace Prisma {
   }
 
   /**
-   * Post.taggedCreator
+   * Post.tags
    */
-  export type Post$taggedCreatorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Post$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the PostTag
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: PostTagSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the PostTag
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: PostTagOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
+    include?: PostTagInclude<ExtArgs> | null
+    where?: PostTagWhereInput
+    orderBy?: PostTagOrderByWithRelationInput | PostTagOrderByWithRelationInput[]
+    cursor?: PostTagWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostTagScalarFieldEnum | PostTagScalarFieldEnum[]
   }
 
   /**
@@ -9688,6 +9850,1111 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PostInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PostTag
+   */
+
+  export type AggregatePostTag = {
+    _count: PostTagCountAggregateOutputType | null
+    _min: PostTagMinAggregateOutputType | null
+    _max: PostTagMaxAggregateOutputType | null
+  }
+
+  export type PostTagMinAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    taggedUserId: string | null
+    taggedById: string | null
+    status: $Enums.PostTagStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PostTagMaxAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    taggedUserId: string | null
+    taggedById: string | null
+    status: $Enums.PostTagStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PostTagCountAggregateOutputType = {
+    id: number
+    postId: number
+    taggedUserId: number
+    taggedById: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PostTagMinAggregateInputType = {
+    id?: true
+    postId?: true
+    taggedUserId?: true
+    taggedById?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PostTagMaxAggregateInputType = {
+    id?: true
+    postId?: true
+    taggedUserId?: true
+    taggedById?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PostTagCountAggregateInputType = {
+    id?: true
+    postId?: true
+    taggedUserId?: true
+    taggedById?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PostTagAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostTag to aggregate.
+     */
+    where?: PostTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostTags to fetch.
+     */
+    orderBy?: PostTagOrderByWithRelationInput | PostTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PostTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostTags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PostTags
+    **/
+    _count?: true | PostTagCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PostTagMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PostTagMaxAggregateInputType
+  }
+
+  export type GetPostTagAggregateType<T extends PostTagAggregateArgs> = {
+        [P in keyof T & keyof AggregatePostTag]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePostTag[P]>
+      : GetScalarType<T[P], AggregatePostTag[P]>
+  }
+
+
+
+
+  export type PostTagGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostTagWhereInput
+    orderBy?: PostTagOrderByWithAggregationInput | PostTagOrderByWithAggregationInput[]
+    by: PostTagScalarFieldEnum[] | PostTagScalarFieldEnum
+    having?: PostTagScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PostTagCountAggregateInputType | true
+    _min?: PostTagMinAggregateInputType
+    _max?: PostTagMaxAggregateInputType
+  }
+
+  export type PostTagGroupByOutputType = {
+    id: string
+    postId: string
+    taggedUserId: string
+    taggedById: string
+    status: $Enums.PostTagStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: PostTagCountAggregateOutputType | null
+    _min: PostTagMinAggregateOutputType | null
+    _max: PostTagMaxAggregateOutputType | null
+  }
+
+  type GetPostTagGroupByPayload<T extends PostTagGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PostTagGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PostTagGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PostTagGroupByOutputType[P]>
+            : GetScalarType<T[P], PostTagGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PostTagSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    taggedUserId?: boolean
+    taggedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    taggedUser?: boolean | UserDefaultArgs<ExtArgs>
+    taggedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postTag"]>
+
+  export type PostTagSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    taggedUserId?: boolean
+    taggedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    taggedUser?: boolean | UserDefaultArgs<ExtArgs>
+    taggedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postTag"]>
+
+  export type PostTagSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    taggedUserId?: boolean
+    taggedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    taggedUser?: boolean | UserDefaultArgs<ExtArgs>
+    taggedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postTag"]>
+
+  export type PostTagSelectScalar = {
+    id?: boolean
+    postId?: boolean
+    taggedUserId?: boolean
+    taggedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PostTagOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "taggedUserId" | "taggedById" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["postTag"]>
+  export type PostTagInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    taggedUser?: boolean | UserDefaultArgs<ExtArgs>
+    taggedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PostTagIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    taggedUser?: boolean | UserDefaultArgs<ExtArgs>
+    taggedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PostTagIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    taggedUser?: boolean | UserDefaultArgs<ExtArgs>
+    taggedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PostTagPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PostTag"
+    objects: {
+      post: Prisma.$PostPayload<ExtArgs>
+      taggedUser: Prisma.$UserPayload<ExtArgs>
+      taggedBy: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      postId: string
+      taggedUserId: string
+      taggedById: string
+      status: $Enums.PostTagStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["postTag"]>
+    composites: {}
+  }
+
+  type PostTagGetPayload<S extends boolean | null | undefined | PostTagDefaultArgs> = $Result.GetResult<Prisma.$PostTagPayload, S>
+
+  type PostTagCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PostTagFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PostTagCountAggregateInputType | true
+    }
+
+  export interface PostTagDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PostTag'], meta: { name: 'PostTag' } }
+    /**
+     * Find zero or one PostTag that matches the filter.
+     * @param {PostTagFindUniqueArgs} args - Arguments to find a PostTag
+     * @example
+     * // Get one PostTag
+     * const postTag = await prisma.postTag.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PostTagFindUniqueArgs>(args: SelectSubset<T, PostTagFindUniqueArgs<ExtArgs>>): Prisma__PostTagClient<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PostTag that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PostTagFindUniqueOrThrowArgs} args - Arguments to find a PostTag
+     * @example
+     * // Get one PostTag
+     * const postTag = await prisma.postTag.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PostTagFindUniqueOrThrowArgs>(args: SelectSubset<T, PostTagFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PostTagClient<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostTag that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTagFindFirstArgs} args - Arguments to find a PostTag
+     * @example
+     * // Get one PostTag
+     * const postTag = await prisma.postTag.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PostTagFindFirstArgs>(args?: SelectSubset<T, PostTagFindFirstArgs<ExtArgs>>): Prisma__PostTagClient<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostTag that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTagFindFirstOrThrowArgs} args - Arguments to find a PostTag
+     * @example
+     * // Get one PostTag
+     * const postTag = await prisma.postTag.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PostTagFindFirstOrThrowArgs>(args?: SelectSubset<T, PostTagFindFirstOrThrowArgs<ExtArgs>>): Prisma__PostTagClient<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PostTags that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTagFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PostTags
+     * const postTags = await prisma.postTag.findMany()
+     * 
+     * // Get first 10 PostTags
+     * const postTags = await prisma.postTag.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const postTagWithIdOnly = await prisma.postTag.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PostTagFindManyArgs>(args?: SelectSubset<T, PostTagFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PostTag.
+     * @param {PostTagCreateArgs} args - Arguments to create a PostTag.
+     * @example
+     * // Create one PostTag
+     * const PostTag = await prisma.postTag.create({
+     *   data: {
+     *     // ... data to create a PostTag
+     *   }
+     * })
+     * 
+     */
+    create<T extends PostTagCreateArgs>(args: SelectSubset<T, PostTagCreateArgs<ExtArgs>>): Prisma__PostTagClient<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PostTags.
+     * @param {PostTagCreateManyArgs} args - Arguments to create many PostTags.
+     * @example
+     * // Create many PostTags
+     * const postTag = await prisma.postTag.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PostTagCreateManyArgs>(args?: SelectSubset<T, PostTagCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PostTags and returns the data saved in the database.
+     * @param {PostTagCreateManyAndReturnArgs} args - Arguments to create many PostTags.
+     * @example
+     * // Create many PostTags
+     * const postTag = await prisma.postTag.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PostTags and only return the `id`
+     * const postTagWithIdOnly = await prisma.postTag.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PostTagCreateManyAndReturnArgs>(args?: SelectSubset<T, PostTagCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PostTag.
+     * @param {PostTagDeleteArgs} args - Arguments to delete one PostTag.
+     * @example
+     * // Delete one PostTag
+     * const PostTag = await prisma.postTag.delete({
+     *   where: {
+     *     // ... filter to delete one PostTag
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PostTagDeleteArgs>(args: SelectSubset<T, PostTagDeleteArgs<ExtArgs>>): Prisma__PostTagClient<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PostTag.
+     * @param {PostTagUpdateArgs} args - Arguments to update one PostTag.
+     * @example
+     * // Update one PostTag
+     * const postTag = await prisma.postTag.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PostTagUpdateArgs>(args: SelectSubset<T, PostTagUpdateArgs<ExtArgs>>): Prisma__PostTagClient<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PostTags.
+     * @param {PostTagDeleteManyArgs} args - Arguments to filter PostTags to delete.
+     * @example
+     * // Delete a few PostTags
+     * const { count } = await prisma.postTag.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PostTagDeleteManyArgs>(args?: SelectSubset<T, PostTagDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PostTags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTagUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PostTags
+     * const postTag = await prisma.postTag.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PostTagUpdateManyArgs>(args: SelectSubset<T, PostTagUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PostTags and returns the data updated in the database.
+     * @param {PostTagUpdateManyAndReturnArgs} args - Arguments to update many PostTags.
+     * @example
+     * // Update many PostTags
+     * const postTag = await prisma.postTag.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PostTags and only return the `id`
+     * const postTagWithIdOnly = await prisma.postTag.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PostTagUpdateManyAndReturnArgs>(args: SelectSubset<T, PostTagUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PostTag.
+     * @param {PostTagUpsertArgs} args - Arguments to update or create a PostTag.
+     * @example
+     * // Update or create a PostTag
+     * const postTag = await prisma.postTag.upsert({
+     *   create: {
+     *     // ... data to create a PostTag
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PostTag we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PostTagUpsertArgs>(args: SelectSubset<T, PostTagUpsertArgs<ExtArgs>>): Prisma__PostTagClient<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PostTags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTagCountArgs} args - Arguments to filter PostTags to count.
+     * @example
+     * // Count the number of PostTags
+     * const count = await prisma.postTag.count({
+     *   where: {
+     *     // ... the filter for the PostTags we want to count
+     *   }
+     * })
+    **/
+    count<T extends PostTagCountArgs>(
+      args?: Subset<T, PostTagCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PostTagCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PostTag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTagAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PostTagAggregateArgs>(args: Subset<T, PostTagAggregateArgs>): Prisma.PrismaPromise<GetPostTagAggregateType<T>>
+
+    /**
+     * Group by PostTag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTagGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PostTagGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PostTagGroupByArgs['orderBy'] }
+        : { orderBy?: PostTagGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PostTagGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostTagGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PostTag model
+   */
+  readonly fields: PostTagFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PostTag.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PostTagClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    taggedUser<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    taggedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PostTag model
+   */
+  interface PostTagFieldRefs {
+    readonly id: FieldRef<"PostTag", 'String'>
+    readonly postId: FieldRef<"PostTag", 'String'>
+    readonly taggedUserId: FieldRef<"PostTag", 'String'>
+    readonly taggedById: FieldRef<"PostTag", 'String'>
+    readonly status: FieldRef<"PostTag", 'PostTagStatus'>
+    readonly createdAt: FieldRef<"PostTag", 'DateTime'>
+    readonly updatedAt: FieldRef<"PostTag", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PostTag findUnique
+   */
+  export type PostTagFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagInclude<ExtArgs> | null
+    /**
+     * Filter, which PostTag to fetch.
+     */
+    where: PostTagWhereUniqueInput
+  }
+
+  /**
+   * PostTag findUniqueOrThrow
+   */
+  export type PostTagFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagInclude<ExtArgs> | null
+    /**
+     * Filter, which PostTag to fetch.
+     */
+    where: PostTagWhereUniqueInput
+  }
+
+  /**
+   * PostTag findFirst
+   */
+  export type PostTagFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagInclude<ExtArgs> | null
+    /**
+     * Filter, which PostTag to fetch.
+     */
+    where?: PostTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostTags to fetch.
+     */
+    orderBy?: PostTagOrderByWithRelationInput | PostTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostTags.
+     */
+    cursor?: PostTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostTags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostTags.
+     */
+    distinct?: PostTagScalarFieldEnum | PostTagScalarFieldEnum[]
+  }
+
+  /**
+   * PostTag findFirstOrThrow
+   */
+  export type PostTagFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagInclude<ExtArgs> | null
+    /**
+     * Filter, which PostTag to fetch.
+     */
+    where?: PostTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostTags to fetch.
+     */
+    orderBy?: PostTagOrderByWithRelationInput | PostTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostTags.
+     */
+    cursor?: PostTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostTags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostTags.
+     */
+    distinct?: PostTagScalarFieldEnum | PostTagScalarFieldEnum[]
+  }
+
+  /**
+   * PostTag findMany
+   */
+  export type PostTagFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagInclude<ExtArgs> | null
+    /**
+     * Filter, which PostTags to fetch.
+     */
+    where?: PostTagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostTags to fetch.
+     */
+    orderBy?: PostTagOrderByWithRelationInput | PostTagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PostTags.
+     */
+    cursor?: PostTagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostTags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostTags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostTags.
+     */
+    distinct?: PostTagScalarFieldEnum | PostTagScalarFieldEnum[]
+  }
+
+  /**
+   * PostTag create
+   */
+  export type PostTagCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PostTag.
+     */
+    data: XOR<PostTagCreateInput, PostTagUncheckedCreateInput>
+  }
+
+  /**
+   * PostTag createMany
+   */
+  export type PostTagCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PostTags.
+     */
+    data: PostTagCreateManyInput | PostTagCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PostTag createManyAndReturn
+   */
+  export type PostTagCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * The data used to create many PostTags.
+     */
+    data: PostTagCreateManyInput | PostTagCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PostTag update
+   */
+  export type PostTagUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PostTag.
+     */
+    data: XOR<PostTagUpdateInput, PostTagUncheckedUpdateInput>
+    /**
+     * Choose, which PostTag to update.
+     */
+    where: PostTagWhereUniqueInput
+  }
+
+  /**
+   * PostTag updateMany
+   */
+  export type PostTagUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PostTags.
+     */
+    data: XOR<PostTagUpdateManyMutationInput, PostTagUncheckedUpdateManyInput>
+    /**
+     * Filter which PostTags to update
+     */
+    where?: PostTagWhereInput
+    /**
+     * Limit how many PostTags to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostTag updateManyAndReturn
+   */
+  export type PostTagUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * The data used to update PostTags.
+     */
+    data: XOR<PostTagUpdateManyMutationInput, PostTagUncheckedUpdateManyInput>
+    /**
+     * Filter which PostTags to update
+     */
+    where?: PostTagWhereInput
+    /**
+     * Limit how many PostTags to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PostTag upsert
+   */
+  export type PostTagUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PostTag to update in case it exists.
+     */
+    where: PostTagWhereUniqueInput
+    /**
+     * In case the PostTag found by the `where` argument doesn't exist, create a new PostTag with this data.
+     */
+    create: XOR<PostTagCreateInput, PostTagUncheckedCreateInput>
+    /**
+     * In case the PostTag was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PostTagUpdateInput, PostTagUncheckedUpdateInput>
+  }
+
+  /**
+   * PostTag delete
+   */
+  export type PostTagDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagInclude<ExtArgs> | null
+    /**
+     * Filter which PostTag to delete.
+     */
+    where: PostTagWhereUniqueInput
+  }
+
+  /**
+   * PostTag deleteMany
+   */
+  export type PostTagDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostTags to delete
+     */
+    where?: PostTagWhereInput
+    /**
+     * Limit how many PostTags to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostTag without action
+   */
+  export type PostTagDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTag
+     */
+    select?: PostTagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTag
+     */
+    omit?: PostTagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTagInclude<ExtArgs> | null
   }
 
 
@@ -19638,13 +20905,25 @@ export namespace Prisma {
     mediaUrl: 'mediaUrl',
     authorId: 'authorId',
     challengeId: 'challengeId',
-    taggedCreatorId: 'taggedCreatorId',
     deletedAt: 'deletedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+  export const PostTagScalarFieldEnum: {
+    id: 'id',
+    postId: 'postId',
+    taggedUserId: 'taggedUserId',
+    taggedById: 'taggedById',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PostTagScalarFieldEnum = (typeof PostTagScalarFieldEnum)[keyof typeof PostTagScalarFieldEnum]
 
 
   export const LikeScalarFieldEnum: {
@@ -19863,6 +21142,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'PostTagStatus'
+   */
+  export type EnumPostTagStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostTagStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PostTagStatus[]'
+   */
+  export type ListEnumPostTagStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostTagStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'FollowStatus'
    */
   export type EnumFollowStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FollowStatus'>
@@ -19941,7 +21234,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreListRelationFilter
     contents?: ContentListRelationFilter
     posts?: PostListRelationFilter
-    taggedInPosts?: PostListRelationFilter
+    receivedPostTags?: PostTagListRelationFilter
+    createdPostTags?: PostTagListRelationFilter
     likes?: LikeListRelationFilter
     shares?: ShareListRelationFilter
     sentRelationships?: RelationshipListRelationFilter
@@ -19968,7 +21262,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreOrderByRelationAggregateInput
     contents?: ContentOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
-    taggedInPosts?: PostOrderByRelationAggregateInput
+    receivedPostTags?: PostTagOrderByRelationAggregateInput
+    createdPostTags?: PostTagOrderByRelationAggregateInput
     likes?: LikeOrderByRelationAggregateInput
     shares?: ShareOrderByRelationAggregateInput
     sentRelationships?: RelationshipOrderByRelationAggregateInput
@@ -19998,7 +21293,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreListRelationFilter
     contents?: ContentListRelationFilter
     posts?: PostListRelationFilter
-    taggedInPosts?: PostListRelationFilter
+    receivedPostTags?: PostTagListRelationFilter
+    createdPostTags?: PostTagListRelationFilter
     likes?: LikeListRelationFilter
     shares?: ShareListRelationFilter
     sentRelationships?: RelationshipListRelationFilter
@@ -20338,13 +21634,12 @@ export namespace Prisma {
     mediaUrl?: StringNullableFilter<"Post"> | string | null
     authorId?: StringFilter<"Post"> | string
     challengeId?: StringNullableFilter<"Post"> | string | null
-    taggedCreatorId?: StringNullableFilter<"Post"> | string | null
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     challenge?: XOR<UserChallengeNullableScalarRelationFilter, UserChallengeWhereInput> | null
-    taggedCreator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    tags?: PostTagListRelationFilter
   }
 
   export type PostOrderByWithRelationInput = {
@@ -20353,13 +21648,12 @@ export namespace Prisma {
     mediaUrl?: SortOrderInput | SortOrder
     authorId?: SortOrder
     challengeId?: SortOrderInput | SortOrder
-    taggedCreatorId?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     author?: UserOrderByWithRelationInput
     challenge?: UserChallengeOrderByWithRelationInput
-    taggedCreator?: UserOrderByWithRelationInput
+    tags?: PostTagOrderByRelationAggregateInput
   }
 
   export type PostWhereUniqueInput = Prisma.AtLeast<{
@@ -20371,13 +21665,12 @@ export namespace Prisma {
     content?: StringFilter<"Post"> | string
     mediaUrl?: StringNullableFilter<"Post"> | string | null
     authorId?: StringFilter<"Post"> | string
-    taggedCreatorId?: StringNullableFilter<"Post"> | string | null
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     challenge?: XOR<UserChallengeNullableScalarRelationFilter, UserChallengeWhereInput> | null
-    taggedCreator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    tags?: PostTagListRelationFilter
   }, "id" | "challengeId">
 
   export type PostOrderByWithAggregationInput = {
@@ -20386,7 +21679,6 @@ export namespace Prisma {
     mediaUrl?: SortOrderInput | SortOrder
     authorId?: SortOrder
     challengeId?: SortOrderInput | SortOrder
-    taggedCreatorId?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -20404,10 +21696,81 @@ export namespace Prisma {
     mediaUrl?: StringNullableWithAggregatesFilter<"Post"> | string | null
     authorId?: StringWithAggregatesFilter<"Post"> | string
     challengeId?: StringNullableWithAggregatesFilter<"Post"> | string | null
-    taggedCreatorId?: StringNullableWithAggregatesFilter<"Post"> | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
+  }
+
+  export type PostTagWhereInput = {
+    AND?: PostTagWhereInput | PostTagWhereInput[]
+    OR?: PostTagWhereInput[]
+    NOT?: PostTagWhereInput | PostTagWhereInput[]
+    id?: StringFilter<"PostTag"> | string
+    postId?: StringFilter<"PostTag"> | string
+    taggedUserId?: StringFilter<"PostTag"> | string
+    taggedById?: StringFilter<"PostTag"> | string
+    status?: EnumPostTagStatusFilter<"PostTag"> | $Enums.PostTagStatus
+    createdAt?: DateTimeFilter<"PostTag"> | Date | string
+    updatedAt?: DateTimeFilter<"PostTag"> | Date | string
+    post?: XOR<PostScalarRelationFilter, PostWhereInput>
+    taggedUser?: XOR<UserScalarRelationFilter, UserWhereInput>
+    taggedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PostTagOrderByWithRelationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    taggedUserId?: SortOrder
+    taggedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    post?: PostOrderByWithRelationInput
+    taggedUser?: UserOrderByWithRelationInput
+    taggedBy?: UserOrderByWithRelationInput
+  }
+
+  export type PostTagWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    postId_taggedUserId?: PostTagPostIdTaggedUserIdCompoundUniqueInput
+    AND?: PostTagWhereInput | PostTagWhereInput[]
+    OR?: PostTagWhereInput[]
+    NOT?: PostTagWhereInput | PostTagWhereInput[]
+    postId?: StringFilter<"PostTag"> | string
+    taggedUserId?: StringFilter<"PostTag"> | string
+    taggedById?: StringFilter<"PostTag"> | string
+    status?: EnumPostTagStatusFilter<"PostTag"> | $Enums.PostTagStatus
+    createdAt?: DateTimeFilter<"PostTag"> | Date | string
+    updatedAt?: DateTimeFilter<"PostTag"> | Date | string
+    post?: XOR<PostScalarRelationFilter, PostWhereInput>
+    taggedUser?: XOR<UserScalarRelationFilter, UserWhereInput>
+    taggedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "postId_taggedUserId">
+
+  export type PostTagOrderByWithAggregationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    taggedUserId?: SortOrder
+    taggedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PostTagCountOrderByAggregateInput
+    _max?: PostTagMaxOrderByAggregateInput
+    _min?: PostTagMinOrderByAggregateInput
+  }
+
+  export type PostTagScalarWhereWithAggregatesInput = {
+    AND?: PostTagScalarWhereWithAggregatesInput | PostTagScalarWhereWithAggregatesInput[]
+    OR?: PostTagScalarWhereWithAggregatesInput[]
+    NOT?: PostTagScalarWhereWithAggregatesInput | PostTagScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PostTag"> | string
+    postId?: StringWithAggregatesFilter<"PostTag"> | string
+    taggedUserId?: StringWithAggregatesFilter<"PostTag"> | string
+    taggedById?: StringWithAggregatesFilter<"PostTag"> | string
+    status?: EnumPostTagStatusWithAggregatesFilter<"PostTag"> | $Enums.PostTagStatus
+    createdAt?: DateTimeWithAggregatesFilter<"PostTag"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PostTag"> | Date | string
   }
 
   export type LikeWhereInput = {
@@ -21000,7 +22363,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     likes?: LikeCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
@@ -21027,7 +22391,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
@@ -21054,7 +22419,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
@@ -21081,7 +22447,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
@@ -21445,7 +22812,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutPostsInput
     challenge?: UserChallengeCreateNestedOneWithoutResultPostInput
-    taggedCreator?: UserCreateNestedOneWithoutTaggedInPostsInput
+    tags?: PostTagCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateInput = {
@@ -21454,10 +22821,10 @@ export namespace Prisma {
     mediaUrl?: string | null
     authorId: string
     challengeId?: string | null
-    taggedCreatorId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostUpdateInput = {
@@ -21469,7 +22836,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     challenge?: UserChallengeUpdateOneWithoutResultPostNestedInput
-    taggedCreator?: UserUpdateOneWithoutTaggedInPostsNestedInput
+    tags?: PostTagUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateInput = {
@@ -21478,10 +22845,10 @@ export namespace Prisma {
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     challengeId?: NullableStringFieldUpdateOperationsInput | string | null
-    taggedCreatorId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostCreateManyInput = {
@@ -21490,7 +22857,6 @@ export namespace Prisma {
     mediaUrl?: string | null
     authorId: string
     challengeId?: string | null
-    taggedCreatorId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21511,8 +22877,74 @@ export namespace Prisma {
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     challengeId?: NullableStringFieldUpdateOperationsInput | string | null
-    taggedCreatorId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostTagCreateInput = {
+    id?: string
+    status?: $Enums.PostTagStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    post: PostCreateNestedOneWithoutTagsInput
+    taggedUser: UserCreateNestedOneWithoutReceivedPostTagsInput
+    taggedBy: UserCreateNestedOneWithoutCreatedPostTagsInput
+  }
+
+  export type PostTagUncheckedCreateInput = {
+    id?: string
+    postId: string
+    taggedUserId: string
+    taggedById: string
+    status?: $Enums.PostTagStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostTagUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: PostUpdateOneRequiredWithoutTagsNestedInput
+    taggedUser?: UserUpdateOneRequiredWithoutReceivedPostTagsNestedInput
+    taggedBy?: UserUpdateOneRequiredWithoutCreatedPostTagsNestedInput
+  }
+
+  export type PostTagUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    taggedUserId?: StringFieldUpdateOperationsInput | string
+    taggedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostTagCreateManyInput = {
+    id?: string
+    postId: string
+    taggedUserId: string
+    taggedById: string
+    status?: $Enums.PostTagStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostTagUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostTagUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    taggedUserId?: StringFieldUpdateOperationsInput | string
+    taggedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22178,6 +23610,12 @@ export namespace Prisma {
     none?: PostWhereInput
   }
 
+  export type PostTagListRelationFilter = {
+    every?: PostTagWhereInput
+    some?: PostTagWhereInput
+    none?: PostTagWhereInput
+  }
+
   export type LikeListRelationFilter = {
     every?: LikeWhereInput
     some?: LikeWhereInput
@@ -22228,6 +23666,10 @@ export namespace Prisma {
   }
 
   export type PostOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PostTagOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22585,18 +24027,12 @@ export namespace Prisma {
     isNot?: UserChallengeWhereInput | null
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
   export type PostCountOrderByAggregateInput = {
     id?: SortOrder
     content?: SortOrder
     mediaUrl?: SortOrder
     authorId?: SortOrder
     challengeId?: SortOrder
-    taggedCreatorId?: SortOrder
     deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22608,7 +24044,6 @@ export namespace Prisma {
     mediaUrl?: SortOrder
     authorId?: SortOrder
     challengeId?: SortOrder
-    taggedCreatorId?: SortOrder
     deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22620,10 +24055,66 @@ export namespace Prisma {
     mediaUrl?: SortOrder
     authorId?: SortOrder
     challengeId?: SortOrder
-    taggedCreatorId?: SortOrder
     deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumPostTagStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostTagStatus | EnumPostTagStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PostTagStatus[] | ListEnumPostTagStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PostTagStatus[] | ListEnumPostTagStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPostTagStatusFilter<$PrismaModel> | $Enums.PostTagStatus
+  }
+
+  export type PostScalarRelationFilter = {
+    is?: PostWhereInput
+    isNot?: PostWhereInput
+  }
+
+  export type PostTagPostIdTaggedUserIdCompoundUniqueInput = {
+    postId: string
+    taggedUserId: string
+  }
+
+  export type PostTagCountOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    taggedUserId?: SortOrder
+    taggedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PostTagMaxOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    taggedUserId?: SortOrder
+    taggedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PostTagMinOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    taggedUserId?: SortOrder
+    taggedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumPostTagStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostTagStatus | EnumPostTagStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PostTagStatus[] | ListEnumPostTagStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PostTagStatus[] | ListEnumPostTagStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPostTagStatusWithAggregatesFilter<$PrismaModel> | $Enums.PostTagStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPostTagStatusFilter<$PrismaModel>
+    _max?: NestedEnumPostTagStatusFilter<$PrismaModel>
   }
 
   export type ContentScalarRelationFilter = {
@@ -23023,11 +24514,18 @@ export namespace Prisma {
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
   }
 
-  export type PostCreateNestedManyWithoutTaggedCreatorInput = {
-    create?: XOR<PostCreateWithoutTaggedCreatorInput, PostUncheckedCreateWithoutTaggedCreatorInput> | PostCreateWithoutTaggedCreatorInput[] | PostUncheckedCreateWithoutTaggedCreatorInput[]
-    connectOrCreate?: PostCreateOrConnectWithoutTaggedCreatorInput | PostCreateOrConnectWithoutTaggedCreatorInput[]
-    createMany?: PostCreateManyTaggedCreatorInputEnvelope
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  export type PostTagCreateNestedManyWithoutTaggedUserInput = {
+    create?: XOR<PostTagCreateWithoutTaggedUserInput, PostTagUncheckedCreateWithoutTaggedUserInput> | PostTagCreateWithoutTaggedUserInput[] | PostTagUncheckedCreateWithoutTaggedUserInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutTaggedUserInput | PostTagCreateOrConnectWithoutTaggedUserInput[]
+    createMany?: PostTagCreateManyTaggedUserInputEnvelope
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+  }
+
+  export type PostTagCreateNestedManyWithoutTaggedByInput = {
+    create?: XOR<PostTagCreateWithoutTaggedByInput, PostTagUncheckedCreateWithoutTaggedByInput> | PostTagCreateWithoutTaggedByInput[] | PostTagUncheckedCreateWithoutTaggedByInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutTaggedByInput | PostTagCreateOrConnectWithoutTaggedByInput[]
+    createMany?: PostTagCreateManyTaggedByInputEnvelope
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
   }
 
   export type LikeCreateNestedManyWithoutUserInput = {
@@ -23106,11 +24604,18 @@ export namespace Prisma {
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
   }
 
-  export type PostUncheckedCreateNestedManyWithoutTaggedCreatorInput = {
-    create?: XOR<PostCreateWithoutTaggedCreatorInput, PostUncheckedCreateWithoutTaggedCreatorInput> | PostCreateWithoutTaggedCreatorInput[] | PostUncheckedCreateWithoutTaggedCreatorInput[]
-    connectOrCreate?: PostCreateOrConnectWithoutTaggedCreatorInput | PostCreateOrConnectWithoutTaggedCreatorInput[]
-    createMany?: PostCreateManyTaggedCreatorInputEnvelope
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  export type PostTagUncheckedCreateNestedManyWithoutTaggedUserInput = {
+    create?: XOR<PostTagCreateWithoutTaggedUserInput, PostTagUncheckedCreateWithoutTaggedUserInput> | PostTagCreateWithoutTaggedUserInput[] | PostTagUncheckedCreateWithoutTaggedUserInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutTaggedUserInput | PostTagCreateOrConnectWithoutTaggedUserInput[]
+    createMany?: PostTagCreateManyTaggedUserInputEnvelope
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+  }
+
+  export type PostTagUncheckedCreateNestedManyWithoutTaggedByInput = {
+    create?: XOR<PostTagCreateWithoutTaggedByInput, PostTagUncheckedCreateWithoutTaggedByInput> | PostTagCreateWithoutTaggedByInput[] | PostTagUncheckedCreateWithoutTaggedByInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutTaggedByInput | PostTagCreateOrConnectWithoutTaggedByInput[]
+    createMany?: PostTagCreateManyTaggedByInputEnvelope
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
   }
 
   export type LikeUncheckedCreateNestedManyWithoutUserInput = {
@@ -23242,18 +24747,32 @@ export namespace Prisma {
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
   }
 
-  export type PostUpdateManyWithoutTaggedCreatorNestedInput = {
-    create?: XOR<PostCreateWithoutTaggedCreatorInput, PostUncheckedCreateWithoutTaggedCreatorInput> | PostCreateWithoutTaggedCreatorInput[] | PostUncheckedCreateWithoutTaggedCreatorInput[]
-    connectOrCreate?: PostCreateOrConnectWithoutTaggedCreatorInput | PostCreateOrConnectWithoutTaggedCreatorInput[]
-    upsert?: PostUpsertWithWhereUniqueWithoutTaggedCreatorInput | PostUpsertWithWhereUniqueWithoutTaggedCreatorInput[]
-    createMany?: PostCreateManyTaggedCreatorInputEnvelope
-    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    update?: PostUpdateWithWhereUniqueWithoutTaggedCreatorInput | PostUpdateWithWhereUniqueWithoutTaggedCreatorInput[]
-    updateMany?: PostUpdateManyWithWhereWithoutTaggedCreatorInput | PostUpdateManyWithWhereWithoutTaggedCreatorInput[]
-    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  export type PostTagUpdateManyWithoutTaggedUserNestedInput = {
+    create?: XOR<PostTagCreateWithoutTaggedUserInput, PostTagUncheckedCreateWithoutTaggedUserInput> | PostTagCreateWithoutTaggedUserInput[] | PostTagUncheckedCreateWithoutTaggedUserInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutTaggedUserInput | PostTagCreateOrConnectWithoutTaggedUserInput[]
+    upsert?: PostTagUpsertWithWhereUniqueWithoutTaggedUserInput | PostTagUpsertWithWhereUniqueWithoutTaggedUserInput[]
+    createMany?: PostTagCreateManyTaggedUserInputEnvelope
+    set?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    disconnect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    delete?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    update?: PostTagUpdateWithWhereUniqueWithoutTaggedUserInput | PostTagUpdateWithWhereUniqueWithoutTaggedUserInput[]
+    updateMany?: PostTagUpdateManyWithWhereWithoutTaggedUserInput | PostTagUpdateManyWithWhereWithoutTaggedUserInput[]
+    deleteMany?: PostTagScalarWhereInput | PostTagScalarWhereInput[]
+  }
+
+  export type PostTagUpdateManyWithoutTaggedByNestedInput = {
+    create?: XOR<PostTagCreateWithoutTaggedByInput, PostTagUncheckedCreateWithoutTaggedByInput> | PostTagCreateWithoutTaggedByInput[] | PostTagUncheckedCreateWithoutTaggedByInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutTaggedByInput | PostTagCreateOrConnectWithoutTaggedByInput[]
+    upsert?: PostTagUpsertWithWhereUniqueWithoutTaggedByInput | PostTagUpsertWithWhereUniqueWithoutTaggedByInput[]
+    createMany?: PostTagCreateManyTaggedByInputEnvelope
+    set?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    disconnect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    delete?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    update?: PostTagUpdateWithWhereUniqueWithoutTaggedByInput | PostTagUpdateWithWhereUniqueWithoutTaggedByInput[]
+    updateMany?: PostTagUpdateManyWithWhereWithoutTaggedByInput | PostTagUpdateManyWithWhereWithoutTaggedByInput[]
+    deleteMany?: PostTagScalarWhereInput | PostTagScalarWhereInput[]
   }
 
   export type LikeUpdateManyWithoutUserNestedInput = {
@@ -23406,18 +24925,32 @@ export namespace Prisma {
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
   }
 
-  export type PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput = {
-    create?: XOR<PostCreateWithoutTaggedCreatorInput, PostUncheckedCreateWithoutTaggedCreatorInput> | PostCreateWithoutTaggedCreatorInput[] | PostUncheckedCreateWithoutTaggedCreatorInput[]
-    connectOrCreate?: PostCreateOrConnectWithoutTaggedCreatorInput | PostCreateOrConnectWithoutTaggedCreatorInput[]
-    upsert?: PostUpsertWithWhereUniqueWithoutTaggedCreatorInput | PostUpsertWithWhereUniqueWithoutTaggedCreatorInput[]
-    createMany?: PostCreateManyTaggedCreatorInputEnvelope
-    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    update?: PostUpdateWithWhereUniqueWithoutTaggedCreatorInput | PostUpdateWithWhereUniqueWithoutTaggedCreatorInput[]
-    updateMany?: PostUpdateManyWithWhereWithoutTaggedCreatorInput | PostUpdateManyWithWhereWithoutTaggedCreatorInput[]
-    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  export type PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput = {
+    create?: XOR<PostTagCreateWithoutTaggedUserInput, PostTagUncheckedCreateWithoutTaggedUserInput> | PostTagCreateWithoutTaggedUserInput[] | PostTagUncheckedCreateWithoutTaggedUserInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutTaggedUserInput | PostTagCreateOrConnectWithoutTaggedUserInput[]
+    upsert?: PostTagUpsertWithWhereUniqueWithoutTaggedUserInput | PostTagUpsertWithWhereUniqueWithoutTaggedUserInput[]
+    createMany?: PostTagCreateManyTaggedUserInputEnvelope
+    set?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    disconnect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    delete?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    update?: PostTagUpdateWithWhereUniqueWithoutTaggedUserInput | PostTagUpdateWithWhereUniqueWithoutTaggedUserInput[]
+    updateMany?: PostTagUpdateManyWithWhereWithoutTaggedUserInput | PostTagUpdateManyWithWhereWithoutTaggedUserInput[]
+    deleteMany?: PostTagScalarWhereInput | PostTagScalarWhereInput[]
+  }
+
+  export type PostTagUncheckedUpdateManyWithoutTaggedByNestedInput = {
+    create?: XOR<PostTagCreateWithoutTaggedByInput, PostTagUncheckedCreateWithoutTaggedByInput> | PostTagCreateWithoutTaggedByInput[] | PostTagUncheckedCreateWithoutTaggedByInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutTaggedByInput | PostTagCreateOrConnectWithoutTaggedByInput[]
+    upsert?: PostTagUpsertWithWhereUniqueWithoutTaggedByInput | PostTagUpsertWithWhereUniqueWithoutTaggedByInput[]
+    createMany?: PostTagCreateManyTaggedByInputEnvelope
+    set?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    disconnect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    delete?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    update?: PostTagUpdateWithWhereUniqueWithoutTaggedByInput | PostTagUpdateWithWhereUniqueWithoutTaggedByInput[]
+    updateMany?: PostTagUpdateManyWithWhereWithoutTaggedByInput | PostTagUpdateManyWithWhereWithoutTaggedByInput[]
+    deleteMany?: PostTagScalarWhereInput | PostTagScalarWhereInput[]
   }
 
   export type LikeUncheckedUpdateManyWithoutUserNestedInput = {
@@ -23904,10 +25437,18 @@ export namespace Prisma {
     connect?: UserChallengeWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutTaggedInPostsInput = {
-    create?: XOR<UserCreateWithoutTaggedInPostsInput, UserUncheckedCreateWithoutTaggedInPostsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutTaggedInPostsInput
-    connect?: UserWhereUniqueInput
+  export type PostTagCreateNestedManyWithoutPostInput = {
+    create?: XOR<PostTagCreateWithoutPostInput, PostTagUncheckedCreateWithoutPostInput> | PostTagCreateWithoutPostInput[] | PostTagUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutPostInput | PostTagCreateOrConnectWithoutPostInput[]
+    createMany?: PostTagCreateManyPostInputEnvelope
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+  }
+
+  export type PostTagUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<PostTagCreateWithoutPostInput, PostTagUncheckedCreateWithoutPostInput> | PostTagCreateWithoutPostInput[] | PostTagUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutPostInput | PostTagCreateOrConnectWithoutPostInput[]
+    createMany?: PostTagCreateManyPostInputEnvelope
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutPostsNestedInput = {
@@ -23928,14 +25469,78 @@ export namespace Prisma {
     update?: XOR<XOR<UserChallengeUpdateToOneWithWhereWithoutResultPostInput, UserChallengeUpdateWithoutResultPostInput>, UserChallengeUncheckedUpdateWithoutResultPostInput>
   }
 
-  export type UserUpdateOneWithoutTaggedInPostsNestedInput = {
-    create?: XOR<UserCreateWithoutTaggedInPostsInput, UserUncheckedCreateWithoutTaggedInPostsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutTaggedInPostsInput
-    upsert?: UserUpsertWithoutTaggedInPostsInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
+  export type PostTagUpdateManyWithoutPostNestedInput = {
+    create?: XOR<PostTagCreateWithoutPostInput, PostTagUncheckedCreateWithoutPostInput> | PostTagCreateWithoutPostInput[] | PostTagUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutPostInput | PostTagCreateOrConnectWithoutPostInput[]
+    upsert?: PostTagUpsertWithWhereUniqueWithoutPostInput | PostTagUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: PostTagCreateManyPostInputEnvelope
+    set?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    disconnect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    delete?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    update?: PostTagUpdateWithWhereUniqueWithoutPostInput | PostTagUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: PostTagUpdateManyWithWhereWithoutPostInput | PostTagUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: PostTagScalarWhereInput | PostTagScalarWhereInput[]
+  }
+
+  export type PostTagUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<PostTagCreateWithoutPostInput, PostTagUncheckedCreateWithoutPostInput> | PostTagCreateWithoutPostInput[] | PostTagUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostTagCreateOrConnectWithoutPostInput | PostTagCreateOrConnectWithoutPostInput[]
+    upsert?: PostTagUpsertWithWhereUniqueWithoutPostInput | PostTagUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: PostTagCreateManyPostInputEnvelope
+    set?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    disconnect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    delete?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
+    update?: PostTagUpdateWithWhereUniqueWithoutPostInput | PostTagUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: PostTagUpdateManyWithWhereWithoutPostInput | PostTagUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: PostTagScalarWhereInput | PostTagScalarWhereInput[]
+  }
+
+  export type PostCreateNestedOneWithoutTagsInput = {
+    create?: XOR<PostCreateWithoutTagsInput, PostUncheckedCreateWithoutTagsInput>
+    connectOrCreate?: PostCreateOrConnectWithoutTagsInput
+    connect?: PostWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutReceivedPostTagsInput = {
+    create?: XOR<UserCreateWithoutReceivedPostTagsInput, UserUncheckedCreateWithoutReceivedPostTagsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceivedPostTagsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTaggedInPostsInput, UserUpdateWithoutTaggedInPostsInput>, UserUncheckedUpdateWithoutTaggedInPostsInput>
+  }
+
+  export type UserCreateNestedOneWithoutCreatedPostTagsInput = {
+    create?: XOR<UserCreateWithoutCreatedPostTagsInput, UserUncheckedCreateWithoutCreatedPostTagsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedPostTagsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumPostTagStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PostTagStatus
+  }
+
+  export type PostUpdateOneRequiredWithoutTagsNestedInput = {
+    create?: XOR<PostCreateWithoutTagsInput, PostUncheckedCreateWithoutTagsInput>
+    connectOrCreate?: PostCreateOrConnectWithoutTagsInput
+    upsert?: PostUpsertWithoutTagsInput
+    connect?: PostWhereUniqueInput
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutTagsInput, PostUpdateWithoutTagsInput>, PostUncheckedUpdateWithoutTagsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutReceivedPostTagsNestedInput = {
+    create?: XOR<UserCreateWithoutReceivedPostTagsInput, UserUncheckedCreateWithoutReceivedPostTagsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceivedPostTagsInput
+    upsert?: UserUpsertWithoutReceivedPostTagsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReceivedPostTagsInput, UserUpdateWithoutReceivedPostTagsInput>, UserUncheckedUpdateWithoutReceivedPostTagsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutCreatedPostTagsNestedInput = {
+    create?: XOR<UserCreateWithoutCreatedPostTagsInput, UserUncheckedCreateWithoutCreatedPostTagsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedPostTagsInput
+    upsert?: UserUpsertWithoutCreatedPostTagsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedPostTagsInput, UserUpdateWithoutCreatedPostTagsInput>, UserUncheckedUpdateWithoutCreatedPostTagsInput>
   }
 
   export type UserCreateNestedOneWithoutLikesInput = {
@@ -24436,6 +26041,23 @@ export namespace Prisma {
     _max?: NestedEnumContentTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumPostTagStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostTagStatus | EnumPostTagStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PostTagStatus[] | ListEnumPostTagStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PostTagStatus[] | ListEnumPostTagStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPostTagStatusFilter<$PrismaModel> | $Enums.PostTagStatus
+  }
+
+  export type NestedEnumPostTagStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostTagStatus | EnumPostTagStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PostTagStatus[] | ListEnumPostTagStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PostTagStatus[] | ListEnumPostTagStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPostTagStatusWithAggregatesFilter<$PrismaModel> | $Enums.PostTagStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPostTagStatusFilter<$PrismaModel>
+    _max?: NestedEnumPostTagStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumFollowStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.FollowStatus | EnumFollowStatusFieldRefInput<$PrismaModel>
     in?: $Enums.FollowStatus[] | ListEnumFollowStatusFieldRefInput<$PrismaModel>
@@ -24617,7 +26239,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     challenge?: UserChallengeCreateNestedOneWithoutResultPostInput
-    taggedCreator?: UserCreateNestedOneWithoutTaggedInPostsInput
+    tags?: PostTagCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutAuthorInput = {
@@ -24625,10 +26247,10 @@ export namespace Prisma {
     content: string
     mediaUrl?: string | null
     challengeId?: string | null
-    taggedCreatorId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutAuthorInput = {
@@ -24641,35 +26263,59 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type PostCreateWithoutTaggedCreatorInput = {
+  export type PostTagCreateWithoutTaggedUserInput = {
     id?: string
-    content: string
-    mediaUrl?: string | null
-    deletedAt?: Date | string | null
+    status?: $Enums.PostTagStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    author: UserCreateNestedOneWithoutPostsInput
-    challenge?: UserChallengeCreateNestedOneWithoutResultPostInput
+    post: PostCreateNestedOneWithoutTagsInput
+    taggedBy: UserCreateNestedOneWithoutCreatedPostTagsInput
   }
 
-  export type PostUncheckedCreateWithoutTaggedCreatorInput = {
+  export type PostTagUncheckedCreateWithoutTaggedUserInput = {
     id?: string
-    content: string
-    mediaUrl?: string | null
-    authorId: string
-    challengeId?: string | null
-    deletedAt?: Date | string | null
+    postId: string
+    taggedById: string
+    status?: $Enums.PostTagStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type PostCreateOrConnectWithoutTaggedCreatorInput = {
-    where: PostWhereUniqueInput
-    create: XOR<PostCreateWithoutTaggedCreatorInput, PostUncheckedCreateWithoutTaggedCreatorInput>
+  export type PostTagCreateOrConnectWithoutTaggedUserInput = {
+    where: PostTagWhereUniqueInput
+    create: XOR<PostTagCreateWithoutTaggedUserInput, PostTagUncheckedCreateWithoutTaggedUserInput>
   }
 
-  export type PostCreateManyTaggedCreatorInputEnvelope = {
-    data: PostCreateManyTaggedCreatorInput | PostCreateManyTaggedCreatorInput[]
+  export type PostTagCreateManyTaggedUserInputEnvelope = {
+    data: PostTagCreateManyTaggedUserInput | PostTagCreateManyTaggedUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PostTagCreateWithoutTaggedByInput = {
+    id?: string
+    status?: $Enums.PostTagStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    post: PostCreateNestedOneWithoutTagsInput
+    taggedUser: UserCreateNestedOneWithoutReceivedPostTagsInput
+  }
+
+  export type PostTagUncheckedCreateWithoutTaggedByInput = {
+    id?: string
+    postId: string
+    taggedUserId: string
+    status?: $Enums.PostTagStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostTagCreateOrConnectWithoutTaggedByInput = {
+    where: PostTagWhereUniqueInput
+    create: XOR<PostTagCreateWithoutTaggedByInput, PostTagUncheckedCreateWithoutTaggedByInput>
+  }
+
+  export type PostTagCreateManyTaggedByInputEnvelope = {
+    data: PostTagCreateManyTaggedByInput | PostTagCreateManyTaggedByInput[]
     skipDuplicates?: boolean
   }
 
@@ -24974,26 +26620,54 @@ export namespace Prisma {
     mediaUrl?: StringNullableFilter<"Post"> | string | null
     authorId?: StringFilter<"Post"> | string
     challengeId?: StringNullableFilter<"Post"> | string | null
-    taggedCreatorId?: StringNullableFilter<"Post"> | string | null
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
   }
 
-  export type PostUpsertWithWhereUniqueWithoutTaggedCreatorInput = {
-    where: PostWhereUniqueInput
-    update: XOR<PostUpdateWithoutTaggedCreatorInput, PostUncheckedUpdateWithoutTaggedCreatorInput>
-    create: XOR<PostCreateWithoutTaggedCreatorInput, PostUncheckedCreateWithoutTaggedCreatorInput>
+  export type PostTagUpsertWithWhereUniqueWithoutTaggedUserInput = {
+    where: PostTagWhereUniqueInput
+    update: XOR<PostTagUpdateWithoutTaggedUserInput, PostTagUncheckedUpdateWithoutTaggedUserInput>
+    create: XOR<PostTagCreateWithoutTaggedUserInput, PostTagUncheckedCreateWithoutTaggedUserInput>
   }
 
-  export type PostUpdateWithWhereUniqueWithoutTaggedCreatorInput = {
-    where: PostWhereUniqueInput
-    data: XOR<PostUpdateWithoutTaggedCreatorInput, PostUncheckedUpdateWithoutTaggedCreatorInput>
+  export type PostTagUpdateWithWhereUniqueWithoutTaggedUserInput = {
+    where: PostTagWhereUniqueInput
+    data: XOR<PostTagUpdateWithoutTaggedUserInput, PostTagUncheckedUpdateWithoutTaggedUserInput>
   }
 
-  export type PostUpdateManyWithWhereWithoutTaggedCreatorInput = {
-    where: PostScalarWhereInput
-    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutTaggedCreatorInput>
+  export type PostTagUpdateManyWithWhereWithoutTaggedUserInput = {
+    where: PostTagScalarWhereInput
+    data: XOR<PostTagUpdateManyMutationInput, PostTagUncheckedUpdateManyWithoutTaggedUserInput>
+  }
+
+  export type PostTagScalarWhereInput = {
+    AND?: PostTagScalarWhereInput | PostTagScalarWhereInput[]
+    OR?: PostTagScalarWhereInput[]
+    NOT?: PostTagScalarWhereInput | PostTagScalarWhereInput[]
+    id?: StringFilter<"PostTag"> | string
+    postId?: StringFilter<"PostTag"> | string
+    taggedUserId?: StringFilter<"PostTag"> | string
+    taggedById?: StringFilter<"PostTag"> | string
+    status?: EnumPostTagStatusFilter<"PostTag"> | $Enums.PostTagStatus
+    createdAt?: DateTimeFilter<"PostTag"> | Date | string
+    updatedAt?: DateTimeFilter<"PostTag"> | Date | string
+  }
+
+  export type PostTagUpsertWithWhereUniqueWithoutTaggedByInput = {
+    where: PostTagWhereUniqueInput
+    update: XOR<PostTagUpdateWithoutTaggedByInput, PostTagUncheckedUpdateWithoutTaggedByInput>
+    create: XOR<PostTagCreateWithoutTaggedByInput, PostTagUncheckedCreateWithoutTaggedByInput>
+  }
+
+  export type PostTagUpdateWithWhereUniqueWithoutTaggedByInput = {
+    where: PostTagWhereUniqueInput
+    data: XOR<PostTagUpdateWithoutTaggedByInput, PostTagUncheckedUpdateWithoutTaggedByInput>
+  }
+
+  export type PostTagUpdateManyWithWhereWithoutTaggedByInput = {
+    where: PostTagScalarWhereInput
+    data: XOR<PostTagUpdateManyMutationInput, PostTagUncheckedUpdateManyWithoutTaggedByInput>
   }
 
   export type LikeUpsertWithWhereUniqueWithoutUserInput = {
@@ -25193,7 +26867,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     likes?: LikeCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
@@ -25219,7 +26894,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
@@ -25261,7 +26937,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
@@ -25287,7 +26964,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
@@ -25411,7 +27089,8 @@ export namespace Prisma {
     creator?: CreatorCreateNestedOneWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     likes?: LikeCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
@@ -25437,7 +27116,8 @@ export namespace Prisma {
     creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
@@ -25500,7 +27180,8 @@ export namespace Prisma {
     creator?: CreatorUpdateOneWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
@@ -25526,7 +27207,8 @@ export namespace Prisma {
     creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
@@ -25600,7 +27282,8 @@ export namespace Prisma {
     creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     likes?: LikeCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
@@ -25626,7 +27309,8 @@ export namespace Prisma {
     creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
@@ -25833,7 +27517,8 @@ export namespace Prisma {
     creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
@@ -25859,7 +27544,8 @@ export namespace Prisma {
     creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
@@ -26035,7 +27721,8 @@ export namespace Prisma {
     creator?: CreatorCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     likes?: LikeCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
@@ -26061,7 +27748,8 @@ export namespace Prisma {
     creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
@@ -26101,61 +27789,32 @@ export namespace Prisma {
     create: XOR<UserChallengeCreateWithoutResultPostInput, UserChallengeUncheckedCreateWithoutResultPostInput>
   }
 
-  export type UserCreateWithoutTaggedInPostsInput = {
+  export type PostTagCreateWithoutPostInput = {
     id?: string
-    name: string
-    username: string
-    email: string
-    passwordHash: string
-    accountType?: $Enums.AccountType
-    bio?: string | null
-    profileImage?: string | null
-    streak?: number
-    lastActiveAt?: Date | string | null
+    status?: $Enums.PostTagStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    creator?: CreatorCreateNestedOneWithoutUserInput
-    selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
-    contents?: ContentCreateNestedManyWithoutCreatorInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
-    likes?: LikeCreateNestedManyWithoutUserInput
-    shares?: ShareCreateNestedManyWithoutUserInput
-    sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
-    receivedRelationships?: RelationshipCreateNestedManyWithoutReceiverInput
-    createdChallenges?: ChallengeCreateNestedManyWithoutCreatedByInput
-    userChallenges?: UserChallengeCreateNestedManyWithoutUserInput
-    productivityCounts?: ProductivityCountCreateNestedManyWithoutUserInput
+    taggedUser: UserCreateNestedOneWithoutReceivedPostTagsInput
+    taggedBy: UserCreateNestedOneWithoutCreatedPostTagsInput
   }
 
-  export type UserUncheckedCreateWithoutTaggedInPostsInput = {
+  export type PostTagUncheckedCreateWithoutPostInput = {
     id?: string
-    name: string
-    username: string
-    email: string
-    passwordHash: string
-    accountType?: $Enums.AccountType
-    bio?: string | null
-    profileImage?: string | null
-    streak?: number
-    lastActiveAt?: Date | string | null
+    taggedUserId: string
+    taggedById: string
+    status?: $Enums.PostTagStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
-    selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
-    contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
-    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
-    sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
-    receivedRelationships?: RelationshipUncheckedCreateNestedManyWithoutReceiverInput
-    createdChallenges?: ChallengeUncheckedCreateNestedManyWithoutCreatedByInput
-    userChallenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
-    productivityCounts?: ProductivityCountUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutTaggedInPostsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutTaggedInPostsInput, UserUncheckedCreateWithoutTaggedInPostsInput>
+  export type PostTagCreateOrConnectWithoutPostInput = {
+    where: PostTagWhereUniqueInput
+    create: XOR<PostTagCreateWithoutPostInput, PostTagUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostTagCreateManyPostInputEnvelope = {
+    data: PostTagCreateManyPostInput | PostTagCreateManyPostInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutPostsInput = {
@@ -26185,7 +27844,8 @@ export namespace Prisma {
     creator?: CreatorUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
@@ -26211,7 +27871,8 @@ export namespace Prisma {
     creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
@@ -26252,18 +27913,212 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type UserUpsertWithoutTaggedInPostsInput = {
-    update: XOR<UserUpdateWithoutTaggedInPostsInput, UserUncheckedUpdateWithoutTaggedInPostsInput>
-    create: XOR<UserCreateWithoutTaggedInPostsInput, UserUncheckedCreateWithoutTaggedInPostsInput>
+  export type PostTagUpsertWithWhereUniqueWithoutPostInput = {
+    where: PostTagWhereUniqueInput
+    update: XOR<PostTagUpdateWithoutPostInput, PostTagUncheckedUpdateWithoutPostInput>
+    create: XOR<PostTagCreateWithoutPostInput, PostTagUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostTagUpdateWithWhereUniqueWithoutPostInput = {
+    where: PostTagWhereUniqueInput
+    data: XOR<PostTagUpdateWithoutPostInput, PostTagUncheckedUpdateWithoutPostInput>
+  }
+
+  export type PostTagUpdateManyWithWhereWithoutPostInput = {
+    where: PostTagScalarWhereInput
+    data: XOR<PostTagUpdateManyMutationInput, PostTagUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type PostCreateWithoutTagsInput = {
+    id?: string
+    content: string
+    mediaUrl?: string | null
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    author: UserCreateNestedOneWithoutPostsInput
+    challenge?: UserChallengeCreateNestedOneWithoutResultPostInput
+  }
+
+  export type PostUncheckedCreateWithoutTagsInput = {
+    id?: string
+    content: string
+    mediaUrl?: string | null
+    authorId: string
+    challengeId?: string | null
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostCreateOrConnectWithoutTagsInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutTagsInput, PostUncheckedCreateWithoutTagsInput>
+  }
+
+  export type UserCreateWithoutReceivedPostTagsInput = {
+    id?: string
+    name: string
+    username: string
+    email: string
+    passwordHash: string
+    accountType?: $Enums.AccountType
+    bio?: string | null
+    profileImage?: string | null
+    streak?: number
+    lastActiveAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
+    selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
+    contents?: ContentCreateNestedManyWithoutCreatorInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
+    sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
+    receivedRelationships?: RelationshipCreateNestedManyWithoutReceiverInput
+    createdChallenges?: ChallengeCreateNestedManyWithoutCreatedByInput
+    userChallenges?: UserChallengeCreateNestedManyWithoutUserInput
+    productivityCounts?: ProductivityCountCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutReceivedPostTagsInput = {
+    id?: string
+    name: string
+    username: string
+    email: string
+    passwordHash: string
+    accountType?: $Enums.AccountType
+    bio?: string | null
+    profileImage?: string | null
+    streak?: number
+    lastActiveAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
+    selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
+    contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
+    receivedRelationships?: RelationshipUncheckedCreateNestedManyWithoutReceiverInput
+    createdChallenges?: ChallengeUncheckedCreateNestedManyWithoutCreatedByInput
+    userChallenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
+    productivityCounts?: ProductivityCountUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutReceivedPostTagsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReceivedPostTagsInput, UserUncheckedCreateWithoutReceivedPostTagsInput>
+  }
+
+  export type UserCreateWithoutCreatedPostTagsInput = {
+    id?: string
+    name: string
+    username: string
+    email: string
+    passwordHash: string
+    accountType?: $Enums.AccountType
+    bio?: string | null
+    profileImage?: string | null
+    streak?: number
+    lastActiveAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator?: CreatorCreateNestedOneWithoutUserInput
+    selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
+    contents?: ContentCreateNestedManyWithoutCreatorInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    shares?: ShareCreateNestedManyWithoutUserInput
+    sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
+    receivedRelationships?: RelationshipCreateNestedManyWithoutReceiverInput
+    createdChallenges?: ChallengeCreateNestedManyWithoutCreatedByInput
+    userChallenges?: UserChallengeCreateNestedManyWithoutUserInput
+    productivityCounts?: ProductivityCountCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCreatedPostTagsInput = {
+    id?: string
+    name: string
+    username: string
+    email: string
+    passwordHash: string
+    accountType?: $Enums.AccountType
+    bio?: string | null
+    profileImage?: string | null
+    streak?: number
+    lastActiveAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator?: CreatorUncheckedCreateNestedOneWithoutUserInput
+    selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
+    contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    shares?: ShareUncheckedCreateNestedManyWithoutUserInput
+    sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
+    receivedRelationships?: RelationshipUncheckedCreateNestedManyWithoutReceiverInput
+    createdChallenges?: ChallengeUncheckedCreateNestedManyWithoutCreatedByInput
+    userChallenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
+    productivityCounts?: ProductivityCountUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCreatedPostTagsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreatedPostTagsInput, UserUncheckedCreateWithoutCreatedPostTagsInput>
+  }
+
+  export type PostUpsertWithoutTagsInput = {
+    update: XOR<PostUpdateWithoutTagsInput, PostUncheckedUpdateWithoutTagsInput>
+    create: XOR<PostCreateWithoutTagsInput, PostUncheckedCreateWithoutTagsInput>
+    where?: PostWhereInput
+  }
+
+  export type PostUpdateToOneWithWhereWithoutTagsInput = {
+    where?: PostWhereInput
+    data: XOR<PostUpdateWithoutTagsInput, PostUncheckedUpdateWithoutTagsInput>
+  }
+
+  export type PostUpdateWithoutTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutPostsNestedInput
+    challenge?: UserChallengeUpdateOneWithoutResultPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    challengeId?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutReceivedPostTagsInput = {
+    update: XOR<UserUpdateWithoutReceivedPostTagsInput, UserUncheckedUpdateWithoutReceivedPostTagsInput>
+    create: XOR<UserCreateWithoutReceivedPostTagsInput, UserUncheckedCreateWithoutReceivedPostTagsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutTaggedInPostsInput = {
+  export type UserUpdateToOneWithWhereWithoutReceivedPostTagsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutTaggedInPostsInput, UserUncheckedUpdateWithoutTaggedInPostsInput>
+    data: XOR<UserUpdateWithoutReceivedPostTagsInput, UserUncheckedUpdateWithoutReceivedPostTagsInput>
   }
 
-  export type UserUpdateWithoutTaggedInPostsInput = {
+  export type UserUpdateWithoutReceivedPostTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -26280,6 +28135,7 @@ export namespace Prisma {
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
@@ -26289,7 +28145,7 @@ export namespace Prisma {
     productivityCounts?: ProductivityCountUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutTaggedInPostsInput = {
+  export type UserUncheckedUpdateWithoutReceivedPostTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -26306,6 +28162,72 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
+    sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
+    receivedRelationships?: RelationshipUncheckedUpdateManyWithoutReceiverNestedInput
+    createdChallenges?: ChallengeUncheckedUpdateManyWithoutCreatedByNestedInput
+    userChallenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+    productivityCounts?: ProductivityCountUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutCreatedPostTagsInput = {
+    update: XOR<UserUpdateWithoutCreatedPostTagsInput, UserUncheckedUpdateWithoutCreatedPostTagsInput>
+    create: XOR<UserCreateWithoutCreatedPostTagsInput, UserUncheckedCreateWithoutCreatedPostTagsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCreatedPostTagsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCreatedPostTagsInput, UserUncheckedUpdateWithoutCreatedPostTagsInput>
+  }
+
+  export type UserUpdateWithoutCreatedPostTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    streak?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUpdateOneWithoutUserNestedInput
+    selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
+    contents?: ContentUpdateManyWithoutCreatorNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    shares?: ShareUpdateManyWithoutUserNestedInput
+    sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
+    receivedRelationships?: RelationshipUpdateManyWithoutReceiverNestedInput
+    createdChallenges?: ChallengeUpdateManyWithoutCreatedByNestedInput
+    userChallenges?: UserChallengeUpdateManyWithoutUserNestedInput
+    productivityCounts?: ProductivityCountUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCreatedPostTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    streak?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: CreatorUncheckedUpdateOneWithoutUserNestedInput
+    selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
+    contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
@@ -26332,7 +28254,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     shares?: ShareCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
     receivedRelationships?: RelationshipCreateNestedManyWithoutReceiverInput
@@ -26358,7 +28281,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
     receivedRelationships?: RelationshipUncheckedCreateNestedManyWithoutReceiverInput
@@ -26439,7 +28363,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
     receivedRelationships?: RelationshipUpdateManyWithoutReceiverNestedInput
@@ -26465,7 +28390,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
     receivedRelationships?: RelationshipUncheckedUpdateManyWithoutReceiverNestedInput
@@ -26536,7 +28462,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     likes?: LikeCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
     receivedRelationships?: RelationshipCreateNestedManyWithoutReceiverInput
@@ -26562,7 +28489,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
     receivedRelationships?: RelationshipUncheckedCreateNestedManyWithoutReceiverInput
@@ -26643,7 +28571,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
     receivedRelationships?: RelationshipUpdateManyWithoutReceiverNestedInput
@@ -26669,7 +28598,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
     receivedRelationships?: RelationshipUncheckedUpdateManyWithoutReceiverNestedInput
@@ -26740,7 +28670,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     likes?: LikeCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
     receivedRelationships?: RelationshipCreateNestedManyWithoutReceiverInput
@@ -26766,7 +28697,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
     receivedRelationships?: RelationshipUncheckedCreateNestedManyWithoutReceiverInput
@@ -26797,7 +28729,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     likes?: LikeCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
@@ -26823,7 +28756,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
@@ -26865,7 +28799,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     receivedRelationships?: RelationshipUpdateManyWithoutReceiverNestedInput
@@ -26891,7 +28826,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     receivedRelationships?: RelationshipUncheckedUpdateManyWithoutReceiverNestedInput
@@ -26928,7 +28864,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
@@ -26954,7 +28891,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
@@ -27019,7 +28957,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     likes?: LikeCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
@@ -27045,7 +28984,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
@@ -27162,7 +29102,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
@@ -27188,7 +29129,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
@@ -27230,7 +29172,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     likes?: LikeCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
@@ -27256,7 +29199,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
@@ -27301,7 +29245,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutPostsInput
-    taggedCreator?: UserCreateNestedOneWithoutTaggedInPostsInput
+    tags?: PostTagCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutChallengeInput = {
@@ -27309,10 +29253,10 @@ export namespace Prisma {
     content: string
     mediaUrl?: string | null
     authorId: string
-    taggedCreatorId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutChallengeInput = {
@@ -27348,7 +29292,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
@@ -27374,7 +29319,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
@@ -27431,7 +29377,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
-    taggedCreator?: UserUpdateOneWithoutTaggedInPostsNestedInput
+    tags?: PostTagUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutChallengeInput = {
@@ -27439,10 +29385,10 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
-    taggedCreatorId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type UserCreateWithoutProductivityCountsInput = {
@@ -27462,7 +29408,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreCreateNestedManyWithoutUserInput
     contents?: ContentCreateNestedManyWithoutCreatorInput
     posts?: PostCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagCreateNestedManyWithoutTaggedByInput
     likes?: LikeCreateNestedManyWithoutUserInput
     shares?: ShareCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipCreateNestedManyWithoutSenderInput
@@ -27488,7 +29435,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedCreateNestedManyWithoutUserInput
     contents?: ContentUncheckedCreateNestedManyWithoutCreatorInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    taggedInPosts?: PostUncheckedCreateNestedManyWithoutTaggedCreatorInput
+    receivedPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedUserInput
+    createdPostTags?: PostTagUncheckedCreateNestedManyWithoutTaggedByInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     shares?: ShareUncheckedCreateNestedManyWithoutUserInput
     sentRelationships?: RelationshipUncheckedCreateNestedManyWithoutSenderInput
@@ -27530,7 +29478,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUpdateManyWithoutUserNestedInput
     contents?: ContentUpdateManyWithoutCreatorNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     shares?: ShareUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUpdateManyWithoutSenderNestedInput
@@ -27556,7 +29505,8 @@ export namespace Prisma {
     selectedGenres?: UserGenreUncheckedUpdateManyWithoutUserNestedInput
     contents?: ContentUncheckedUpdateManyWithoutCreatorNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    taggedInPosts?: PostUncheckedUpdateManyWithoutTaggedCreatorNestedInput
+    receivedPostTags?: PostTagUncheckedUpdateManyWithoutTaggedUserNestedInput
+    createdPostTags?: PostTagUncheckedUpdateManyWithoutTaggedByNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     shares?: ShareUncheckedUpdateManyWithoutUserNestedInput
     sentRelationships?: RelationshipUncheckedUpdateManyWithoutSenderNestedInput
@@ -27839,19 +29789,25 @@ export namespace Prisma {
     content: string
     mediaUrl?: string | null
     challengeId?: string | null
-    taggedCreatorId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type PostCreateManyTaggedCreatorInput = {
+  export type PostTagCreateManyTaggedUserInput = {
     id?: string
-    content: string
-    mediaUrl?: string | null
-    authorId: string
-    challengeId?: string | null
-    deletedAt?: Date | string | null
+    postId: string
+    taggedById: string
+    status?: $Enums.PostTagStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostTagCreateManyTaggedByInput = {
+    id?: string
+    postId: string
+    taggedUserId: string
+    status?: $Enums.PostTagStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27982,7 +29938,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     challenge?: UserChallengeUpdateOneWithoutResultPostNestedInput
-    taggedCreator?: UserUpdateOneWithoutTaggedInPostsNestedInput
+    tags?: PostTagUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutAuthorInput = {
@@ -27990,10 +29946,10 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     challengeId?: NullableStringFieldUpdateOperationsInput | string | null
-    taggedCreatorId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateManyWithoutAuthorInput = {
@@ -28001,41 +29957,61 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     challengeId?: NullableStringFieldUpdateOperationsInput | string | null
-    taggedCreatorId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PostUpdateWithoutTaggedCreatorInput = {
+  export type PostTagUpdateWithoutTaggedUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    author?: UserUpdateOneRequiredWithoutPostsNestedInput
-    challenge?: UserChallengeUpdateOneWithoutResultPostNestedInput
+    post?: PostUpdateOneRequiredWithoutTagsNestedInput
+    taggedBy?: UserUpdateOneRequiredWithoutCreatedPostTagsNestedInput
   }
 
-  export type PostUncheckedUpdateWithoutTaggedCreatorInput = {
+  export type PostTagUncheckedUpdateWithoutTaggedUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    authorId?: StringFieldUpdateOperationsInput | string
-    challengeId?: NullableStringFieldUpdateOperationsInput | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postId?: StringFieldUpdateOperationsInput | string
+    taggedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PostUncheckedUpdateManyWithoutTaggedCreatorInput = {
+  export type PostTagUncheckedUpdateManyWithoutTaggedUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    authorId?: StringFieldUpdateOperationsInput | string
-    challengeId?: NullableStringFieldUpdateOperationsInput | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postId?: StringFieldUpdateOperationsInput | string
+    taggedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostTagUpdateWithoutTaggedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: PostUpdateOneRequiredWithoutTagsNestedInput
+    taggedUser?: UserUpdateOneRequiredWithoutReceivedPostTagsNestedInput
+  }
+
+  export type PostTagUncheckedUpdateWithoutTaggedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    taggedUserId?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostTagUncheckedUpdateManyWithoutTaggedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    taggedUserId?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28335,6 +30311,42 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostTagCreateManyPostInput = {
+    id?: string
+    taggedUserId: string
+    taggedById: string
+    status?: $Enums.PostTagStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostTagUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    taggedUser?: UserUpdateOneRequiredWithoutReceivedPostTagsNestedInput
+    taggedBy?: UserUpdateOneRequiredWithoutCreatedPostTagsNestedInput
+  }
+
+  export type PostTagUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taggedUserId?: StringFieldUpdateOperationsInput | string
+    taggedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostTagUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taggedUserId?: StringFieldUpdateOperationsInput | string
+    taggedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostTagStatusFieldUpdateOperationsInput | $Enums.PostTagStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserChallengeCreateManyChallengeInput = {

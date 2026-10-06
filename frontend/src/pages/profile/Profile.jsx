@@ -22,6 +22,10 @@ import {
 } from "../../services/relationship.api";
 import { getMyContent } from "../../services/content.api";
 
+import YourPosts from "../../components/post/YourPosts";
+
+import usePost from "../../hooks/usePost";
+
 const getInitials = (name) => {
   if (!name || typeof name !== "string") {
     return "U";
@@ -63,16 +67,20 @@ const formatContentDate = (date) => {
 const Profile = () => {
   const navigate = useNavigate();
 
+  const { getByUser, getTagged } = usePost();
+
   const [user, setUser] = useState(null);
   const [creator, setCreator] = useState(null);
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const [contents, setContents] = useState([]);
+  const [posts, setPosts] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [creatorLoading, setCreatorLoading] = useState(false);
   const [contentLoading, setContentLoading] = useState(false);
+  const [postLoading, setPostLoading] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -170,6 +178,54 @@ const Profile = () => {
         } finally {
           setContentLoading(false);
         }
+
+        // --------------------------------
+        // My Posts
+        // --------------------------------
+
+        try {
+          setPostLoading(true);
+
+          const [
+            authoredResponse,
+            taggedResponse,
+          ] = await Promise.all([
+            getByUser(currentUser.id),
+            getTagged(currentUser.id),
+          ]);
+
+          const authoredPosts =
+            authoredResponse?.data?.posts || [];
+
+          const taggedPosts =
+            taggedResponse?.data?.posts || [];
+
+          // Combine authored + accepted tagged posts
+          // and remove duplicate posts by ID.
+          const uniquePosts = Array.from(
+            new Map(
+              [...authoredPosts, ...taggedPosts].map(
+                (post) => [post.id, post]
+              )
+            ).values()
+          );
+
+          // Newest posts first
+          uniquePosts.sort(
+            (a, b) =>
+              new Date(b.createdAt) -
+              new Date(a.createdAt)
+          );
+
+          setPosts(uniquePosts);
+        } catch (postError) {
+          console.error(
+            "POST ERROR:",
+            postError
+          );
+        } finally {
+          setPostLoading(false);
+        }
       } catch (profileError) {
         console.error(
           "PROFILE ERROR:",
@@ -187,7 +243,7 @@ const Profile = () => {
     };
 
     loadProfile();
-  }, []);
+  }, [getByUser, getTagged]);
 
   // --------------------------------
   // Loading
@@ -261,7 +317,9 @@ const Profile = () => {
             className="text-xl font-black tracking-tight text-gray-950"
           >
             YOUVYX
-            <span className="text-indigo-600">.</span>
+            <span className="text-indigo-600">
+              .
+            </span>
           </button>
         </div>
       </header>
@@ -474,6 +532,16 @@ const Profile = () => {
             )}
           </section>
         )}
+
+        {/* =====================================
+            Your Posts
+        ====================================== */}
+
+        <YourPosts
+          posts={posts}
+          loading={postLoading}
+          currentUserId={user.id}
+        />
 
         {/* =====================================
             Your Content

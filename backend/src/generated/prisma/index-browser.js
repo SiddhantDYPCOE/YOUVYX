@@ -180,8 +180,17 @@ exports.Prisma.PostScalarFieldEnum = {
   mediaUrl: 'mediaUrl',
   authorId: 'authorId',
   challengeId: 'challengeId',
-  taggedCreatorId: 'taggedCreatorId',
   deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PostTagScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  taggedUserId: 'taggedUserId',
+  taggedById: 'taggedById',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -294,6 +303,12 @@ exports.ContentType = exports.$Enums.ContentType = {
   VIDEO: 'VIDEO'
 };
 
+exports.PostTagStatus = exports.$Enums.PostTagStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
+};
+
 exports.FollowStatus = exports.$Enums.FollowStatus = {
   PENDING: 'PENDING',
   ACCEPTED: 'ACCEPTED',
@@ -320,6 +335,7 @@ exports.Prisma.ModelName = {
   UserGenre: 'UserGenre',
   Content: 'Content',
   Post: 'Post',
+  PostTag: 'PostTag',
   Like: 'Like',
   Share: 'Share',
   Relationship: 'Relationship',
