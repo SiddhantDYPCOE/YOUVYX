@@ -13,31 +13,19 @@ import {
 // --------------------------------
 // Create Post
 // --------------------------------
-
 export const createPost = async (req, res, next) => {
   try {
-    const {
-      content,
-      mediaUrl,
-      challengeId,
-      taggedUserIds,
-    } = req.body;
-
     const post = await createPostService({
-      userId: req.user.id,
-      content,
-      mediaUrl,
-      challengeId,
-      taggedUserIds,
+      userId: req.user.id, 
+      content: req.body.content,
+      aspectRatio: req.body.aspectRatio,
+      challengeId: req.body.challengeId,
+      taggedUserIds: req.body.taggedUserIds,
+      file: req.file, 
     });
-
-    return res.status(201).json({
-      success: true,
-      message: "Post created successfully",
-      data: {
-        post,
-      },
-    });
+ 
+    // keep the same response shape your frontend already reads (data.post)
+    res.status(201).json({ success: true, data: { post } });
   } catch (error) {
     next(error);
   }

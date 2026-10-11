@@ -7,8 +7,6 @@ import {
   MessageCircle,
   MoreHorizontal,
   Repeat2,
-  Share2,
-  ThumbsDown,
 } from "lucide-react";
 
 import { toggleLike } from "../../services/content.api";

@@ -172,11 +172,12 @@ model Content {
 model Post {
   id String @id @default(cuid())
 
-  content  String
-  mediaUrl String?
-
-  authorId String
-  author   User   @relation("PostAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  content       String
+  mediaUrl      String?
+  aspectRatio   String?
+  mediaPublicId String?
+  authorId      String
+  author        User    @relation("PostAuthor", fields: [authorId], references: [id], onDelete: Cascade)
 
   challengeId String? @unique
 

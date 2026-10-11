@@ -12,11 +12,13 @@ import Profile from "../pages/Profile/Profile";
 import Search from "../pages/search/Search";
 import PublicCreatorProfile from "../pages/creator/PublicCreatorProfile";
 import CreateArticle from "../pages/creator/CreateArticle";
+import CreatePostPage from "../pages/post/CreatePostPage";
 
 import { useAuth } from "../hooks/useAuth";
 import PublicUserProfile from "../pages/profile/PublicUserProfile";
 import Followers from "../pages/profile/Followers";
 import Following from "../pages/profile/Following";
+import ForYouFeed from "../pages/feed/ForYouFeed";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -207,6 +209,23 @@ const AppRoutes = () => {
         }
       />
 
+
+<Route
+  path="/create"
+  element={
+    <ProtectedRoute>
+      <CreatePostPage />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/feed"
+  element={
+    <ProtectedRoute>
+      <ForYouFeed />
+    </ProtectedRoute>
+  }
+/>
       {/* Fallback */}
 
       <Route

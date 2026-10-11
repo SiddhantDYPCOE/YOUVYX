@@ -174,7 +174,8 @@ model Post {
 
   content  String
   mediaUrl String?
-
+  aspectRatio String?
+  mediaPublicId String?
   authorId String
   author   User @relation("PostAuthor",fields: [authorId],references: [id],onDelete: Cascade)
 

@@ -8708,6 +8708,8 @@ export namespace Prisma {
     id: string | null
     content: string | null
     mediaUrl: string | null
+    aspectRatio: string | null
+    mediaPublicId: string | null
     authorId: string | null
     challengeId: string | null
     deletedAt: Date | null
@@ -8719,6 +8721,8 @@ export namespace Prisma {
     id: string | null
     content: string | null
     mediaUrl: string | null
+    aspectRatio: string | null
+    mediaPublicId: string | null
     authorId: string | null
     challengeId: string | null
     deletedAt: Date | null
@@ -8730,6 +8734,8 @@ export namespace Prisma {
     id: number
     content: number
     mediaUrl: number
+    aspectRatio: number
+    mediaPublicId: number
     authorId: number
     challengeId: number
     deletedAt: number
@@ -8743,6 +8749,8 @@ export namespace Prisma {
     id?: true
     content?: true
     mediaUrl?: true
+    aspectRatio?: true
+    mediaPublicId?: true
     authorId?: true
     challengeId?: true
     deletedAt?: true
@@ -8754,6 +8762,8 @@ export namespace Prisma {
     id?: true
     content?: true
     mediaUrl?: true
+    aspectRatio?: true
+    mediaPublicId?: true
     authorId?: true
     challengeId?: true
     deletedAt?: true
@@ -8765,6 +8775,8 @@ export namespace Prisma {
     id?: true
     content?: true
     mediaUrl?: true
+    aspectRatio?: true
+    mediaPublicId?: true
     authorId?: true
     challengeId?: true
     deletedAt?: true
@@ -8849,6 +8861,8 @@ export namespace Prisma {
     id: string
     content: string
     mediaUrl: string | null
+    aspectRatio: string | null
+    mediaPublicId: string | null
     authorId: string
     challengeId: string | null
     deletedAt: Date | null
@@ -8877,6 +8891,8 @@ export namespace Prisma {
     id?: boolean
     content?: boolean
     mediaUrl?: boolean
+    aspectRatio?: boolean
+    mediaPublicId?: boolean
     authorId?: boolean
     challengeId?: boolean
     deletedAt?: boolean
@@ -8892,6 +8908,8 @@ export namespace Prisma {
     id?: boolean
     content?: boolean
     mediaUrl?: boolean
+    aspectRatio?: boolean
+    mediaPublicId?: boolean
     authorId?: boolean
     challengeId?: boolean
     deletedAt?: boolean
@@ -8905,6 +8923,8 @@ export namespace Prisma {
     id?: boolean
     content?: boolean
     mediaUrl?: boolean
+    aspectRatio?: boolean
+    mediaPublicId?: boolean
     authorId?: boolean
     challengeId?: boolean
     deletedAt?: boolean
@@ -8918,6 +8938,8 @@ export namespace Prisma {
     id?: boolean
     content?: boolean
     mediaUrl?: boolean
+    aspectRatio?: boolean
+    mediaPublicId?: boolean
     authorId?: boolean
     challengeId?: boolean
     deletedAt?: boolean
@@ -8925,7 +8947,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "mediaUrl" | "authorId" | "challengeId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "mediaUrl" | "aspectRatio" | "mediaPublicId" | "authorId" | "challengeId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | Post$challengeArgs<ExtArgs>
@@ -8952,6 +8974,8 @@ export namespace Prisma {
       id: string
       content: string
       mediaUrl: string | null
+      aspectRatio: string | null
+      mediaPublicId: string | null
       authorId: string
       challengeId: string | null
       deletedAt: Date | null
@@ -9386,6 +9410,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Post", 'String'>
     readonly content: FieldRef<"Post", 'String'>
     readonly mediaUrl: FieldRef<"Post", 'String'>
+    readonly aspectRatio: FieldRef<"Post", 'String'>
+    readonly mediaPublicId: FieldRef<"Post", 'String'>
     readonly authorId: FieldRef<"Post", 'String'>
     readonly challengeId: FieldRef<"Post", 'String'>
     readonly deletedAt: FieldRef<"Post", 'DateTime'>
@@ -20903,6 +20929,8 @@ export namespace Prisma {
     id: 'id',
     content: 'content',
     mediaUrl: 'mediaUrl',
+    aspectRatio: 'aspectRatio',
+    mediaPublicId: 'mediaPublicId',
     authorId: 'authorId',
     challengeId: 'challengeId',
     deletedAt: 'deletedAt',
@@ -21632,6 +21660,8 @@ export namespace Prisma {
     id?: StringFilter<"Post"> | string
     content?: StringFilter<"Post"> | string
     mediaUrl?: StringNullableFilter<"Post"> | string | null
+    aspectRatio?: StringNullableFilter<"Post"> | string | null
+    mediaPublicId?: StringNullableFilter<"Post"> | string | null
     authorId?: StringFilter<"Post"> | string
     challengeId?: StringNullableFilter<"Post"> | string | null
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
@@ -21646,6 +21676,8 @@ export namespace Prisma {
     id?: SortOrder
     content?: SortOrder
     mediaUrl?: SortOrderInput | SortOrder
+    aspectRatio?: SortOrderInput | SortOrder
+    mediaPublicId?: SortOrderInput | SortOrder
     authorId?: SortOrder
     challengeId?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -21664,6 +21696,8 @@ export namespace Prisma {
     NOT?: PostWhereInput | PostWhereInput[]
     content?: StringFilter<"Post"> | string
     mediaUrl?: StringNullableFilter<"Post"> | string | null
+    aspectRatio?: StringNullableFilter<"Post"> | string | null
+    mediaPublicId?: StringNullableFilter<"Post"> | string | null
     authorId?: StringFilter<"Post"> | string
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     createdAt?: DateTimeFilter<"Post"> | Date | string
@@ -21677,6 +21711,8 @@ export namespace Prisma {
     id?: SortOrder
     content?: SortOrder
     mediaUrl?: SortOrderInput | SortOrder
+    aspectRatio?: SortOrderInput | SortOrder
+    mediaPublicId?: SortOrderInput | SortOrder
     authorId?: SortOrder
     challengeId?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -21694,6 +21730,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Post"> | string
     content?: StringWithAggregatesFilter<"Post"> | string
     mediaUrl?: StringNullableWithAggregatesFilter<"Post"> | string | null
+    aspectRatio?: StringNullableWithAggregatesFilter<"Post"> | string | null
+    mediaPublicId?: StringNullableWithAggregatesFilter<"Post"> | string | null
     authorId?: StringWithAggregatesFilter<"Post"> | string
     challengeId?: StringNullableWithAggregatesFilter<"Post"> | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
@@ -22807,6 +22845,8 @@ export namespace Prisma {
     id?: string
     content: string
     mediaUrl?: string | null
+    aspectRatio?: string | null
+    mediaPublicId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22819,6 +22859,8 @@ export namespace Prisma {
     id?: string
     content: string
     mediaUrl?: string | null
+    aspectRatio?: string | null
+    mediaPublicId?: string | null
     authorId: string
     challengeId?: string | null
     deletedAt?: Date | string | null
@@ -22831,6 +22873,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aspectRatio?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22843,6 +22887,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aspectRatio?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     challengeId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22855,6 +22901,8 @@ export namespace Prisma {
     id?: string
     content: string
     mediaUrl?: string | null
+    aspectRatio?: string | null
+    mediaPublicId?: string | null
     authorId: string
     challengeId?: string | null
     deletedAt?: Date | string | null
@@ -22866,6 +22914,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aspectRatio?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22875,6 +22925,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aspectRatio?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     challengeId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24031,6 +24083,8 @@ export namespace Prisma {
     id?: SortOrder
     content?: SortOrder
     mediaUrl?: SortOrder
+    aspectRatio?: SortOrder
+    mediaPublicId?: SortOrder
     authorId?: SortOrder
     challengeId?: SortOrder
     deletedAt?: SortOrder
@@ -24042,6 +24096,8 @@ export namespace Prisma {
     id?: SortOrder
     content?: SortOrder
     mediaUrl?: SortOrder
+    aspectRatio?: SortOrder
+    mediaPublicId?: SortOrder
     authorId?: SortOrder
     challengeId?: SortOrder
     deletedAt?: SortOrder
@@ -24053,6 +24109,8 @@ export namespace Prisma {
     id?: SortOrder
     content?: SortOrder
     mediaUrl?: SortOrder
+    aspectRatio?: SortOrder
+    mediaPublicId?: SortOrder
     authorId?: SortOrder
     challengeId?: SortOrder
     deletedAt?: SortOrder
@@ -26235,6 +26293,8 @@ export namespace Prisma {
     id?: string
     content: string
     mediaUrl?: string | null
+    aspectRatio?: string | null
+    mediaPublicId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26246,6 +26306,8 @@ export namespace Prisma {
     id?: string
     content: string
     mediaUrl?: string | null
+    aspectRatio?: string | null
+    mediaPublicId?: string | null
     challengeId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
@@ -26618,6 +26680,8 @@ export namespace Prisma {
     id?: StringFilter<"Post"> | string
     content?: StringFilter<"Post"> | string
     mediaUrl?: StringNullableFilter<"Post"> | string | null
+    aspectRatio?: StringNullableFilter<"Post"> | string | null
+    mediaPublicId?: StringNullableFilter<"Post"> | string | null
     authorId?: StringFilter<"Post"> | string
     challengeId?: StringNullableFilter<"Post"> | string | null
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
@@ -27933,6 +27997,8 @@ export namespace Prisma {
     id?: string
     content: string
     mediaUrl?: string | null
+    aspectRatio?: string | null
+    mediaPublicId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27944,6 +28010,8 @@ export namespace Prisma {
     id?: string
     content: string
     mediaUrl?: string | null
+    aspectRatio?: string | null
+    mediaPublicId?: string | null
     authorId: string
     challengeId?: string | null
     deletedAt?: Date | string | null
@@ -28089,6 +28157,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aspectRatio?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28100,6 +28170,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aspectRatio?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     challengeId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29241,6 +29313,8 @@ export namespace Prisma {
     id?: string
     content: string
     mediaUrl?: string | null
+    aspectRatio?: string | null
+    mediaPublicId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29252,6 +29326,8 @@ export namespace Prisma {
     id?: string
     content: string
     mediaUrl?: string | null
+    aspectRatio?: string | null
+    mediaPublicId?: string | null
     authorId: string
     deletedAt?: Date | string | null
     createdAt?: Date | string
@@ -29373,6 +29449,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aspectRatio?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29384,6 +29462,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aspectRatio?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29788,6 +29868,8 @@ export namespace Prisma {
     id?: string
     content: string
     mediaUrl?: string | null
+    aspectRatio?: string | null
+    mediaPublicId?: string | null
     challengeId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
@@ -29934,6 +30016,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aspectRatio?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29945,6 +30029,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aspectRatio?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     challengeId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29956,6 +30042,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aspectRatio?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     challengeId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

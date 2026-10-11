@@ -22,9 +22,9 @@ import {
 } from "../../services/relationship.api";
 import { getMyContent } from "../../services/content.api";
 
+import CreatePost from "../../components/post/CreatePost";
+import TagRequests from "../../components/post/TagRequests";
 import YourPosts from "../../components/post/YourPosts";
-
-import usePost from "../../hooks/usePost";
 
 const getInitials = (name) => {
   if (!name || typeof name !== "string") {
@@ -67,20 +67,17 @@ const formatContentDate = (date) => {
 const Profile = () => {
   const navigate = useNavigate();
 
-  const { getByUser, getTagged } = usePost();
-
   const [user, setUser] = useState(null);
   const [creator, setCreator] = useState(null);
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const [contents, setContents] = useState([]);
-  const [posts, setPosts] = useState([]);
+  const [postsRefreshKey, setPostsRefreshKey] = useState(0);
 
   const [loading, setLoading] = useState(true);
   const [creatorLoading, setCreatorLoading] = useState(false);
   const [contentLoading, setContentLoading] = useState(false);
-  const [postLoading, setPostLoading] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -178,54 +175,6 @@ const Profile = () => {
         } finally {
           setContentLoading(false);
         }
-
-        // --------------------------------
-        // My Posts
-        // --------------------------------
-
-        try {
-          setPostLoading(true);
-
-          const [
-            authoredResponse,
-            taggedResponse,
-          ] = await Promise.all([
-            getByUser(currentUser.id),
-            getTagged(currentUser.id),
-          ]);
-
-          const authoredPosts =
-            authoredResponse?.data?.posts || [];
-
-          const taggedPosts =
-            taggedResponse?.data?.posts || [];
-
-          // Combine authored + accepted tagged posts
-          // and remove duplicate posts by ID.
-          const uniquePosts = Array.from(
-            new Map(
-              [...authoredPosts, ...taggedPosts].map(
-                (post) => [post.id, post]
-              )
-            ).values()
-          );
-
-          // Newest posts first
-          uniquePosts.sort(
-            (a, b) =>
-              new Date(b.createdAt) -
-              new Date(a.createdAt)
-          );
-
-          setPosts(uniquePosts);
-        } catch (postError) {
-          console.error(
-            "POST ERROR:",
-            postError
-          );
-        } finally {
-          setPostLoading(false);
-        }
       } catch (profileError) {
         console.error(
           "PROFILE ERROR:",
@@ -243,7 +192,7 @@ const Profile = () => {
     };
 
     loadProfile();
-  }, [getByUser, getTagged]);
+  }, []);
 
   // --------------------------------
   // Loading
@@ -534,13 +483,31 @@ const Profile = () => {
         )}
 
         {/* =====================================
+            Create Post
+        ====================================== */}
+
+        
+<CreatePost
+  currentUserId={user.id}
+  onPostCreated={() => {
+    setPostsRefreshKey((previous) => previous + 1);
+  }}
+/>
+
+        {/* =====================================
+            Pending Tag Requests
+        ====================================== */}
+
+        <TagRequests />
+
+        {/* =====================================
             Your Posts
         ====================================== */}
 
         <YourPosts
-          posts={posts}
-          loading={postLoading}
+          userId={user.id}
           currentUserId={user.id}
+          refreshKey={postsRefreshKey}
         />
 
         {/* =====================================
@@ -765,4 +732,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

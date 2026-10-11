@@ -11,6 +11,7 @@ import creatorRoutes from "./src/modules/creator/creator.routes.js"
 import shareRoutes from "./src/modules/share/share.routes.js"
 import relationshipRoutes from "./src/modules/relationship/relationship.routes.js";
 import postRoutes from "./src/modules/post/post.routes.js";
+import feedRoutes from "./src/modules/feed/feed.routes.js";
 import { errorMiddleware } from "./src/middlewares/error.middleware.js";
 
 
@@ -45,6 +46,7 @@ app.use("/api/youvyx/content/", likeRoutes)
 app.use("/api/youvyx/content/", shareRoutes)
 app.use("/api/youvyx/creator", creatorRoutes);
 app.use("/api/youvyx/relationship", relationshipRoutes);
+app.use("/api/youvyx/feed", feedRoutes);
 
 app.use("/api/youvyx/post", postRoutes);
 

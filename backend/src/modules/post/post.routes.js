@@ -17,6 +17,7 @@ import {
 } from "./post.validator.js";
 import { authenticate } from "../../middlewares/auth.middleware.js";
 import { validate } from "../../middlewares/validate.middleware.js";
+import { parsePostFormData, uploadPostImage } from "../../middlewares/upload.middleware.js";
 
 const router = express.Router();
 
@@ -27,6 +28,8 @@ const router = express.Router();
 router.post(
   "/",
   authenticate,
+  uploadPostImage,     
+  parsePostFormData,   
   validate(createPostValidator),
   createPost
 );

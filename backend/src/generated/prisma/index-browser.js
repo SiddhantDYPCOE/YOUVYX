@@ -178,6 +178,8 @@ exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   content: 'content',
   mediaUrl: 'mediaUrl',
+  aspectRatio: 'aspectRatio',
+  mediaPublicId: 'mediaPublicId',
   authorId: 'authorId',
   challengeId: 'challengeId',
   deletedAt: 'deletedAt',
